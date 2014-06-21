@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MultiSlider</string>
+    <string name="title_activity_my">MyActivity</string>
+    <string name="title_section1">Single Thumb</string>
+    <string name="title_section2">Range Example</string>
+    <string name="title_section3">Multiple Thumbs</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+
+</resources>

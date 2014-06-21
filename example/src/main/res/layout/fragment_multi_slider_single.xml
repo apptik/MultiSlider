@@ -1,0 +1,202 @@
+<!--
+  ~ Copyright (C) 2014 Kalin Maldzhanski
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="org.djodjo.widget.example.multislider.MultiSliderFragmentSingle"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Basic SeekBar: "/>
+            <TextView
+                android:id="@+id/minValue1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="min"
+                android:paddingLeft="10dp"
+                />
+
+        </LinearLayout>
+
+        <org.djodjo.widget.MultiSlider
+            android:id="@+id/multiSlider1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:thumbNumber="1"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Custom Colors: "/>
+            <TextView
+                android:id="@+id/minValue2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="min"
+                android:paddingLeft="10dp"
+                />
+
+        </LinearLayout>
+
+        <org.djodjo.widget.MultiSlider
+            android:id="@+id/multiSlider2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:thumbNumber="1"
+            app:thumbDrawable="@drawable/example_scrubber_control_selector_holo_light"
+            app:track="@drawable/example_scrubber_secondary_holo"
+            app:range="@drawable/example_scrubber_primary_holo"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="With Step 5: "/>
+            <TextView
+                android:id="@+id/minValue3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="min"
+                android:paddingLeft="10dp"
+                />
+
+        </LinearLayout>
+
+        <org.djodjo.widget.MultiSlider
+            android:id="@+id/multiSlider3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:thumbNumber="1"
+            app:scaleStep="5"
+
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Inverted Selection: "/>
+            <TextView
+                android:id="@+id/minValue4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="min"
+                android:paddingLeft="10dp"
+                />
+
+        </LinearLayout>
+
+        <org.djodjo.widget.MultiSlider
+            android:id="@+id/multiSlider4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:thumbNumber="2"
+            app:range1="@drawable/example_scrubber_track_holo_light"
+
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="With Custom Range: "/>
+            <TextView
+                android:id="@+id/minValue5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="min"
+                android:paddingLeft="10dp"
+                />
+
+        </LinearLayout>
+
+        <org.djodjo.widget.MultiSlider
+            android:id="@+id/multiSlider5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:thumbNumber="1"
+            app:scaleMin="-200"
+            app:scaleMax="300"
+
+            />
+    </LinearLayout>
+
+</LinearLayout>
