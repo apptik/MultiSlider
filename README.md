@@ -1,5 +1,5 @@
-MultiSlider
-===========
+# MultiSlider
+
 
 MultiSlider is multifunctional and multi thumb custom view component for Android.
 It Can be used as a normal Android seekbar, a range bar and multi-thumb bar.
@@ -8,8 +8,8 @@ MultiSlider is extremely easy to use while still very flexible and customizable.
 Developer can customize many features from XML layout or programmatically.
 
 
-Customizable Features
-===
+## Customizable Features
+
 
 * View Dimensions
 * Number of thumbs, from 0 to any. Default is 2
@@ -27,41 +27,41 @@ Customizable Features
 * Option to keep thumbs apart a specific number of steps in order not to allow thumbs to have same or similar values
 
 
-Example ScreenShots
-===
+## Example ScreenShots
 
-Simple Slider / Seek bar
-==
+
+### Simple Slider / Seek bar
+
 ![ScreenShot1](https://raw.githubusercontent.com/djodjoni/MultiSlider/master/scrshot1.png)
 
-Range Bar
-==
+### Range Bar
+
 ![ScreenShot2](https://raw.githubusercontent.com/djodjoni/MultiSlider/master/scrshot2.png)
 
-Multiple Thumbs
-==
+### Multiple Thumbs
+
 ![ScreenShot3](https://raw.githubusercontent.com/djodjoni/MultiSlider/master/scrshot3.png)
 
 
-Licence
-===
-Copyright (C) 2014 Kalin Maldzhanski
+## Licence
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+    Copyright (C) 2014 Kalin Maldzhanski
 
-     http://www.apache.org/licenses/LICENSE-2.0
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 
 
-Contributions
-===
+## Contributions
+
 Anyone is welcome to contribute via GitHub pull requests.
 
 This is a rough outline of what a contributor's workflow looks like:
