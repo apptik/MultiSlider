@@ -7,6 +7,23 @@ MultiSlider is extremely easy to use while still very flexible and customizable.
 
 Developer can customize many features from XML layout or programmatically.
 
+##Download
+
+Sonatype Repo: <https://oss.sonatype.org/content/repositories/releases/org/djodjo/widget/MultiSliderWidget/1.0/MultiSliderWidget-1.0.aar>
+
+Maven:
+
+    <dependency>
+      <groupId>org.djodjo.widget</groupId>
+      <artifactId>MultiSliderWidget</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+
+Gradle:
+
+    compile 'org.djodjo.widget:MultiSliderWidget:1.0.0'
+
+
 
 ## Customizable Features
 
