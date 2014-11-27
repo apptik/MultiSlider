@@ -44,6 +44,39 @@ Gradle:
 * Option to keep thumbs apart a specific number of steps in order not to allow thumbs to have same or similar values
 
 
+##Usage
+
+###in layout xml file add
+
+        <org.djodjo.widget.MultiSlider
+            android:id="@+id/range_slider5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:thumbNumber="2"
+            app:range1="@drawable/multislider_scrubber_track_holo_light"
+            app:stepsThumbsApart="5"
+            app:drawThumbsApart="true"
+
+            />
+
+###in the activity/fragment code add
+
+        MultiSlider multiSlider5 = (MultiSlider)v.findViewById(R.id.range_slider5);
+
+        multiSlider5.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
+            @Override
+            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
+                if (thumbIndex == 0) {
+                    doSmth(String.valueOf(value));
+                } else {
+                    doSmthElse(String.valueOf(value));
+                }
+            }
+        });
+
+
+
 ## Example ScreenShots
 
 
