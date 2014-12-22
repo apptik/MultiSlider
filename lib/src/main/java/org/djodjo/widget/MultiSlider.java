@@ -250,7 +250,7 @@ public class MultiSlider extends View {
         int numThumbs = a.getInt(R.styleable.MultiSlider_thumbNumber, 2);
         initMultiSlider(numThumbs);
 
-        Drawable trackDrawable = a.getDrawable(R.styleable.MultiSlider_track);
+        Drawable trackDrawable = a.getDrawable(R.styleable.MultiSlider_android_track);
         if(trackDrawable ==  null)
             trackDrawable = getResources().getDrawable(org.djodjo.widget.R.drawable.multislider_scrubber_track_holo_light);
             setTrackDrawable(trackDrawable);
@@ -273,7 +273,7 @@ public class MultiSlider extends View {
 
         // --> now place thumbs
 
-        Drawable thumbDrawable = a.getDrawable(R.styleable.MultiSlider_thumbDrawable);
+        Drawable thumbDrawable = a.getDrawable(R.styleable.MultiSlider_android_thumb);
         if(thumbDrawable==null) thumbDrawable = getResources().getDrawable(org.djodjo.widget.R.drawable.multislider_scrubber_control_selector_holo_light);
 
         Drawable range = a.getDrawable(R.styleable.MultiSlider_range);
@@ -285,7 +285,7 @@ public class MultiSlider extends View {
         setThumbDrawables(thumbDrawable, range, range1, range2); // will guess thumbOffset if thumb != null...
         // ...but allow layout to override this
 
-        int thumbOffset = a.getDimensionPixelOffset(R.styleable.MultiSlider_thumbOffset, thumbDrawable.getIntrinsicWidth()/2);
+        int thumbOffset = a.getDimensionPixelOffset(R.styleable.MultiSlider_android_thumbOffset, thumbDrawable.getIntrinsicWidth()/2);
         setThumbOffset(thumbOffset);
 
         positionThumbs();

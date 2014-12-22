@@ -85,8 +85,8 @@
             android:layout_height="wrap_content"
 
             app:thumbNumber="1"
-            app:thumbDrawable="@drawable/example_scrubber_control_selector_holo_light"
-            app:track="@drawable/example_scrubber_secondary_holo"
+            android:thumb="@drawable/example_scrubber_control_selector_holo_light"
+            android:track="@drawable/example_scrubber_secondary_holo"
             app:range="@drawable/example_scrubber_primary_holo"
             />
     </LinearLayout>
