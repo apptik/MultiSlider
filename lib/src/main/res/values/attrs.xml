@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <declare-styleable name="MultiSlider">
 
 
@@ -27,16 +27,16 @@
         <attr name="stepsThumbsApart" format="integer"/>
         <attr name="drawThumbsApart" format="boolean"/>
 
-        <attr name="thumbDrawable" format="reference"/>
+        <attr name="android:thumb"/>
         <attr name="thumbNumber" format="integer"/>
-        <attr name="thumbOffset" format="dimension"/>
+        <attr name="android:thumbOffset"/>
 
         <attr name="thumbValue1" format="integer"/>
         <attr name="thumbValue2" format="integer"/>
         <attr name="range1" format="reference"/>
         <attr name="range2" format="reference"/>
 
-        <attr name="track" format="reference"/>
+        <attr name="android:track"/>
 
         <attr name="range" format="reference"/>
 
