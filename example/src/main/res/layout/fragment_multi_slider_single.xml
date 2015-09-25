@@ -199,4 +199,40 @@
             />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tinted Seekbar: "/>
+            <TextView
+                android:id="@+id/minValue6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="min"
+                android:paddingLeft="10dp"
+                />
+
+        </LinearLayout>
+
+        <org.djodjo.widget.MultiSlider
+            android:id="@+id/multiSlider6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:track="@drawable/example_scrubber_secondary_holo"
+            app:rangeColor="@android:color/holo_green_light"
+            app:thumbColor="@android:color/holo_blue_bright"
+            app:thumbNumber="1"
+            app:trackColor="@android:color/holo_purple" />
+
+    </LinearLayout>
+
 </LinearLayout>
