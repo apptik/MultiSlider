@@ -22,13 +22,14 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-
 
 import java.util.LinkedList;
 
@@ -91,6 +92,8 @@ public class MultiSlider extends View {
     private LinkedList<Thumb> mDraggingThumbs = new LinkedList<Thumb>();
     //thumbs that are currently being touched
     LinkedList<Thumb> exactTouched = null;
+
+    private final TypedArray a;
 
     public class Thumb {
         //abs min value for this thumb
@@ -245,15 +248,17 @@ public class MultiSlider extends View {
 
         mUiThreadId = Thread.currentThread().getId();
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MultiSlider, defStyle, styleRes);
+        a = context.obtainStyledAttributes(attrs, R.styleable.MultiSlider, defStyle, styleRes);
         mNoInvalidate = true;
         int numThumbs = a.getInt(R.styleable.MultiSlider_thumbNumber, 2);
         initMultiSlider(numThumbs);
 
         Drawable trackDrawable = a.getDrawable(R.styleable.MultiSlider_android_track);
-        if(trackDrawable ==  null)
-            trackDrawable = getResources().getDrawable(org.djodjo.widget.R.drawable.multislider_scrubber_track_holo_light);
-            setTrackDrawable(trackDrawable);
+        if (trackDrawable == null) {
+            trackDrawable = ContextCompat.getDrawable(getContext(), org.djodjo.widget.R.drawable.multislider_scrubber_track_holo_light);
+        }
+
+        setTrackDrawable(getTintedDrawable(trackDrawable, a.getColor(R.styleable.MultiSlider_trackColor, 0)));
 
         //TODO
 //        mMinWidth = a.getDimensionPixelSize(R.styleable.MultiSlider_minWidth, mMinWidth);
@@ -274,10 +279,15 @@ public class MultiSlider extends View {
         // --> now place thumbs
 
         Drawable thumbDrawable = a.getDrawable(R.styleable.MultiSlider_android_thumb);
-        if(thumbDrawable==null) thumbDrawable = getResources().getDrawable(org.djodjo.widget.R.drawable.multislider_scrubber_control_selector_holo_light);
+
+        if (thumbDrawable == null) {
+            thumbDrawable = ContextCompat.getDrawable(getContext(), org.djodjo.widget.R.drawable.multislider_scrubber_control_selector_holo_light);
+        }
 
         Drawable range = a.getDrawable(R.styleable.MultiSlider_range);
-        if(range==null) range = getResources().getDrawable(org.djodjo.widget.R.drawable.multislider_scrubber_primary_holo);
+        if (range == null) {
+            range = ContextCompat.getDrawable(getContext(), org.djodjo.widget.R.drawable.multislider_scrubber_primary_holo);
+        }
 
         Drawable range1 = a.getDrawable(R.styleable.MultiSlider_range1);
         Drawable range2 = a.getDrawable(R.styleable.MultiSlider_range2);
@@ -507,16 +517,16 @@ public class MultiSlider extends View {
             }
 
             if (curr==1 && range1!=null) {
-                rangeDrawable =  range1;
+                rangeDrawable =  getTintedDrawable(range1, a.getColor(R.styleable.MultiSlider_range1Color, 0));
             } else if (curr==2 && range2!=null) {
-                rangeDrawable =  range2;
+                rangeDrawable =  getTintedDrawable(range2, a.getColor(R.styleable.MultiSlider_range2Color, 0));
             } else {
-                rangeDrawable = range.getConstantState().newDrawable();
+                rangeDrawable = getTintedDrawable(range.getConstantState().newDrawable(), a.getColor(R.styleable.MultiSlider_rangeColor, 0));
             }
 
             mThumb.setRange(rangeDrawable);
 
-            Drawable newDrawable = thumb.getConstantState().newDrawable();
+            Drawable newDrawable = getTintedDrawable(thumb.getConstantState().newDrawable(), a.getColor(R.styleable.MultiSlider_thumbColor, 0));
             newDrawable.setCallback(this);
 
             // Assuming the thumb drawable is symmetric, set the thumb offset
@@ -1345,5 +1355,13 @@ public class MultiSlider extends View {
         }
     }
 
+    private Drawable getTintedDrawable(Drawable drawable, int tintColor) {
+        if (drawable != null && tintColor != 0) {
+            Drawable wrappedDrawable = DrawableCompat.wrap(drawable.mutate());
+            DrawableCompat.setTint(wrappedDrawable, tintColor);
+            return wrappedDrawable;
+        }
+        return drawable;
+    }
 
 }

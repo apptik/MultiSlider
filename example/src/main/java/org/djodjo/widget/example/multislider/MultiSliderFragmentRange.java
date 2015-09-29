@@ -133,6 +133,25 @@ public class MultiSliderFragmentRange extends Fragment {
             }
         });
 
+        final TextView min6 = (TextView) v.findViewById(R.id.minValue6);
+        final TextView max6 = (TextView) v.findViewById(R.id.maxValue6);
+
+        MultiSlider multiSlider6 = (MultiSlider) v.findViewById(R.id.range_slider6);
+
+        min6.setText(String.valueOf(multiSlider6.getThumb(0).getValue()));
+        max6.setText(String.valueOf(multiSlider6.getThumb(1).getValue()));
+
+        multiSlider6.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
+            @Override
+            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
+                if (thumbIndex == 0) {
+                    min6.setText(String.valueOf(value));
+                } else {
+                    max6.setText(String.valueOf(value));
+                }
+            }
+        });
+
         return v;
     }
 }
