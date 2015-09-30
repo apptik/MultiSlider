@@ -42,7 +42,11 @@
 
         <attr name="mirrorForRTL" format="boolean"/>
 
-
+        <attr name="thumbColor" format="color" />
+        <attr name="trackColor" format="color" />
+        <attr name="rangeColor" format="color" />
+        <attr name="range1Color" format="color" />
+        <attr name="range2Color" format="color" />
     </declare-styleable>
     <!-- style reference -->
 <declare-styleable name="MultiSliderTheme">

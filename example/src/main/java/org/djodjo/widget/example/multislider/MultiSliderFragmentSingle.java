@@ -50,22 +50,22 @@ public class MultiSliderFragmentSingle extends Fragment {
         final TextView min3 = (TextView) v.findViewById(R.id.minValue3);
         final TextView min4 = (TextView) v.findViewById(R.id.minValue4);
         final TextView min5 = (TextView) v.findViewById(R.id.minValue5);
+        final TextView min6 = (TextView) v.findViewById(R.id.minValue6);
 
-        MultiSlider multiSlider1 = (MultiSlider)v.findViewById(R.id.multiSlider1);
-        MultiSlider multiSlider2 = (MultiSlider)v.findViewById(R.id.multiSlider2);
-        MultiSlider multiSlider3 = (MultiSlider)v.findViewById(R.id.multiSlider3);
-        MultiSlider multiSlider4 = (MultiSlider)v.findViewById(R.id.multiSlider4);
+        MultiSlider multiSlider1 = (MultiSlider) v.findViewById(R.id.multiSlider1);
+        MultiSlider multiSlider2 = (MultiSlider) v.findViewById(R.id.multiSlider2);
+        MultiSlider multiSlider3 = (MultiSlider) v.findViewById(R.id.multiSlider3);
+        MultiSlider multiSlider4 = (MultiSlider) v.findViewById(R.id.multiSlider4);
         multiSlider4.getThumb(1).setInvisibleThumb(true);
-        MultiSlider multiSlider5 = (MultiSlider)v.findViewById(R.id.multiSlider5);
-
-
+        MultiSlider multiSlider5 = (MultiSlider) v.findViewById(R.id.multiSlider5);
+        MultiSlider multiSlider6 = (MultiSlider) v.findViewById(R.id.multiSlider6);
 
         min1.setText(String.valueOf(multiSlider1.getThumb(0).getValue()));
         min2.setText(String.valueOf(multiSlider2.getThumb(0).getValue()));
         min3.setText(String.valueOf(multiSlider3.getThumb(0).getValue()));
         min4.setText(String.valueOf(multiSlider4.getThumb(0).getValue()));
         min5.setText(String.valueOf(multiSlider5.getThumb(0).getValue()));
-
+        min6.setText(String.valueOf(multiSlider6.getThumb(0).getValue()));
 
         multiSlider1.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
             @Override
@@ -100,6 +100,13 @@ public class MultiSliderFragmentSingle extends Fragment {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 min5.setText(String.valueOf(value));
+            }
+        });
+
+        multiSlider6.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
+            @Override
+            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
+                min6.setText(String.valueOf(value));
             }
         });
 
