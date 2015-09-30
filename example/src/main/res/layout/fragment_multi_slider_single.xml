@@ -20,7 +20,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="org.djodjo.widget.example.multislider.MultiSliderFragmentSingle"
+    tools:context="io.apptik.widget.example.multislider.MultiSliderFragmentSingle"
     >
 
     <LinearLayout
@@ -47,7 +47,7 @@
 
         </LinearLayout>
 
-        <org.djodjo.widget.MultiSlider
+        <io.apptik.widget.MultiSlider
             android:id="@+id/multiSlider1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
 
         </LinearLayout>
 
-        <org.djodjo.widget.MultiSlider
+        <io.apptik.widget.MultiSlider
             android:id="@+id/multiSlider2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
 
         </LinearLayout>
 
-        <org.djodjo.widget.MultiSlider
+        <io.apptik.widget.MultiSlider
             android:id="@+id/multiSlider3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
 
         </LinearLayout>
 
-        <org.djodjo.widget.MultiSlider
+        <io.apptik.widget.MultiSlider
             android:id="@+id/multiSlider4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -187,7 +187,7 @@
 
         </LinearLayout>
 
-        <org.djodjo.widget.MultiSlider
+        <io.apptik.widget.MultiSlider
             android:id="@+id/multiSlider5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -223,7 +223,7 @@
 
         </LinearLayout>
 
-        <org.djodjo.widget.MultiSlider
+        <io.apptik.widget.MultiSlider
             android:id="@+id/multiSlider6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

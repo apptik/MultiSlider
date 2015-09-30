@@ -1,4 +1,4 @@
-package org.djodjo.widget.example.multislider;
+package io.apptik.widget.example.multislider;
 
 import android.app.ActionBar;
 import android.app.Activity;

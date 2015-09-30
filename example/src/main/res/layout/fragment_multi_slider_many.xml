@@ -20,7 +20,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="org.djodjo.widget.example.multislider.MultiSliderFragmentSingle"
+    tools:context="io.apptik.widget.example.multislider.MultiSliderFragmentSingle"
     >
 
 
@@ -95,7 +95,7 @@
             android:text="" />
     </LinearLayout>
 
-    <org.djodjo.widget.MultiSlider
+    <io.apptik.widget.MultiSlider
         android:id="@+id/multiSlider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

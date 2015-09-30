@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.djodjo.widget.example.multislider;
+package io.apptik.widget.example.multislider;
 
 
 import android.app.Fragment;
@@ -24,7 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.djodjo.widget.MultiSlider;
+import io.apptik.widget.MultiSlider;
 
 
 public class MultiSliderFragmentSingle extends Fragment {

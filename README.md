@@ -9,19 +9,19 @@ Developer can customize many features from XML layout or programmatically.
 
 ##Download
 
-Sonatype Repo: <https://oss.sonatype.org/content/repositories/releases/org/djodjo/widget/MultiSliderWidget/1.0/MultiSliderWidget-1.0.aar>
+Sonatype Repo: <https://oss.sonatype.org/content/repositories/releases/io/apptik/widget/multislider/1.2/multislider-1.2.aar>
 
 Maven:
 
     <dependency>
-      <groupId>org.djodjo.widget</groupId>
-      <artifactId>MultiSliderWidget</artifactId>
-      <version>1.0.0</version>
+      <groupId>io.apptik.widget</groupId>
+      <artifactId>multislider</artifactId>
+      <version>1.2.0</version>
     </dependency>
 
 Gradle:
 
-    compile 'org.djodjo.widget:MultiSliderWidget:1.0.0'
+    compile 'io.apptik.widget:multislider:1.2.0'
 
 
 
@@ -95,6 +95,7 @@ Gradle:
 
 ## Licence
 
+    Copyright (C) 2015 AppTik Project
     Copyright (C) 2014 Kalin Maldzhanski
 
     Licensed under the Apache License, Version 2.0 (the "License");

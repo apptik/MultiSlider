@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.djodjo.widget.example.multislider;
+package io.apptik.widget.example.multislider;
 
 
 import android.app.Fragment;
@@ -24,7 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.djodjo.widget.MultiSlider;
+import io.apptik.widget.MultiSlider;
 
 
 public class MultiSliderFragmentRange extends Fragment {
@@ -55,12 +55,17 @@ public class MultiSliderFragmentRange extends Fragment {
         final TextView max4 = (TextView) v.findViewById(R.id.maxValue4);
         final TextView min5 = (TextView) v.findViewById(R.id.minValue5);
         final TextView max5 = (TextView) v.findViewById(R.id.maxValue5);
+        final TextView min6 = (TextView) v.findViewById(R.id.minValue6);
+        final TextView max6 = (TextView) v.findViewById(R.id.maxValue6);
+
 
         MultiSlider multiSlider1 = (MultiSlider)v.findViewById(R.id.range_slider1);
         MultiSlider multiSlider2 = (MultiSlider)v.findViewById(R.id.range_slider2);
         MultiSlider multiSlider3 = (MultiSlider)v.findViewById(R.id.range_slider3);
         MultiSlider multiSlider4 = (MultiSlider)v.findViewById(R.id.range_slider4);
         MultiSlider multiSlider5 = (MultiSlider)v.findViewById(R.id.range_slider5);
+        MultiSlider multiSlider6 = (MultiSlider)v.findViewById(R.id.range_slider6);
+
 
         min1.setText(String.valueOf(multiSlider1.getThumb(0).getValue()));
         max1.setText(String.valueOf(multiSlider1.getThumb(1).getValue()));
@@ -132,11 +137,6 @@ public class MultiSliderFragmentRange extends Fragment {
                 }
             }
         });
-
-        final TextView min6 = (TextView) v.findViewById(R.id.minValue6);
-        final TextView max6 = (TextView) v.findViewById(R.id.maxValue6);
-
-        MultiSlider multiSlider6 = (MultiSlider) v.findViewById(R.id.range_slider6);
 
         min6.setText(String.valueOf(multiSlider6.getThumb(0).getValue()));
         max6.setText(String.valueOf(multiSlider6.getThumb(1).getValue()));

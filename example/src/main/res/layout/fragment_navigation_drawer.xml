@@ -6,4 +6,4 @@
     android:divider="@android:color/transparent"
     android:dividerHeight="0dp"
     android:background="#cccc"
-    tools:context="org.djodjo.widget.example.multislider.NavigationDrawerFragment" />
+    tools:context="io.apptik.widget.example.multislider.NavigationDrawerFragment" />

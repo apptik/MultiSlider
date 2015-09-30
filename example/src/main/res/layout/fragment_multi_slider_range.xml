@@ -20,7 +20,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="org.djodjo.widget.example.multislider.MultiSliderFragmentSingle"
+    tools:context="io.apptik.widget.example.multislider.MultiSliderFragmentSingle"
     >
 
 
@@ -57,7 +57,7 @@
                 android:text="max" />
         </LinearLayout>
 
-        <org.djodjo.widget.MultiSlider
+        <io.apptik.widget.MultiSlider
             android:id="@+id/range_slider1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
                 android:text="max" />
         </LinearLayout>
 
-        <org.djodjo.widget.MultiSlider
+        <io.apptik.widget.MultiSlider
             android:id="@+id/range_slider2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -145,7 +145,7 @@
                 android:text="max" />
         </LinearLayout>
 
-        <org.djodjo.widget.MultiSlider
+        <io.apptik.widget.MultiSlider
             android:id="@+id/range_slider3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -191,7 +191,7 @@
                 android:text="max" />
         </LinearLayout>
 
-        <org.djodjo.widget.MultiSlider
+        <io.apptik.widget.MultiSlider
             android:id="@+id/range_slider4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -237,7 +237,7 @@
                 android:text="max" />
         </LinearLayout>
 
-        <org.djodjo.widget.MultiSlider
+        <io.apptik.widget.MultiSlider
             android:id="@+id/range_slider5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -285,7 +285,7 @@
                 android:text="max" />
         </LinearLayout>
 
-        <org.djodjo.widget.MultiSlider
+        <io.apptik.widget.MultiSlider
             android:id="@+id/range_slider6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

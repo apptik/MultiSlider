@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "org.djodjo.widget.example.multislider"
+        applicationId "io.apptik.widget.example.multislider"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
