@@ -16,12 +16,12 @@ Maven:
     <dependency>
       <groupId>io.apptik.widget</groupId>
       <artifactId>multislider</artifactId>
-      <version>1.2.0</version>
+      <version>1.2</version>
     </dependency>
 
 Gradle:
 
-    compile 'io.apptik.widget:multislider:1.2.0'
+    compile 'io.apptik.widget:multislider:1.2'
 
 
 
