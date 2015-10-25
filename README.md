@@ -48,7 +48,7 @@ Gradle:
 
 ###in layout xml file add
 
-        <org.djodjo.widget.MultiSlider
+        <io.apptik.widget.MultiSlider
             android:id="@+id/range_slider5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
