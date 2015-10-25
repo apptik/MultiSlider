@@ -38,6 +38,10 @@ public class MultiSlider extends View {
 
     public interface OnThumbValueChangeListener {
         void onValueChanged(MultiSlider multiSlider, Thumb thumb, int thumbIndex, int value);
+
+        void onStartTrackingTouch(MultiSlider multiSlider, Thumb thumb, int value);
+
+        void onStopTrackingTouch(MultiSlider multiSlider, Thumb thumb, int value);
     }
     private OnThumbValueChangeListener mOnThumbValueChangeListener;
 
@@ -54,7 +58,6 @@ public class MultiSlider extends View {
     private int mStep;
     private int mStepsThumbsApart;
     private boolean mDrawThumbsApart;
-
 
     private Drawable mTrack;
 
@@ -305,7 +308,6 @@ public class MultiSlider extends View {
         mNoInvalidate = false;
         a.recycle();
     }
-
 
     public int getStepsThumbsApart() {
         return mStepsThumbsApart;
@@ -1035,8 +1037,10 @@ public class MultiSlider extends View {
                         invalidate(currThumb.getThumb().getBounds()); // This may be within the padding region
                     }
 
-                    setThumbValue(currThumb, getValue(event, currThumb), true);
+                    int value = getValue(event, currThumb);
+                    setThumbValue(currThumb, value, true);
                     attemptClaimDrag();
+                    mOnThumbValueChangeListener.onStartTrackingTouch(this, currThumb, value);
                 }
                 break;
 
@@ -1111,8 +1115,10 @@ public class MultiSlider extends View {
             //we normally have one single pointer here and its gone now
             case MotionEvent.ACTION_UP:
                 if (currThumb!=null) {
-                    setThumbValue(currThumb, getValue(event, currThumb), true);
+                    int value = getValue(event, currThumb);
+                    setThumbValue(currThumb, value, true);
                     onStopTrackingTouch();
+                    mOnThumbValueChangeListener.onStopTrackingTouch(this, currThumb, value);
 
                 } else {
 //                    currThumb = getClosestThumb(newValue);

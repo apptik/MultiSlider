@@ -67,6 +67,16 @@ public class MultiSliderFragmentMany extends Fragment {
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 vals.get(thumbIndex).setText(String.valueOf(value));
             }
+
+            @Override
+            public void onStartTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
+
+            }
         });
 
         return v;
