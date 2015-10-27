@@ -92,6 +92,16 @@ public class MultiSliderFragmentRange extends Fragment {
                     max1.setText(String.valueOf(value));
                 }
             }
+
+            @Override
+            public void onStartTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
+
+            }
         });
 
         multiSlider2.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
@@ -102,6 +112,16 @@ public class MultiSliderFragmentRange extends Fragment {
                 } else {
                     max2.setText(String.valueOf(value));
                 }
+            }
+
+            @Override
+            public void onStartTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
+
             }
         });
 
@@ -114,6 +134,16 @@ public class MultiSliderFragmentRange extends Fragment {
                     max3.setText(String.valueOf(value));
                 }
             }
+
+            @Override
+            public void onStartTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
+
+            }
         });
 
         multiSlider4.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
@@ -125,6 +155,16 @@ public class MultiSliderFragmentRange extends Fragment {
                     max4.setText(String.valueOf(value));
                 }
             }
+
+            @Override
+            public void onStartTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
+
+            }
         });
 
         multiSlider5.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
@@ -135,6 +175,16 @@ public class MultiSliderFragmentRange extends Fragment {
                 } else {
                     max5.setText(String.valueOf(value));
                 }
+            }
+
+            @Override
+            public void onStartTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
+
             }
         });
 
@@ -149,6 +199,16 @@ public class MultiSliderFragmentRange extends Fragment {
                 } else {
                     max6.setText(String.valueOf(value));
                 }
+            }
+
+            @Override
+            public void onStartTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
+
             }
         });
 
