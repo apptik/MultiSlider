@@ -25,7 +25,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import io.apptik.widget.MultiSlider;
-import io.apptik.widget.OnThumbValueChangeListener;
 
 
 public class MultiSliderFragmentSingle extends Fragment {
@@ -33,14 +32,6 @@ public class MultiSliderFragmentSingle extends Fragment {
 
     public MultiSliderFragmentSingle() {
         // Required empty public constructor
-    }
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
@@ -68,38 +59,44 @@ public class MultiSliderFragmentSingle extends Fragment {
         min5.setText(String.valueOf(multiSlider5.getThumb(0).getValue()));
         min6.setText(String.valueOf(multiSlider6.getThumb(0).getValue()));
 
-        multiSlider1.setOnThumbValueChangeListener(new OnThumbValueChangeListener() {
+        multiSlider1.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
+            @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 min1.setText(String.valueOf(value));
             }
         });
 
 
-        multiSlider2.setOnThumbValueChangeListener(new OnThumbValueChangeListener() {
+        multiSlider2.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
+            @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 min2.setText(String.valueOf(value));
             }
         });
 
-        multiSlider3.setOnThumbValueChangeListener(new OnThumbValueChangeListener() {
+        multiSlider3.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
+            @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 min3.setText(String.valueOf(value));
             }
         });
 
-        multiSlider4.setOnThumbValueChangeListener(new OnThumbValueChangeListener() {
+        multiSlider4.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
+            @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 min4.setText(String.valueOf(value));
             }
         });
 
-        multiSlider5.setOnThumbValueChangeListener(new OnThumbValueChangeListener() {
+        multiSlider5.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
+            @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 min5.setText(String.valueOf(value));
             }
         });
 
-        multiSlider6.setOnThumbValueChangeListener(new OnThumbValueChangeListener() {
+        multiSlider6.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
+            @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 min6.setText(String.valueOf(value));
             }

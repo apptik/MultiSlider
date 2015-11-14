@@ -27,7 +27,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import io.apptik.widget.MultiSlider;
-import io.apptik.widget.OnThumbValueChangeListener;
 
 
 public class MultiSliderFragmentMany extends Fragment {
@@ -55,7 +54,8 @@ public class MultiSliderFragmentMany extends Fragment {
             vals.get(i).setText(String.valueOf(multiSlider.getThumb(i).getValue()));
         }
 
-        multiSlider.setOnThumbValueChangeListener(new OnThumbValueChangeListener() {
+        multiSlider.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
+            @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 vals.get(thumbIndex).setText(String.valueOf(value));
             }
