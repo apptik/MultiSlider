@@ -27,6 +27,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import io.apptik.widget.MultiSlider;
+import io.apptik.widget.OnThumbValueChangeListener;
 
 
 public class MultiSliderFragmentMany extends Fragment {
@@ -34,14 +35,6 @@ public class MultiSliderFragmentMany extends Fragment {
 
     public MultiSliderFragmentMany() {
         // Required empty public constructor
-    }
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
@@ -62,21 +55,11 @@ public class MultiSliderFragmentMany extends Fragment {
             vals.get(i).setText(String.valueOf(multiSlider.getThumb(i).getValue()));
         }
 
-        multiSlider.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
-            @Override
+        multiSlider.setOnThumbValueChangeListener(new OnThumbValueChangeListener() {
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 vals.get(thumbIndex).setText(String.valueOf(value));
             }
 
-            @Override
-            public void onStartTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
-
-            }
         });
 
         return v;

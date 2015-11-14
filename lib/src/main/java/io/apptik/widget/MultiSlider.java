@@ -31,15 +31,6 @@ import android.view.*;
 import java.util.LinkedList;
 
 public class MultiSlider extends View {
-
-    public interface OnThumbValueChangeListener {
-        void onValueChanged(MultiSlider multiSlider, Thumb thumb, int thumbIndex, int value);
-
-        void onStartTrackingTouch(MultiSlider multiSlider, Thumb thumb, int value);
-
-        void onStopTrackingTouch(MultiSlider multiSlider, Thumb thumb, int value);
-    }
-
     private OnThumbValueChangeListener mOnThumbValueChangeListener;
 
     int mMinWidth;
@@ -1371,5 +1362,4 @@ public class MultiSlider extends View {
         }
         return drawable;
     }
-
 }
