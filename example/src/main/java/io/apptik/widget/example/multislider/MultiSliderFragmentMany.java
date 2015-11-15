@@ -36,14 +36,6 @@ public class MultiSliderFragmentMany extends Fragment {
         // Required empty public constructor
     }
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_multi_slider_many, container, false);
@@ -62,21 +54,12 @@ public class MultiSliderFragmentMany extends Fragment {
             vals.get(i).setText(String.valueOf(multiSlider.getThumb(i).getValue()));
         }
 
-        multiSlider.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
+        multiSlider.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 vals.get(thumbIndex).setText(String.valueOf(value));
             }
 
-            @Override
-            public void onStartTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
-
-            }
         });
 
         return v;

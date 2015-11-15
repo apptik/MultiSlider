@@ -33,11 +33,11 @@ import java.util.LinkedList;
 public class MultiSlider extends View {
 
     public interface OnThumbValueChangeListener {
-        void onValueChanged(MultiSlider multiSlider, Thumb thumb, int thumbIndex, int value);
+        void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value);
 
-        void onStartTrackingTouch(MultiSlider multiSlider, Thumb thumb, int value);
+        void onStartTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value);
 
-        void onStopTrackingTouch(MultiSlider multiSlider, Thumb thumb, int value);
+        void onStopTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value);
     }
 
     private OnThumbValueChangeListener mOnThumbValueChangeListener;
@@ -457,7 +457,7 @@ public class MultiSlider extends View {
         if (value != thumb.getValue()) {
             thumb.value = value;
         }
-        if (mOnThumbValueChangeListener != null) {
+        if (hasOnThumbValueChangeListener()) {
             mOnThumbValueChangeListener.onValueChanged(this, thumb, mThumbs.indexOf(thumb), thumb.getValue());
         }
         updateThumb(thumb, getWidth(), getHeight());
@@ -1116,7 +1116,7 @@ public class MultiSlider extends View {
                 if (currThumb != null) {
                     int value = getValue(event, currThumb);
                     setThumbValue(currThumb, value, true);
-                    onStopTrackingTouch();
+                    onStopTrackingTouch(currThumb);
                 } else {
 //                    currThumb = getClosestThumb(newValue);
 //                    // Touch up when we never crossed the touch slop threshold should
@@ -1207,8 +1207,10 @@ public class MultiSlider extends View {
      * This is called when the user has started touching this widget.
      */
     void onStartTrackingTouch(Thumb thumb) {
-        if (thumb != null) {
-            mOnThumbValueChangeListener.onStartTrackingTouch(this, thumb, thumb.getValue());
+        if (thumb!=null) {
+            if(hasOnThumbValueChangeListener()) {
+                mOnThumbValueChangeListener.onStartTrackingTouch(this, thumb, thumb.getValue());
+            }
             mDraggingThumbs.add(thumb);
         }
     }
@@ -1218,15 +1220,21 @@ public class MultiSlider extends View {
      * canceled.
      */
     void onStopTrackingTouch(Thumb thumb) {
-        if (thumb != null) {
+        if (thumb!=null) {
             mDraggingThumbs.remove(thumb);
-            mOnThumbValueChangeListener.onStopTrackingTouch(this, thumb, thumb.getValue());
+            if(hasOnThumbValueChangeListener()) {
+                mOnThumbValueChangeListener.onStopTrackingTouch(this, thumb, thumb.getValue());
+            }
         }
         drawableStateChanged();
     }
 
     void onStopTrackingTouch() {
         mDraggingThumbs.clear();
+    }
+
+    private boolean hasOnThumbValueChangeListener() {
+        return mOnThumbValueChangeListener != null;
     }
 
 
@@ -1372,4 +1380,16 @@ public class MultiSlider extends View {
         return drawable;
     }
 
+    public static class SimpleOnThumbValueChangeListener implements OnThumbValueChangeListener {
+
+        @Override
+        public void onValueChanged(MultiSlider multiSlider, Thumb thumb, int thumbIndex, int value) {}
+
+        @Override
+        public void onStartTrackingTouch(MultiSlider multiSlider, Thumb thumb, int value) {}
+
+        @Override
+        public void onStopTrackingTouch(MultiSlider multiSlider, Thumb thumb, int value) {}
+
+    }
 }

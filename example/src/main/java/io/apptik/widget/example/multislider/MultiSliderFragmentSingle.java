@@ -34,14 +34,6 @@ public class MultiSliderFragmentSingle extends Fragment {
         // Required empty public constructor
     }
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_multi_slider_single, container, false);
@@ -67,106 +59,46 @@ public class MultiSliderFragmentSingle extends Fragment {
         min5.setText(String.valueOf(multiSlider5.getThumb(0).getValue()));
         min6.setText(String.valueOf(multiSlider6.getThumb(0).getValue()));
 
-        multiSlider1.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
+        multiSlider1.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 min1.setText(String.valueOf(value));
             }
-
-            @Override
-            public void onStartTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
-
-            }
         });
 
 
-        multiSlider2.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
+        multiSlider2.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 min2.setText(String.valueOf(value));
             }
-
-            @Override
-            public void onStartTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
-
-            }
         });
 
-        multiSlider3.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
+        multiSlider3.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 min3.setText(String.valueOf(value));
             }
-
-            @Override
-            public void onStartTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
-
-            }
         });
 
-        multiSlider4.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
+        multiSlider4.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 min4.setText(String.valueOf(value));
             }
-
-            @Override
-            public void onStartTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
-
-            }
         });
 
-        multiSlider5.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
+        multiSlider5.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 min5.setText(String.valueOf(value));
             }
-
-            @Override
-            public void onStartTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
-
-            }
         });
 
-        multiSlider6.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
+        multiSlider6.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 min6.setText(String.valueOf(value));
-            }
-
-            @Override
-            public void onStartTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value) {
-
             }
         });
 
