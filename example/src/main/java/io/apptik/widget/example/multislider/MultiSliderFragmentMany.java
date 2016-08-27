@@ -18,6 +18,7 @@ package io.apptik.widget.example.multislider;
 
 
 import android.app.Fragment;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,14 @@ public class MultiSliderFragmentMany extends Fragment {
             }
 
         });
+
+        //different ranges example
+        multiSlider.getThumb(1).setRange( new ColorDrawable(0xFF000000));
+        multiSlider.getThumb(2).setRange( new ColorDrawable(0xFFFF0000));
+        multiSlider.getThumb(3).setRange( new ColorDrawable(0xFF00FF00));
+        multiSlider.getThumb(4).setRange( new ColorDrawable(0xFF0000FF));
+        multiSlider.getThumb(5).setRange( new ColorDrawable(0xFFFFFFFF));
+        multiSlider.getThumb(6).setRange( new ColorDrawable(0x66FF0000));
 
         return v;
     }
