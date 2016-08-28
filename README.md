@@ -1,7 +1,10 @@
 # MultiSlider
 
+[![Build Status](https://travis-ci.org/apptik/MultiSlider.svg?branch=master)](https://travis-ci.org/apptik/MultiSlider)
+[![Join the chat at https://gitter.im/apptik/MultiSlider](https://badges.gitter.im/apptik/MultiSlider.svg)](https://gitter.im/apptik/MultiSlider?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Maven Central](https://img.shields.io/maven-central/v/io.apptik.widget/multislider.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/io.apptik.widget/multislider)
 
-MultiSlider is multifunctional and multi thumb custom view component for Android.
+MultiSlider is multifunctional and multi-thumb custom view component for Android.
 It Can be used as a normal Android seekbar, a range bar and multi-thumb bar.
 MultiSlider is extremely easy to use while still very flexible and customizable.
 
@@ -9,9 +12,7 @@ Developer can customize many features from XML layout or programmatically.
 
 ##Download
 
-Sonatype Repo: <https://oss.sonatype.org/content/repositories/releases/io/apptik/widget/multislider/1.2/multislider-1.2.aar>
-
-Maven:
+Find [the latest AARs][mvn] or grab via Maven::
 
     <dependency>
       <groupId>io.apptik.widget</groupId>
@@ -19,11 +20,13 @@ Maven:
       <version>1.2</version>
     </dependency>
 
-Gradle:
+or Gradle:
 
     compile 'io.apptik.widget:multislider:1.2'
 
+Downloads of the released versions are available in [Sonatype's `releases` repository][release].
 
+Snapshots of the development versions are available in [Sonatype's `snapshots` repository][snap].
 
 ## Customizable Features
 
@@ -95,7 +98,7 @@ Gradle:
 
 ## Licence
 
-    Copyright (C) 2015 AppTik Project
+    Copyright (C) 2016 AppTik Project
     Copyright (C) 2014 Kalin Maldzhanski
 
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -125,3 +128,8 @@ This is a rough outline of what a contributor's workflow looks like:
 *    Submit a pull request to the original repository.
 
 Thanks for your contributions!
+
+[mvn]: http://search.maven.org/#search|ga|1|io.apptik.widget.multislider
+[release]: https://oss.sonatype.org/content/repositories/releases/io/apptik/widget/multislider/
+[snap]: https://oss.sonatype.org/content/repositories/snapshots/io/apptik/widget/multislider/
+ 
