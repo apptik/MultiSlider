@@ -1,0 +1,21 @@
+---
+layout: default
+---
+
+<div class="home">
+
+  <h1 class="page-heading">JavaDocs</h1>
+
+{% for file in site.static_files %}
+  {% if file.extname == ".html" and file.path contains 'index.html' and file.path contains '/javadoc/' %} 
+   <div class="column">
+            <a href="{{ site.baseurl }}{{ file.path }}">
+            {% assign a = file.path | split: '/' %}
+               * {{ a[2] }}
+            </a>
+        </div>
+  {% endif %}
+{% endfor %}
+ 
+
+</div>

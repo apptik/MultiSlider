@@ -1,0 +1,15 @@
+
+title: MultiSlider
+email: jj@apptik.io
+description: > # this means to ignore newlines until "baseurl:"
+  MultiSlider is multifunctional and multi-thumb custom view component for Android. 
+  It Can be used as a normal Android seekbar, a range bar and multi-thumb bar. 
+  MultiSlider is extremely easy to use while still very flexible and customizable.
+baseurl: "/MultiSlider" # the subpath of your site, e.g. /blog
+url: "http://apptik.io" # the base hostname & protocol for your site
+twitter_username: apptikProj
+github_username:  apptik
+
+# Build settings
+markdown: kramdown
+theme: minima
