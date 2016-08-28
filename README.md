@@ -1,5 +1,7 @@
 # MultiSlider
 
+[JavaDocs](http://apptik.github.io/MultiSlider/)
+
 [![Build Status](https://travis-ci.org/apptik/MultiSlider.svg?branch=master)](https://travis-ci.org/apptik/MultiSlider)
 [![Join the chat at https://gitter.im/apptik/MultiSlider](https://badges.gitter.im/apptik/MultiSlider.svg)](https://gitter.im/apptik/MultiSlider?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Maven Central](https://img.shields.io/maven-central/v/io.apptik.widget/multislider.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/io.apptik.widget/multislider)
