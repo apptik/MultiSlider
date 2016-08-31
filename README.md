@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/apptik/MultiSlider.svg?branch=master)](https://travis-ci.org/apptik/MultiSlider)
 [![Join the chat at https://gitter.im/apptik/MultiSlider](https://badges.gitter.im/apptik/MultiSlider.svg)](https://gitter.im/apptik/MultiSlider?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Maven Central](https://img.shields.io/maven-central/v/io.apptik.widget/multislider.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/io.apptik.widget/multislider)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-MultiSlider-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/3976)
 
 MultiSlider is multifunctional and multi-thumb custom view component for Android.
 It Can be used as a normal Android seekbar, a range bar and multi-thumb bar.
