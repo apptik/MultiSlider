@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         minSdkVersion 14
@@ -29,7 +29,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:design:24.2.1'
 }
 
 apply from: 'https://raw.githubusercontent.com/djodjoni/gradle-mvn-push/master/gradle-mvn-push-android.gradle'
