@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class MultiSlider extends View {
 
@@ -116,7 +117,7 @@ public class MultiSlider extends View {
     private int mScaledTouchSlop;
     private float mTouchDownX;
     //thumbs that are currently being dragged
-    private LinkedList<Thumb> mDraggingThumbs = new LinkedList<Thumb>();
+    private List<Thumb> mDraggingThumbs = new LinkedList<>();
     //thumbs that are currently being touched
     LinkedList<Thumb> exactTouched = null;
 
@@ -494,6 +495,7 @@ public class MultiSlider extends View {
 
     /**
      * set default thumb offset, which will be immediately applied to all the thumbs
+     *
      * @param thumbOffset thumb offset in pixels
      */
     public void setThumbOffset(int thumbOffset) {
@@ -505,6 +507,7 @@ public class MultiSlider extends View {
 
     /**
      * Manually set the track drawable
+     *
      * @param d
      */
     public void setTrackDrawable(Drawable d) {
@@ -728,6 +731,7 @@ public class MultiSlider extends View {
 
     /**
      * Set global maximum value and apply it to all thumbs
+     *
      * @param max maximum value in scale points
      */
     public synchronized void setMax(int max) {
@@ -736,7 +740,8 @@ public class MultiSlider extends View {
 
     /**
      * Set global maximum value
-     * @param max maximum value in scale points
+     *
+     * @param max                maximum value in scale points
      * @param extendMaxForThumbs if set to true the new max will be applied to all the thumbs.
      */
     public synchronized void setMax(int max, boolean extendMaxForThumbs) {
@@ -745,10 +750,11 @@ public class MultiSlider extends View {
 
     /**
      * Set global maximum value
-     * @param max maximum value in scale points
+     *
+     * @param max                maximum value in scale points
      * @param extendMaxForThumbs if set to true the new max will be applied to all the thumbs.
-     * @param repositionThumbs if set to true the thumbs will change their value and be placed on
-     *                         equal distances from each other respecting the new scale
+     * @param repositionThumbs   if set to true the thumbs will change their value and be placed on
+     *                           equal distances from each other respecting the new scale
      */
     public synchronized void setMax(int max, boolean extendMaxForThumbs, boolean repositionThumbs) {
         if (max < mScaleMin) {
@@ -787,6 +793,7 @@ public class MultiSlider extends View {
 
     /**
      * Set global minimum value and apply it to all thumbs
+     *
      * @param min minimum value in scale points
      */
     public synchronized void setMin(int min) {
@@ -795,7 +802,8 @@ public class MultiSlider extends View {
 
     /**
      * Set global minimum value
-     * @param min minimum value in scale points
+     *
+     * @param min                minimum value in scale points
      * @param extendMinForThumbs if set to true the new min will be applied to all the thumbs.
      */
     public synchronized void setMin(int min, boolean extendMinForThumbs) {
@@ -804,10 +812,11 @@ public class MultiSlider extends View {
 
     /**
      * Set global minimum value
-     * @param min minimum value in scale points
+     *
+     * @param min                minimum value in scale points
      * @param extendMinForThumbs if set to true the new min will be applied to all the thumbs.
-     * @param repositionThumbs if set to true the thumbs will change their value and be placed on
-     *                         equal distances from each other respecting the new scale
+     * @param repositionThumbs   if set to true the thumbs will change their value and be placed on
+     *                           equal distances from each other respecting the new scale
      */
     public synchronized void setMin(int min, boolean extendMinForThumbs, boolean repositionThumbs) {
         if (min > mScaleMax) {
@@ -939,7 +948,7 @@ public class MultiSlider extends View {
             scale = getScaleSize() > 0 ? (float) mThumbs.get(i).getValue() / (float) getScaleSize
                     () : 0;
             setThumbPos(w, h, mThumbs.get(i).getThumb(), mThumbs.get(i - 1).getThumb(), mThumbs
-                    .get(i).getRange(), scale, gap, mThumbs.get(i).getThumbOffset(),
+                            .get(i).getRange(), scale, gap, mThumbs.get(i).getThumbOffset(),
                     getThumbOptOffset(mThumbs.get(i)));
         }
     }
@@ -1106,7 +1115,6 @@ public class MultiSlider extends View {
         int currDistance = getAvailable() + 1;
 
         for (Thumb thumb : mThumbs) {
-            if (thumb.getThumb() == null || thumb.isInvisibleThumb()) continue;
 
             int minV = x - thumb.getThumb().getIntrinsicWidth();
             int maxV = x + thumb.getThumb().getIntrinsicWidth();
@@ -1143,10 +1151,11 @@ public class MultiSlider extends View {
         Thumb res = null;
         int maxChange = 0;
         if (thumbs != null && !thumbs.isEmpty()) {
-
             if (thumbs.getFirst().getValue() == getValue(event, thumbs.getFirst())) return null;
 
             for (Thumb thumb : thumbs) {
+                if (thumb.getThumb() == null || thumb.isInvisibleThumb()
+                        || mDraggingThumbs.contains(thumb)) continue;
                 int optValue = (getValue(event, thumbs.getFirst()) > thumb.getValue()) ?
                         mScaleMax : mScaleMin;
                 int currChange = Math.abs(thumb.getValue() - optThumbValue(thumb, optValue));
@@ -1159,6 +1168,16 @@ public class MultiSlider extends View {
         return res;
     }
 
+    private Thumb getMostMovableThumb(MotionEvent event) {
+        if (exactTouched == null || exactTouched.size() < 1)
+            return null;
+        if (exactTouched.size() == 1) {
+            return exactTouched.getFirst();
+        } else {
+            return getMostMovable(exactTouched, event);
+        }
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!mIsUserSeekable || !isEnabled()) {
@@ -1167,118 +1186,90 @@ public class MultiSlider extends View {
 
         int pointerIdx = event.getActionIndex();
 
-
         Thumb currThumb = null;
-        if (mDraggingThumbs.size() > pointerIdx) {
-            currThumb = mDraggingThumbs.get(pointerIdx);
-        } else {
+        if (event.getActionMasked() == MotionEvent.ACTION_DOWN
+                || event.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN) {
+            LinkedList<Thumb> closestOnes =
+                    getClosestThumb((int) event.getX(pointerIdx));
 
-            LinkedList<Thumb> closestOnes = getClosestThumb((int) event.getX(event.getActionIndex
-                    ()));
-            if (closestOnes != null && !closestOnes.isEmpty()) {
-                if (event.getActionMasked() == MotionEvent.ACTION_DOWN || event.getActionMasked()
-                        == MotionEvent.ACTION_POINTER_DOWN) {
-                    if (closestOnes.size() == 1) {
-                        currThumb = closestOnes.getFirst();
-                        onStartTrackingTouch(currThumb);
-                        drawableStateChanged();
-                    } else {
-                        //we have more than one thumb at the same place and we touched there
-                        exactTouched = closestOnes;
-                    }
-                } else if (exactTouched != null && !exactTouched.isEmpty() && event
-                        .getActionMasked() == MotionEvent.ACTION_MOVE) {
-                    //we have thumbs waiting to be selected to move
-                    currThumb = getMostMovable(exactTouched, event);
-                    //check if move actually changed value
-                    if (currThumb == null) return false;
-                    exactTouched = null;
-                    onStartTrackingTouch(currThumb);
-                    drawableStateChanged();
-                } else {
-                    currThumb = closestOnes.getFirst();
-                    onStartTrackingTouch(currThumb);
-                    drawableStateChanged();
-                }
+            if (isInScrollingContainer() && mDraggingThumbs.size() == 0 &&
+                    exactTouched != null && pointerIdx > 0) {
+                //we have been here before => we want to use the bar
+                Thumb prevThumb = exactTouched.getFirst();
+                onStartTrackingTouch(prevThumb);
+                exactTouched = null;
             }
 
-
+            if (closestOnes != null && !closestOnes.isEmpty()) {
+                if (closestOnes.size() == 1) {
+                    currThumb = closestOnes.getFirst();
+                    if (isInScrollingContainer() && mDraggingThumbs.size() == 0) {
+                        exactTouched = closestOnes;
+                    }
+                } else {
+                    //we have more than one thumb at the same place and we touched there
+                    exactTouched = closestOnes;
+                }
+            }
+        } else if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
+            if (exactTouched != null && !exactTouched.isEmpty()) {
+                currThumb = getMostMovableThumb(event);
+                //check if move actually changed value
+                // if (currThumb == null) return false;
+            } else if (mDraggingThumbs.size() > pointerIdx) {
+                currThumb = mDraggingThumbs.get(pointerIdx);
+            }
+        } else if (event.getActionMasked() == MotionEvent.ACTION_UP
+                || event.getActionMasked() == MotionEvent.ACTION_POINTER_UP) {
+            if (mDraggingThumbs.size() > pointerIdx) {
+                currThumb = mDraggingThumbs.get(pointerIdx);
+            } //else we had a candidate but was never tracked
+            else if (exactTouched != null && exactTouched.size() > 0) {
+                currThumb = getMostMovableThumb(event);
+                exactTouched = null;
+            }
         }
-
+//        else {
+//            LinkedList<Thumb> closestOnes = getClosestThumb((int) event.getX());
+//            currThumb = closestOnes.getFirst();
+//        }
 
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                if (isInScrollingContainer()) {
-                    mTouchDownX = event.getX();
-                } else {
-                    //currThumb = getClosestThumb(newValue);
-                    //onStartTrackingTouch(currThumb);
-                    setPressed(true);
-                    if (currThumb != null && currThumb.getThumb() != null) {
-                        invalidate(currThumb.getThumb().getBounds()); // This may be within the
-                        // padding region
-                    }
-
-                    int value = getValue(event, currThumb);
-                    setThumbValue(currThumb, value, true);
-                    attemptClaimDrag();
-                }
-                break;
-
             case MotionEvent.ACTION_POINTER_DOWN:
-                if (isInScrollingContainer()) {
-                    mTouchDownX = event.getX();
+                if (isInScrollingContainer() && mDraggingThumbs.size() == 0) {
+                    mTouchDownX = event.getX(pointerIdx);
                 } else {
-                    //currThumb = getClosestThumb(newValue);
-                    //onStartTrackingTouch(currThumb);
-                    setPressed(true);
-                    if (currThumb != null && currThumb.getThumb() != null) {
-                        invalidate(currThumb.getThumb().getBounds()); // This may be within the
-                        // padding region
-                    }
-
+                    onStartTrackingTouch(currThumb);
                     setThumbValue(currThumb, getValue(event, currThumb), true);
-                    attemptClaimDrag();
                 }
-                invalidate();
                 break;
-
             //with move we dont have pointer action so set them all
             case MotionEvent.ACTION_MOVE:
-                if (!mDraggingThumbs.isEmpty()) {
-
+                if (mDraggingThumbs.contains(currThumb)) {
                     //need the index
                     for (int i = 0; i < mDraggingThumbs.size(); i++) {
-                        setPressed(true);
                         if (mDraggingThumbs.get(i) != null && mDraggingThumbs.get(i).getThumb()
                                 != null) {
-                            invalidate(mDraggingThumbs.get(i).getThumb().getBounds()); // This
-                            // may be within the padding region
+                            invalidate(mDraggingThumbs.get(i).getThumb().getBounds());
                         }
                         setThumbValue(mDraggingThumbs.get(i), getValue(event, i, mDraggingThumbs
                                 .get(i)), true);
-                        attemptClaimDrag();
                     }
-
                 } else {
-                    final float x = event.getX();
+                    final float x = event.getX(pointerIdx);
                     if (Math.abs(x - mTouchDownX) > mScaledTouchSlop) {
-                        //currThumb = getClosestThumb(newValue);
-                        //onStartTrackingTouch(currThumb);
-                        setPressed(true);
-                        if (currThumb != null && currThumb.getThumb() != null) {
-                            invalidate(currThumb.getThumb().getBounds()); // This may be within
-                            // the padding region
-                        }
-
+                        onStartTrackingTouch(currThumb);
+                        exactTouched = null;
                         setThumbValue(currThumb, getValue(event, currThumb), true);
-                        attemptClaimDrag();
                     }
                 }
 
                 break;
 
-            //there are other pointers left
+            case MotionEvent.ACTION_UP:
+                setPressed(false);
+                //there are other pointers left
             case MotionEvent.ACTION_POINTER_UP:
                 if (currThumb != null) {
                     setThumbValue(currThumb, getValue(event, currThumb), true);
@@ -1291,34 +1282,11 @@ public class MultiSlider extends View {
 //                    setThumbValue(currThumb, newValue, true);
 //                    onStopTrackingTouch(currThumb);
                 }
-
                 // ProgressBar doesn't know to repaint the thumb drawable
                 // in its inactive state when the touch stops (because the
                 // value has not apparently changed)
                 invalidate();
                 break;
-
-            //we normally have one single pointer here and its gone now
-            case MotionEvent.ACTION_UP:
-                if (currThumb != null) {
-                    int value = getValue(event, currThumb);
-                    setThumbValue(currThumb, value, true);
-                    onStopTrackingTouch(currThumb);
-                } else {
-//                    currThumb = getClosestThumb(newValue);
-//                    // Touch up when we never crossed the touch slop threshold should
-//                    // be interpreted as a tap-seek to that location.
-//                    onStartTrackingTouch(currThumb);
-//                    setThumbValue(currThumb, newValue, true);
-//                    onStopTrackingTouch();
-                }
-                setPressed(false);
-                // ProgressBar doesn't know to repaint the thumb drawable
-                // in its inactive state when the touch stops (because the
-                // value has not apparently changed)
-                invalidate();
-                break;
-
             case MotionEvent.ACTION_CANCEL:
                 if (mDraggingThumbs != null) {
                     onStopTrackingTouch();
@@ -1398,10 +1366,17 @@ public class MultiSlider extends View {
      */
     void onStartTrackingTouch(Thumb thumb) {
         if (thumb != null) {
+            setPressed(true);
+            if (thumb.getThumb() != null) {
+                // This may be within the padding region.
+                invalidate(thumb.getThumb().getBounds());
+            }
+            mDraggingThumbs.add(thumb);
+            drawableStateChanged();
             if (hasOnThumbValueChangeListener()) {
                 mOnThumbValueChangeListener.onStartTrackingTouch(this, thumb, thumb.getValue());
             }
-            mDraggingThumbs.add(thumb);
+            attemptClaimDrag();
         }
     }
 
@@ -1415,8 +1390,9 @@ public class MultiSlider extends View {
             if (hasOnThumbValueChangeListener()) {
                 mOnThumbValueChangeListener.onStopTrackingTouch(this, thumb, thumb.getValue());
             }
+            drawableStateChanged();
         }
-        drawableStateChanged();
+
     }
 
     void onStopTrackingTouch() {
