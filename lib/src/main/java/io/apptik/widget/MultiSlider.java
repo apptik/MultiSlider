@@ -1127,6 +1127,8 @@ public class MultiSlider extends View {
         int currDistance = getAvailable() + 1;
 
         for (Thumb thumb : mThumbs) {
+            if (thumb.getThumb() == null || thumb.isInvisibleThumb()
+                    || mDraggingThumbs.contains(thumb)) continue;
 
             int minV = x - thumb.getThumb().getIntrinsicWidth();
             int maxV = x + thumb.getThumb().getIntrinsicWidth();
