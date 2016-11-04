@@ -48,7 +48,9 @@ public class MultiSlider extends View {
          */
         void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int
                 value);
+    }
 
+    public interface OnTrackingChangeListener {
         /**
          * This is called when the user has started touching this widget.
          *
@@ -69,6 +71,7 @@ public class MultiSlider extends View {
     }
 
     private OnThumbValueChangeListener mOnThumbValueChangeListener;
+    private OnTrackingChangeListener mOnTrackingChangeListener;
 
     int mMinWidth;
     int mMaxWidth;
@@ -459,6 +462,15 @@ public class MultiSlider extends View {
      */
     public void setOnThumbValueChangeListener(OnThumbValueChangeListener l) {
         mOnThumbValueChangeListener = l;
+    }
+
+    /**
+     * Listener for value changes and start/stop of thumb move.
+     *
+     * @param l
+     */
+    public void setOnTrackingChangeListener(OnTrackingChangeListener l) {
+        mOnTrackingChangeListener = l;
     }
 
     /**
@@ -1373,8 +1385,8 @@ public class MultiSlider extends View {
             }
             mDraggingThumbs.add(thumb);
             drawableStateChanged();
-            if (hasOnThumbValueChangeListener()) {
-                mOnThumbValueChangeListener.onStartTrackingTouch(this, thumb, thumb.getValue());
+            if (hasOnTrackingChangeListener()) {
+                mOnTrackingChangeListener.onStartTrackingTouch(this, thumb, thumb.getValue());
             }
             attemptClaimDrag();
         }
@@ -1387,8 +1399,8 @@ public class MultiSlider extends View {
     void onStopTrackingTouch(Thumb thumb) {
         if (thumb != null) {
             mDraggingThumbs.remove(thumb);
-            if (hasOnThumbValueChangeListener()) {
-                mOnThumbValueChangeListener.onStopTrackingTouch(this, thumb, thumb.getValue());
+            if (hasOnTrackingChangeListener()) {
+                mOnTrackingChangeListener.onStopTrackingTouch(this, thumb, thumb.getValue());
             }
             drawableStateChanged();
         }
@@ -1403,6 +1415,11 @@ public class MultiSlider extends View {
         return mOnThumbValueChangeListener != null;
     }
 
+    //
+
+    private boolean hasOnTrackingChangeListener() {
+        return mOnTrackingChangeListener != null;
+    }
 
 //   void onKeyChange() {
 //   }
@@ -1549,7 +1566,8 @@ public class MultiSlider extends View {
     /**
      * Void listener helper
      */
-    public static class SimpleOnThumbValueChangeListener implements OnThumbValueChangeListener {
+    public static class SimpleChangeListener implements OnThumbValueChangeListener,
+            OnTrackingChangeListener{
 
         @Override
         public void onValueChanged(MultiSlider multiSlider, Thumb thumb, int thumbIndex, int

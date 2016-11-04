@@ -74,7 +74,7 @@ public class MultiSliderFragmentRange extends Fragment {
         max5.setText(String.valueOf(multiSlider5.getThumb(1).getValue()));
 
 
-        multiSlider1.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
+        multiSlider1.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 if (thumbIndex == 0) {
@@ -85,7 +85,7 @@ public class MultiSliderFragmentRange extends Fragment {
             }
         });
 
-        multiSlider2.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
+        multiSlider2.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 if (thumbIndex == 0) {
@@ -96,7 +96,7 @@ public class MultiSliderFragmentRange extends Fragment {
             }
         });
 
-        multiSlider3.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
+        multiSlider3.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 if (thumbIndex == 0) {
@@ -107,7 +107,7 @@ public class MultiSliderFragmentRange extends Fragment {
             }
         });
 
-        multiSlider4.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
+        multiSlider4.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 if (thumbIndex == 0) {
@@ -118,7 +118,7 @@ public class MultiSliderFragmentRange extends Fragment {
             }
         });
 
-        multiSlider5.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
+        multiSlider5.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 if (thumbIndex == 0) {
@@ -132,7 +132,7 @@ public class MultiSliderFragmentRange extends Fragment {
         min6.setText(String.valueOf(multiSlider6.getThumb(0).getValue()));
         max6.setText(String.valueOf(multiSlider6.getThumb(1).getValue()));
 
-        multiSlider6.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
+        multiSlider6.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 if (thumbIndex == 0) {

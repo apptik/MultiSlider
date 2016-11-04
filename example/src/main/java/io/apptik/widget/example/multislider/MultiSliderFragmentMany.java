@@ -55,7 +55,7 @@ public class MultiSliderFragmentMany extends Fragment {
             vals.get(i).setText(String.valueOf(multiSlider.getThumb(i).getValue()));
         }
 
-        multiSlider.setOnThumbValueChangeListener(new MultiSlider.SimpleOnThumbValueChangeListener() {
+        multiSlider.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 vals.get(thumbIndex).setText(String.valueOf(value));
