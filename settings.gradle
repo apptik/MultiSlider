@@ -1,1 +1,2 @@
+include ':mslider-espresso', ':mslider-uiautomator'
 include 'example', 'lib'

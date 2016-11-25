@@ -6,8 +6,8 @@ jdk:
 android:
   components:
     - tools
-    - build-tools-24.0.3
-    - android-24
+    - build-tools-25.0.0
+    - android-25
     - extra-android-m2repository
     - sys-img-armeabi-v7a-android-23
 
@@ -20,6 +20,8 @@ after_success:
 env:
    matrix:
      - MODULE=lib
+     - MODULE=mslider-espresso
+     - MODULE=mslider-uiautomator
 
 notifications:
   email: true

@@ -23,17 +23,27 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.accessibility.AccessibilityNodeInfo;
+import android.view.accessibility.AccessibilityNodeProvider;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
+import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_BACKWARD;
+import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_FORWARD;
+import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction.ACTION_SET_PROGRESS;
 
 public class MultiSlider extends View {
 
@@ -70,6 +80,7 @@ public class MultiSlider extends View {
         void onStopTrackingTouch(MultiSlider multiSlider, MultiSlider.Thumb thumb, int value);
     }
 
+    private AccessibilityNodeProvider mAccessibilityNodeProvider;
     private OnThumbValueChangeListener mOnThumbValueChangeListener;
     private OnTrackingChangeListener mOnTrackingChangeListener;
 
@@ -135,17 +146,19 @@ public class MultiSlider extends View {
      */
     public class Thumb {
         //abs min value for this thumb
-        private int min;
+        int min;
         //abs max value for this thumb
-        private int max;
+        int max;
         //current value of this thumb
-        private int value;
+        int value;
+        //thumb tag. can be used for identifying the thumb
+        String tag = "thumb";
         //thumb drawable, can be shared
-        private Drawable thumb;
+        Drawable thumb;
         //thumb range drawable, can also be shared
         //this is the line from the beginning or the previous thumb if any until the this one.
-        private Drawable range;
-        private int thumbOffset;
+        Drawable range;
+        int thumbOffset;
 
         //cannot be moved if invisible
         private boolean invisibleThumb = false;
@@ -169,6 +182,10 @@ public class MultiSlider extends View {
         }
 
         public Thumb() {
+        }
+
+        public boolean isEnabled() {
+            return !isInvisibleThumb();
         }
 
         /**
@@ -279,6 +296,15 @@ public class MultiSlider extends View {
             return this;
         }
 
+        public String getTag() {
+            return tag;
+        }
+
+        public Thumb setTag(String tag) {
+            this.tag = tag;
+            return this;
+        }
+
         /**
          * @return The thumb drawable
          */
@@ -319,7 +345,7 @@ public class MultiSlider extends View {
     }
 
     public MultiSlider(Context context, AttributeSet attrs) {
-        this(context, attrs, io.apptik.widget.R.attr.multiSliderStyle);
+        this(context, attrs, io.apptik.widget.mslider.R.attr.multiSliderStyle);
     }
 
     public MultiSlider(Context context, AttributeSet attrs, int defStyle) {
@@ -331,20 +357,20 @@ public class MultiSlider extends View {
 
         mUiThreadId = Thread.currentThread().getId();
 
-        a = context.obtainStyledAttributes(attrs, io.apptik.widget.R.styleable.MultiSlider,
+        a = context.obtainStyledAttributes(attrs, io.apptik.widget.mslider.R.styleable.MultiSlider,
                 defStyle, styleRes);
         mNoInvalidate = true;
-        int numThumbs = a.getInt(io.apptik.widget.R.styleable.MultiSlider_thumbNumber, 2);
+        int numThumbs = a.getInt(io.apptik.widget.mslider.R.styleable.MultiSlider_thumbNumber, 2);
         initMultiSlider(numThumbs);
 
-        Drawable trackDrawable = a.getDrawable(io.apptik.widget.R.styleable
+        Drawable trackDrawable = a.getDrawable(io.apptik.widget.mslider.R.styleable
                 .MultiSlider_android_track);
         if (trackDrawable == null) {
-            trackDrawable = ContextCompat.getDrawable(getContext(), io.apptik.widget.R.drawable
+            trackDrawable = ContextCompat.getDrawable(getContext(), io.apptik.widget.mslider.R.drawable
                     .multislider_scrubber_track_holo_light);
         }
 
-        setTrackDrawable(getTintedDrawable(trackDrawable, a.getColor(io.apptik.widget.R.styleable
+        setTrackDrawable(getTintedDrawable(trackDrawable, a.getColor(io.apptik.widget.mslider.R.styleable
                 .MultiSlider_trackColor, 0)));
 
         //TODO
@@ -354,42 +380,42 @@ public class MultiSlider extends View {
 //        mMaxHeight = a.getDimensionPixelSize(R.styleable.MultiSlider_maxHeight, mMaxHeight);
 
 
-        setStep(a.getInt(io.apptik.widget.R.styleable.MultiSlider_scaleStep, mStep));
-        setStepsThumbsApart(a.getInt(io.apptik.widget.R.styleable.MultiSlider_stepsThumbsApart,
+        setStep(a.getInt(io.apptik.widget.mslider.R.styleable.MultiSlider_scaleStep, mStep));
+        setStepsThumbsApart(a.getInt(io.apptik.widget.mslider.R.styleable.MultiSlider_stepsThumbsApart,
                 mStepsThumbsApart));
-        setDrawThumbsApart(a.getBoolean(io.apptik.widget.R.styleable.MultiSlider_drawThumbsApart,
+        setDrawThumbsApart(a.getBoolean(io.apptik.widget.mslider.R.styleable.MultiSlider_drawThumbsApart,
                 mDrawThumbsApart));
-        setMax(a.getInt(io.apptik.widget.R.styleable.MultiSlider_scaleMax, mScaleMax), true);
-        setMin(a.getInt(io.apptik.widget.R.styleable.MultiSlider_scaleMin, mScaleMin), true);
+        setMax(a.getInt(io.apptik.widget.mslider.R.styleable.MultiSlider_scaleMax, mScaleMax), true);
+        setMin(a.getInt(io.apptik.widget.mslider.R.styleable.MultiSlider_scaleMin, mScaleMin), true);
 
 
-        mMirrorForRtl = a.getBoolean(io.apptik.widget.R.styleable.MultiSlider_mirrorForRTL,
+        mMirrorForRtl = a.getBoolean(io.apptik.widget.mslider.R.styleable.MultiSlider_mirrorForRTL,
                 mMirrorForRtl);
 
         // --> now place thumbs
 
-        Drawable thumbDrawable = a.getDrawable(io.apptik.widget.R.styleable
+        Drawable thumbDrawable = a.getDrawable(io.apptik.widget.mslider.R.styleable
                 .MultiSlider_android_thumb);
 
         if (thumbDrawable == null) {
-            thumbDrawable = ContextCompat.getDrawable(getContext(), io.apptik.widget.R.drawable
+            thumbDrawable = ContextCompat.getDrawable(getContext(), io.apptik.widget.mslider.R.drawable
                     .multislider_scrubber_control_selector_holo_light);
         }
 
-        Drawable range = a.getDrawable(io.apptik.widget.R.styleable.MultiSlider_range);
+        Drawable range = a.getDrawable(io.apptik.widget.mslider.R.styleable.MultiSlider_range);
         if (range == null) {
-            range = ContextCompat.getDrawable(getContext(), io.apptik.widget.R.drawable
+            range = ContextCompat.getDrawable(getContext(), io.apptik.widget.mslider.R.drawable
                     .multislider_scrubber_primary_holo);
         }
 
-        Drawable range1 = a.getDrawable(io.apptik.widget.R.styleable.MultiSlider_range1);
-        Drawable range2 = a.getDrawable(io.apptik.widget.R.styleable.MultiSlider_range2);
+        Drawable range1 = a.getDrawable(io.apptik.widget.mslider.R.styleable.MultiSlider_range1);
+        Drawable range2 = a.getDrawable(io.apptik.widget.mslider.R.styleable.MultiSlider_range2);
 
         setThumbDrawables(thumbDrawable, range, range1, range2); // will guess thumbOffset if
         // thumb != null...
         // ...but allow layout to override this
 
-        int thumbOffset = a.getDimensionPixelOffset(io.apptik.widget.R.styleable
+        int thumbOffset = a.getDimensionPixelOffset(io.apptik.widget.mslider.R.styleable
                 .MultiSlider_android_thumbOffset, thumbDrawable.getIntrinsicWidth() / 2);
         setThumbOffset(thumbOffset);
 
@@ -500,8 +526,10 @@ public class MultiSlider extends View {
         mMinHeight = 24;
         mMaxHeight = 48;
         mThumbs = new LinkedList<Thumb>();
+
+        // AccessibilityNodeInfo info = AccessibilityNodeInfo.obtain(MultiSlider.this);
         for (int i = 0; i < numThumbs; i++) {
-            mThumbs.add(new Thumb().setMin(mScaleMin).setMax(mScaleMax));
+            mThumbs.add(new Thumb().setMin(mScaleMin).setMax(mScaleMax).setTag("thumb " + i));
         }
     }
 
@@ -663,20 +691,20 @@ public class MultiSlider extends View {
             }
 
             if (curr == 1 && range1 != null) {
-                rangeDrawable = getTintedDrawable(range1, a.getColor(io.apptik.widget.R.styleable
+                rangeDrawable = getTintedDrawable(range1, a.getColor(io.apptik.widget.mslider.R.styleable
                         .MultiSlider_range1Color, 0));
             } else if (curr == 2 && range2 != null) {
-                rangeDrawable = getTintedDrawable(range2, a.getColor(io.apptik.widget.R.styleable
+                rangeDrawable = getTintedDrawable(range2, a.getColor(io.apptik.widget.mslider.R.styleable
                         .MultiSlider_range2Color, 0));
             } else {
                 rangeDrawable = getTintedDrawable(range.getConstantState().newDrawable(), a
-                        .getColor(io.apptik.widget.R.styleable.MultiSlider_rangeColor, 0));
+                        .getColor(io.apptik.widget.mslider.R.styleable.MultiSlider_rangeColor, 0));
             }
 
             mThumb.setRange(rangeDrawable);
 
             Drawable newDrawable = getTintedDrawable(thumb.getConstantState().newDrawable(), a
-                    .getColor(io.apptik.widget.R.styleable.MultiSlider_thumbColor, 0));
+                    .getColor(io.apptik.widget.mslider.R.styleable.MultiSlider_thumbColor, 0));
             newDrawable.setCallback(this);
 
             // Assuming the thumb drawable is symmetric, set the thumb offset
@@ -1448,66 +1476,28 @@ public class MultiSlider extends View {
 //        return super.onKeyDown(keyCode, event);
 //    }
 
-//    @Override
-//    public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
-//        super.onInitializeAccessibilityEvent(event);
-//        event.setClassName(MultiSlider.class.getName());
-//    }
-//
-//    @Override
-//    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
-//        super.onInitializeAccessibilityNodeInfo(info);
-//        info.setClassName(MultiSlider.class.getName());
-//
-//        if (isEnabled()) {
-//            final int progress = getProgress();
-//            if (progress > 0) {
-//                info.addAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD);
-//            }
-//            if (progress < getMax()) {
-//                info.addAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
-//            }
-//        }
-//    }
-////
-//    @Override
-//    public boolean performAccessibilityAction(int action, Bundle arguments) {
-//        if(Build.VERSION.SDK_INT>=16) {
-//            if (super.performAccessibilityAction(action, arguments)) {
-//                return true;
-//            }
-//        }
-//        if (!isEnabled()) {
-//            return false;
-//        }
-//        final int progress = getProgress();
-//        final int increment = Math.max(1, Math.round((float) getMax() / 5));
-//        switch (action) {
-//            case AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD: {
-//                if (progress <= 0) {
-//                    return false;
-//                }
-//                //setProgress(progress - increment, true);
-//                onKeyChange();
-//                return true;
-//            }
-//            case AccessibilityNodeInfo.ACTION_SCROLL_FORWARD: {
-//                if (progress >= getMax()) {
-//                    return false;
-//                }
-//                //setProgress(progress + increment, true);
-//                onKeyChange();
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 
-//    @Override
-//    public void onRtlPropertiesChanged(int layoutDirection) {
-//        if(Build.VERSION.SDK_INT>=17){
-//            super.onRtlPropertiesChanged(layoutDirection);
-//        }
+    @Override
+    public AccessibilityNodeProvider getAccessibilityNodeProvider() {
+        if (mAccessibilityNodeProvider == null) {
+            mAccessibilityNodeProvider = new VirtualTreeProvider();
+        }
+        return mAccessibilityNodeProvider;
+    }
+
+    //
+    @Override
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        info.setClassName(MultiSlider.class.getName());
+    }
+
+    @Override
+    public void onRtlPropertiesChanged(int layoutDirection) {
+        if (Build.VERSION.SDK_INT >= 17) {
+            super.onRtlPropertiesChanged(layoutDirection);
+            invalidate();
+        }
 //
 //        int max = getMax();
 //        float scale = max > 0 ? (float) getProgress() / (float) max : 0;
@@ -1522,13 +1512,12 @@ public class MultiSlider extends View {
 //             */
 //            invalidate();
 //        }
-//    }
+    }
 
     public boolean isLayoutRtl() {
         if (Build.VERSION.SDK_INT >= 17) {
             return (getLayoutDirection() == LAYOUT_DIRECTION_RTL);
         }
-
         return false;
     }
 
@@ -1569,7 +1558,7 @@ public class MultiSlider extends View {
      * Void listener helper
      */
     public static class SimpleChangeListener implements OnThumbValueChangeListener,
-            OnTrackingChangeListener{
+            OnTrackingChangeListener {
 
         @Override
         public void onValueChanged(MultiSlider multiSlider, Thumb thumb, int thumbIndex, int
@@ -1584,5 +1573,177 @@ public class MultiSlider extends View {
         public void onStopTrackingTouch(MultiSlider multiSlider, Thumb thumb, int value) {
         }
 
+    }
+
+    class VirtualTreeProvider extends AccessibilityNodeProvider {
+        static final int ACT_SET_PROGRESS = 16908349;
+
+        @Override
+        public AccessibilityNodeInfo createAccessibilityNodeInfo(int thumbId) {
+            AccessibilityNodeInfo info = null;
+            if (thumbId == View.NO_ID) {
+                // We are requested to create an AccessibilityNodeInfo describing
+                // this View, i.e. the root of the virtual sub-tree. Note that the
+                // host View has an AccessibilityNodeProvider which means that this
+                // provider is responsible for creating the node info for that root.
+                info = AccessibilityNodeInfo.obtain(MultiSlider.this);
+                onInitializeAccessibilityNodeInfo(info);
+                // Add the virtual children of the root View.
+                final int childCount = mThumbs.size();
+                for (int i = 0; i < childCount; i++) {
+                    info.addChild(MultiSlider.this, i);
+                }
+                if (mThumbs.size() == 1) {
+                    info.setScrollable(true);
+                    if (Build.VERSION.SDK_INT >= 21) {
+                        info.addAction(ACTION_SCROLL_BACKWARD);
+                        info.addAction(ACTION_SCROLL_FORWARD);
+                    } else {
+                        info.addAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD);
+                        info.addAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
+                    }
+
+                    if (Build.VERSION.SDK_INT >= 24) {
+                        info.addAction(ACTION_SET_PROGRESS);
+                    }
+
+                }
+
+            } else {
+                // Find the view that corresponds to the given id.
+                Thumb thumb = mThumbs.get(thumbId);
+                if (thumb == null) {
+                    return null;
+                }
+                // Obtain and initialize an AccessibilityNodeInfo with
+                // information about the virtual view.
+                info = AccessibilityNodeInfo.obtain(MultiSlider.this, thumbId);
+                info.setClassName(thumb.getClass().getName());
+                info.setParent(MultiSlider.this);
+                info.setSource(MultiSlider.this, thumbId);
+                info.setContentDescription("Multi-Slider thumb no:" + thumbId);
+
+                if (Build.VERSION.SDK_INT >= 21) {
+                    if (thumb.getPossibleMax() > thumb.value) {
+                        info.addAction(ACTION_SCROLL_BACKWARD);
+                    }
+                    if (thumb.getPossibleMax() > thumb.value) {
+                        info.addAction(ACTION_SCROLL_FORWARD);
+                    }
+                } else {
+                    if (thumb.getPossibleMin() > thumb.value) {
+                        info.addAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD);
+                    }
+                    if (thumb.getPossibleMax() > thumb.value) {
+                        info.addAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
+                    }
+                }
+
+                if (Build.VERSION.SDK_INT >= 24) {
+                    info.addAction(ACTION_SET_PROGRESS);
+                } else {
+                    info.addAction(ACT_SET_PROGRESS);
+                }
+
+
+                if (thumb.getThumb() != null) {
+                    int[] loc = new int[2];
+                    getLocationOnScreen(loc);
+                    Rect rect = thumb.getThumb().copyBounds();
+                    rect.top += loc[1];
+                    rect.left += loc[0];
+                    rect.right += loc[0];
+                    rect.bottom += loc[1];
+                    info.setBoundsInScreen(rect);
+                    //TODO somehow this resuls in [0,0][0,0]. wonder check why
+                    //info.setBoundsInParent(rect);
+
+                }
+
+                info.setText(thumb.tag + ": " + thumb.value);
+                info.setEnabled(thumb.isEnabled());
+                if (Build.VERSION.SDK_INT >= 24) {
+                    info.setImportantForAccessibility(true);
+                }
+                info.setVisibleToUser(true);
+                info.setScrollable(true);
+            }
+            return info;
+        }
+
+        @Override
+        public List<AccessibilityNodeInfo> findAccessibilityNodeInfosByText(
+                String searched, int virtualViewId) {
+            if (TextUtils.isEmpty(searched)) {
+                return Collections.emptyList();
+            }
+            String searchedLowerCase = searched.toLowerCase();
+            List<AccessibilityNodeInfo> result = null;
+            if (virtualViewId == View.NO_ID) {
+                // If the search is from the root, i.e. this View, go over the virtual
+                // children and look for ones that contain the searched string since
+                // this View does not contain text itself.
+                final int childCount = mThumbs.size();
+                for (int i = 0; i < childCount; i++) {
+                    Thumb child = mThumbs.get(i);
+                    String textToLowerCase = child.tag.toLowerCase();
+                    if (textToLowerCase.contains(searchedLowerCase)) {
+                        if (result == null) {
+                            result = new ArrayList<>();
+                        }
+                        result.add(createAccessibilityNodeInfo(i));
+                    }
+                }
+            } else {
+                // If the search is from a virtual view, find the view. Since the tree
+                // is one level deep we add a node info for the child to the result if
+                // the child contains the searched text.
+                Thumb virtualView = mThumbs.get(virtualViewId);
+                if (virtualView != null) {
+                    String textToLowerCase = virtualView.tag.toLowerCase();
+                    if (textToLowerCase.contains(searchedLowerCase)) {
+                        result = new ArrayList<>();
+                        result.add(createAccessibilityNodeInfo(virtualViewId));
+                    }
+                }
+            }
+            if (result == null) {
+                return Collections.emptyList();
+            }
+            return result;
+        }
+
+        @Override
+        public AccessibilityNodeInfo findFocus(int focus) {
+            return super.findFocus(focus);
+        }
+
+        @Override
+        public boolean performAction(int virtualViewId, int action, Bundle arguments) {
+            if (virtualViewId == View.NO_ID) {
+                //do nothing ..  for now
+                return false;
+            } else {
+                if (virtualViewId >= mThumbs.size()) return false;
+                Thumb thumb = mThumbs.get(virtualViewId);
+                if (thumb == null) return false;
+
+                switch (action) {
+                    case AccessibilityNodeInfo.ACTION_SCROLL_FORWARD:
+                        thumb.setValue(thumb.value + getStep());
+                        return true;
+
+                    case AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD:
+                        thumb.setValue(thumb.value - getStep());
+                        return true;
+
+                    case ACT_SET_PROGRESS:
+                        thumb.setValue(arguments.getInt("value"));
+                        return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
