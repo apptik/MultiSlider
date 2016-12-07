@@ -20,3 +20,29 @@ allprojects {
         mavenCentral()
     }
 }
+
+ext {
+    minSdkVersion = 16
+    compileSdkVersion = 25
+    buildToolsVersion = '25.0.1'
+    supportDeps = "25.0.1"
+
+    supportAnnotations = 'com.android.support:support-annotations:' + supportDeps
+    supportV4 = 'com.android.support:support-v4:' + supportDeps
+    supportRecyclerView = 'com.android.support:recyclerview-v7:' + supportDeps
+    supportCardView = 'com.android.support:cardview-v7:' + supportDeps
+    supportAppCompat = 'com.android.support:appcompat-v7:' + supportDeps
+    supportDesign = 'com.android.support:design:' + supportDeps
+
+    supportTestRunner = 'com.android.support.test:runner:0.5'
+    supportTestRules = 'com.android.support.test:rules:0.5'
+    supportTestEspresso = 'com.android.support.test.espresso:espresso-core:2.2.2'
+    supportTestEspressoContrib = 'com.android.support.test.espresso:espresso-contrib:2.2.2'
+    supportTestUiautomator = 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+
+    assertjCore1 = 'org.assertj:assertj-core:1.7.1'
+    assertjCore2 = 'org.assertj:assertj-core:2.5.0'
+    assertjCore3 = 'org.assertj:assertj-core:3.5.2'
+    mockitoCore = 'org.mockito:mockito-core:2.0.99-beta'
+    junit = 'junit:junit:4.12'
+}

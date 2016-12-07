@@ -37,6 +37,7 @@
         <attr name="range2" format="reference"/>
 
         <attr name="android:track"/>
+        <attr name="android:focusable"/>
 
         <attr name="range" format="reference"/>
 

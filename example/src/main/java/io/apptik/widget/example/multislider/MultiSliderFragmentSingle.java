@@ -43,6 +43,7 @@ public class MultiSliderFragmentSingle extends Fragment {
         final TextView min4 = (TextView) v.findViewById(R.id.minValue4);
         final TextView min5 = (TextView) v.findViewById(R.id.minValue5);
         final TextView min6 = (TextView) v.findViewById(R.id.minValue6);
+        final TextView min7 = (TextView) v.findViewById(R.id.minValue7);
 
         MultiSlider multiSlider1 = (MultiSlider) v.findViewById(R.id.multiSlider1);
         MultiSlider multiSlider2 = (MultiSlider) v.findViewById(R.id.multiSlider2);
@@ -51,6 +52,7 @@ public class MultiSliderFragmentSingle extends Fragment {
         multiSlider4.getThumb(1).setInvisibleThumb(true);
         MultiSlider multiSlider5 = (MultiSlider) v.findViewById(R.id.multiSlider5);
         MultiSlider multiSlider6 = (MultiSlider) v.findViewById(R.id.multiSlider6);
+        MultiSlider multiSlider7 = (MultiSlider) v.findViewById(R.id.multiSlider7);
 
         min1.setText(String.valueOf(multiSlider1.getThumb(0).getValue()));
         min2.setText(String.valueOf(multiSlider2.getThumb(0).getValue()));
@@ -58,6 +60,7 @@ public class MultiSliderFragmentSingle extends Fragment {
         min4.setText(String.valueOf(multiSlider4.getThumb(0).getValue()));
         min5.setText(String.valueOf(multiSlider5.getThumb(0).getValue()));
         min6.setText(String.valueOf(multiSlider6.getThumb(0).getValue()));
+        min6.setText(String.valueOf(multiSlider7.getThumb(0).getValue()));
 
         multiSlider1.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
             @Override
@@ -99,6 +102,13 @@ public class MultiSliderFragmentSingle extends Fragment {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 min6.setText(String.valueOf(value));
+            }
+        });
+
+        multiSlider7.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
+            @Override
+            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
+                min7.setText(String.valueOf(value));
             }
         });
 

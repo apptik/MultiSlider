@@ -62,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            app:range1="@drawable/multislider_scrubber_track_holo_light"
+            app:range1="@drawable/multislider_track_mtrl_alpha"
 
             />
 
@@ -151,7 +151,7 @@
             android:layout_height="wrap_content"
 
             app:thumbNumber="2"
-            app:range1="@drawable/multislider_scrubber_track_holo_light"
+            app:range1="@drawable/multislider_track_mtrl_alpha"
             app:drawThumbsApart="true"
             />
 
@@ -197,7 +197,7 @@
             android:layout_height="wrap_content"
 
             app:thumbNumber="2"
-            app:range1="@drawable/multislider_scrubber_track_holo_light"
+            app:range1="@drawable/multislider_track_mtrl_alpha"
             app:stepsThumbsApart="5"
 
             />
@@ -243,7 +243,7 @@
             android:layout_height="wrap_content"
 
             app:thumbNumber="2"
-            app:range1="@drawable/multislider_scrubber_track_holo_light"
+            app:range1="@drawable/multislider_track_mtrl_alpha"
             app:stepsThumbsApart="5"
             app:drawThumbsApart="true"
 

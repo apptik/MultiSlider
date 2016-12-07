@@ -1,0 +1,17 @@
+<resources >
+
+    <style name="sliderHoloStyle" >
+        <item name="android:track">@drawable/multislider_scrubber_track_holo_light</item>
+        <item name="range1">@drawable/multislider_scrubber_primary_holo</item>
+        <item name="range2">@drawable/multislider_scrubber_secondary_holo</item>
+        <item name="android:thumb">@drawable/multislider_scrubber_control_selector_holo_light</item>
+        <item name="thumbColor">?android:attr/colorControlActivated</item>
+        <item name="trackColor">?android:attr/colorControlNormal</item>
+        <item name="rangeColor">?android:attr/colorControlActivated</item>
+        <item name="range1Color">?android:attr/colorControlActivated</item>
+        <item name="range2Color">?android:attr/colorControlActivated</item>
+        <item name="android:background">#0000</item>
+
+    </style>
+
+</resources>

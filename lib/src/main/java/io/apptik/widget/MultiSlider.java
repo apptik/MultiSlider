@@ -41,9 +41,14 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_BACKWARD;
-import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_FORWARD;
-import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction.ACTION_SET_PROGRESS;
+import io.apptik.widget.mslider.R;
+
+import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction
+        .ACTION_SCROLL_BACKWARD;
+import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction
+        .ACTION_SCROLL_FORWARD;
+import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction
+        .ACTION_SET_PROGRESS;
 
 public class MultiSlider extends View {
 
@@ -354,6 +359,9 @@ public class MultiSlider extends View {
 
     public MultiSlider(Context context, AttributeSet attrs, int defStyle, int styleRes) {
         super(context, attrs, defStyle);
+        if ((Build.VERSION.SDK_INT >= 21) && getBackground() == null) {
+            setBackgroundResource(R.drawable.control_background_multi_material);
+        }
 
         mUiThreadId = Thread.currentThread().getId();
 
@@ -366,11 +374,13 @@ public class MultiSlider extends View {
         Drawable trackDrawable = a.getDrawable(io.apptik.widget.mslider.R.styleable
                 .MultiSlider_android_track);
         if (trackDrawable == null) {
-            trackDrawable = ContextCompat.getDrawable(getContext(), io.apptik.widget.mslider.R.drawable
-                    .multislider_scrubber_track_holo_light);
+            trackDrawable = ContextCompat.getDrawable(getContext(),
+                    R.drawable.multislider_track_material
+            );
         }
 
-        setTrackDrawable(getTintedDrawable(trackDrawable, a.getColor(io.apptik.widget.mslider.R.styleable
+        setTrackDrawable(getTintedDrawable(trackDrawable, a.getColor(io.apptik.widget.mslider.R
+                .styleable
                 .MultiSlider_trackColor, 0)));
 
         //TODO
@@ -381,12 +391,16 @@ public class MultiSlider extends View {
 
 
         setStep(a.getInt(io.apptik.widget.mslider.R.styleable.MultiSlider_scaleStep, mStep));
-        setStepsThumbsApart(a.getInt(io.apptik.widget.mslider.R.styleable.MultiSlider_stepsThumbsApart,
+        setStepsThumbsApart(a.getInt(io.apptik.widget.mslider.R.styleable
+                        .MultiSlider_stepsThumbsApart,
                 mStepsThumbsApart));
-        setDrawThumbsApart(a.getBoolean(io.apptik.widget.mslider.R.styleable.MultiSlider_drawThumbsApart,
+        setDrawThumbsApart(a.getBoolean(io.apptik.widget.mslider.R.styleable
+                        .MultiSlider_drawThumbsApart,
                 mDrawThumbsApart));
-        setMax(a.getInt(io.apptik.widget.mslider.R.styleable.MultiSlider_scaleMax, mScaleMax), true);
-        setMin(a.getInt(io.apptik.widget.mslider.R.styleable.MultiSlider_scaleMin, mScaleMin), true);
+        setMax(a.getInt(io.apptik.widget.mslider.R.styleable.MultiSlider_scaleMax, mScaleMax),
+                true);
+        setMin(a.getInt(io.apptik.widget.mslider.R.styleable.MultiSlider_scaleMin, mScaleMin),
+                true);
 
 
         mMirrorForRtl = a.getBoolean(io.apptik.widget.mslider.R.styleable.MultiSlider_mirrorForRTL,
@@ -398,14 +412,20 @@ public class MultiSlider extends View {
                 .MultiSlider_android_thumb);
 
         if (thumbDrawable == null) {
-            thumbDrawable = ContextCompat.getDrawable(getContext(), io.apptik.widget.mslider.R.drawable
-                    .multislider_scrubber_control_selector_holo_light);
+            if (Build.VERSION.SDK_INT >= 21) {
+                thumbDrawable = ContextCompat.getDrawable(getContext(), R.drawable
+                        .multislider_thumb_material_anim);
+            } else {
+                thumbDrawable = ContextCompat.getDrawable(getContext(), R.drawable
+                        .multislider_thumb_material);
+            }
         }
 
         Drawable range = a.getDrawable(io.apptik.widget.mslider.R.styleable.MultiSlider_range);
         if (range == null) {
-            range = ContextCompat.getDrawable(getContext(), io.apptik.widget.mslider.R.drawable
-                    .multislider_scrubber_primary_holo);
+            range = ContextCompat.getDrawable(getContext(),
+                    R.drawable.multislider_range_material
+            );
         }
 
         Drawable range1 = a.getDrawable(io.apptik.widget.mslider.R.styleable.MultiSlider_range1);
@@ -691,11 +711,11 @@ public class MultiSlider extends View {
             }
 
             if (curr == 1 && range1 != null) {
-                rangeDrawable = getTintedDrawable(range1, a.getColor(io.apptik.widget.mslider.R.styleable
-                        .MultiSlider_range1Color, 0));
+                rangeDrawable = getTintedDrawable(range1, a.getColor(io.apptik.widget.mslider.R
+                        .styleable.MultiSlider_range1Color, 0));
             } else if (curr == 2 && range2 != null) {
-                rangeDrawable = getTintedDrawable(range2, a.getColor(io.apptik.widget.mslider.R.styleable
-                        .MultiSlider_range2Color, 0));
+                rangeDrawable = getTintedDrawable(range2, a.getColor(io.apptik.widget.mslider.R
+                        .styleable.MultiSlider_range2Color, 0));
             } else {
                 rangeDrawable = getTintedDrawable(range.getConstantState().newDrawable(), a
                         .getColor(io.apptik.widget.mslider.R.styleable.MultiSlider_rangeColor, 0));
@@ -703,8 +723,11 @@ public class MultiSlider extends View {
 
             mThumb.setRange(rangeDrawable);
 
-            Drawable newDrawable = getTintedDrawable(thumb.getConstantState().newDrawable(), a
-                    .getColor(io.apptik.widget.mslider.R.styleable.MultiSlider_thumbColor, 0));
+            int tColor;
+            tColor = a.getColor(io.apptik.widget.mslider.R.styleable.MultiSlider_thumbColor, 0);
+
+            Drawable newDrawable = getTintedDrawable(thumb.getConstantState().newDrawable(),
+                    tColor);
             newDrawable.setCallback(this);
 
             // Assuming the thumb drawable is symmetric, set the thumb offset
@@ -1002,6 +1025,7 @@ public class MultiSlider extends View {
         final int available = getAvailable();
         int thumbWidth = thumb.getIntrinsicWidth();
         int thumbHeight = thumb.getIntrinsicHeight();
+        int prevLeft = thumb.getBounds().left;
 
         //todo change available before also
 
@@ -1225,6 +1249,8 @@ public class MultiSlider extends View {
         if (!mIsUserSeekable || !isEnabled()) {
             return false;
         }
+        final int xx = Math.round(event.getX());
+        final int yy = Math.round(event.getY());
 
         int pointerIdx = event.getActionIndex();
 
@@ -1284,6 +1310,7 @@ public class MultiSlider extends View {
                 } else {
                     onStartTrackingTouch(currThumb);
                     setThumbValue(currThumb, getValue(event, currThumb), true);
+                    setHotspot(xx, yy, currThumb);
                 }
                 break;
             //with move we dont have pointer action so set them all
@@ -1297,13 +1324,17 @@ public class MultiSlider extends View {
                         }
                         setThumbValue(mDraggingThumbs.get(i), getValue(event, i, mDraggingThumbs
                                 .get(i)), true);
+
+
                     }
+                    setHotspot(xx, yy, currThumb);
                 } else {
                     final float x = event.getX(pointerIdx);
                     if (Math.abs(x - mTouchDownX) > mScaledTouchSlop) {
                         onStartTrackingTouch(currThumb);
                         exactTouched = null;
                         setThumbValue(currThumb, getValue(event, currThumb), true);
+                        setHotspot(xx, yy, currThumb);
                     }
                 }
 
@@ -1314,8 +1345,17 @@ public class MultiSlider extends View {
                 //there are other pointers left
             case MotionEvent.ACTION_POINTER_UP:
                 if (currThumb != null) {
+                    boolean toUnPress = false;
+                    if (!isPressed()) {
+                        setPressed(true);
+                        toUnPress = true;
+                    }
                     setThumbValue(currThumb, getValue(event, currThumb), true);
+                    setHotspot(xx, yy, currThumb);
                     onStopTrackingTouch(currThumb);
+                    if (toUnPress) {
+                        setPressed(false);
+                    }
                 } else {
 //                    currThumb = getClosestThumb(newValue);
 //                    // Touch up when we never crossed the touch slop threshold should
@@ -1344,6 +1384,17 @@ public class MultiSlider extends View {
         return getValue(event, event.getActionIndex(), thumb);
     }
 
+    private void setHotspot(float x, float y, Thumb thumb) {
+        if (thumb == null || thumb.getThumb() == null) return;
+        final Drawable background = getBackground();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && background != null) {
+            background.setHotspot(x, y);
+            Rect rect = thumb.getThumb().getBounds();
+            final int offsetY = getPaddingTop();
+            background.setHotspotBounds(rect.left, rect.top + offsetY,
+                    rect.right, rect.bottom + offsetY);
+        }
+    }
 
     int getThumbOptOffset(Thumb thumb) {
         if (!mDrawThumbsApart) return 0;
@@ -1434,7 +1485,6 @@ public class MultiSlider extends View {
             }
             drawableStateChanged();
         }
-
     }
 
     void onStopTrackingTouch() {
