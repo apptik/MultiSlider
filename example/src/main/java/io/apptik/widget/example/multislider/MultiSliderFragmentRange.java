@@ -48,6 +48,8 @@ public class MultiSliderFragmentRange extends Fragment {
         final TextView max5 = (TextView) v.findViewById(R.id.maxValue5);
         final TextView min6 = (TextView) v.findViewById(R.id.minValue6);
         final TextView max6 = (TextView) v.findViewById(R.id.maxValue6);
+        final TextView min7 = (TextView) v.findViewById(R.id.minValue7);
+        final TextView max7 = (TextView) v.findViewById(R.id.maxValue7);
 
 
         MultiSlider multiSlider1 = (MultiSlider)v.findViewById(R.id.range_slider1);
@@ -56,6 +58,7 @@ public class MultiSliderFragmentRange extends Fragment {
         MultiSlider multiSlider4 = (MultiSlider)v.findViewById(R.id.range_slider4);
         MultiSlider multiSlider5 = (MultiSlider)v.findViewById(R.id.range_slider5);
         MultiSlider multiSlider6 = (MultiSlider)v.findViewById(R.id.range_slider6);
+        MultiSlider multiSlider7 = (MultiSlider)v.findViewById(R.id.range_slider7);
 
 
         min1.setText(String.valueOf(multiSlider1.getThumb(0).getValue()));
@@ -72,6 +75,12 @@ public class MultiSliderFragmentRange extends Fragment {
 
         min5.setText(String.valueOf(multiSlider5.getThumb(0).getValue()));
         max5.setText(String.valueOf(multiSlider5.getThumb(1).getValue()));
+
+        min6.setText(String.valueOf(multiSlider6.getThumb(0).getValue()));
+        max6.setText(String.valueOf(multiSlider6.getThumb(1).getValue()));
+
+        min7.setText(String.valueOf(multiSlider7.getThumb(0).getValue()));
+        max7.setText(String.valueOf(multiSlider7.getThumb(1).getValue()));
 
 
         multiSlider1.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
@@ -129,8 +138,6 @@ public class MultiSliderFragmentRange extends Fragment {
             }
         });
 
-        min6.setText(String.valueOf(multiSlider6.getThumb(0).getValue()));
-        max6.setText(String.valueOf(multiSlider6.getThumb(1).getValue()));
 
         multiSlider6.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
             @Override
@@ -142,6 +149,19 @@ public class MultiSliderFragmentRange extends Fragment {
                 }
             }
         });
+
+        multiSlider7.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
+            @Override
+            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
+                if (thumbIndex == 0) {
+                    min7.setText(String.valueOf(value));
+                } else {
+                    max7.setText(String.valueOf(value));
+                }
+            }
+        });
+
+        multiSlider7.getThumb(1).setValue(50).setEnabled(false);
 
         return v;
     }

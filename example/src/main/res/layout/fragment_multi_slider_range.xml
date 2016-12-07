@@ -299,5 +299,46 @@
             app:trackColor="@android:color/holo_orange_dark" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Right thumb disabled: "/>
+            <TextView
+                android:id="@+id/minValue7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="min"
+                android:paddingLeft="10dp"
+            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" - "/>
+            <TextView
+                android:id="@+id/maxValue7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="max" />
+        </LinearLayout>
+
+        <io.apptik.widget.MultiSlider
+            android:id="@+id/range_slider7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+        />
+
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -165,8 +165,11 @@ public class MultiSlider extends View {
         Drawable range;
         int thumbOffset;
 
-        //cannot be moved if invisible
-        private boolean invisibleThumb = false;
+        //cannot be moved if invisible and it is not displayed
+        private boolean isInvisible = false;
+
+        //cannot be moved if not enabled
+        private boolean isEnabled = true;
 
         /**
          * @return the range drawable
@@ -186,18 +189,27 @@ public class MultiSlider extends View {
             return this;
         }
 
-        public Thumb() {
+        public boolean isEnabled() {
+            return !isInvisibleThumb() && isEnabled;
         }
 
-        public boolean isEnabled() {
-            return !isInvisibleThumb();
+        public Thumb setEnabled(boolean enabled) {
+            isEnabled = enabled;
+            if(getThumb()!=null) {
+                if(isEnabled()) {
+                    getThumb().setState(new int[]{android.R.attr.state_enabled});
+                } else {
+                    getThumb().setState(new int[]{-android.R.attr.state_enabled});
+                }
+            }
+            return this;
         }
 
         /**
          * @return true is the thumb is invisible, false otherwise
          */
         public boolean isInvisibleThumb() {
-            return invisibleThumb;
+            return isInvisible;
         }
 
         /**
@@ -206,7 +218,7 @@ public class MultiSlider extends View {
          * @param invisibleThumb
          */
         public void setInvisibleThumb(boolean invisibleThumb) {
-            this.invisibleThumb = invisibleThumb;
+            this.isInvisible = invisibleThumb;
         }
 
         /**
@@ -943,14 +955,21 @@ public class MultiSlider extends View {
             for (Thumb thumb : mThumbs) {
                 if (!mDraggingThumbs.contains(thumb) && thumb.getThumb() != null && thumb
                         .getThumb().isStateful()) {
-                    thumb.getThumb().setState(new int[]{android.R.attr.state_enabled});
+                    if(thumb.isEnabled()) {
+                        thumb.getThumb().setState(new int[]{android.R.attr.state_enabled});
+                    } else {
+                        thumb.getThumb().setState(new int[]{-android.R.attr.state_enabled});
+                    }
                 }
             }
         } else {
-            int[] state = getDrawableState();
             for (Thumb thumb : mThumbs) {
                 if (thumb.getThumb() != null && thumb.getThumb().isStateful()) {
-                    thumb.getThumb().setState(state);
+                    if(thumb.isEnabled()) {
+                        thumb.getThumb().setState(new int[]{android.R.attr.state_enabled});
+                    } else {
+                        thumb.getThumb().setState(new int[]{-android.R.attr.state_enabled});
+                    }
                 }
             }
         }
@@ -1179,7 +1198,7 @@ public class MultiSlider extends View {
         int currDistance = getAvailable() + 1;
 
         for (Thumb thumb : mThumbs) {
-            if (thumb.getThumb() == null || thumb.isInvisibleThumb()
+            if (thumb.getThumb() == null || !thumb.isEnabled()
                     || mDraggingThumbs.contains(thumb)) continue;
 
             int minV = x - thumb.getThumb().getIntrinsicWidth();
@@ -1220,7 +1239,7 @@ public class MultiSlider extends View {
             if (thumbs.getFirst().getValue() == getValue(event, thumbs.getFirst())) return null;
 
             for (Thumb thumb : thumbs) {
-                if (thumb.getThumb() == null || thumb.isInvisibleThumb()
+                if (thumb.getThumb() == null || !thumb.isEnabled()
                         || mDraggingThumbs.contains(thumb)) continue;
                 int optValue = (getValue(event, thumbs.getFirst()) > thumb.getValue()) ?
                         mScaleMax : mScaleMin;
