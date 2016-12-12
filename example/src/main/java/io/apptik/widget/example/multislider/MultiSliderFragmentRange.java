@@ -34,7 +34,8 @@ public class MultiSliderFragmentRange extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_multi_slider_range, container, false);
         final TextView min1 = (TextView) v.findViewById(R.id.minValue1);
         final TextView max1 = (TextView) v.findViewById(R.id.maxValue1);
@@ -52,13 +53,13 @@ public class MultiSliderFragmentRange extends Fragment {
         final TextView max7 = (TextView) v.findViewById(R.id.maxValue7);
 
 
-        MultiSlider multiSlider1 = (MultiSlider)v.findViewById(R.id.range_slider1);
-        MultiSlider multiSlider2 = (MultiSlider)v.findViewById(R.id.range_slider2);
-        MultiSlider multiSlider3 = (MultiSlider)v.findViewById(R.id.range_slider3);
-        MultiSlider multiSlider4 = (MultiSlider)v.findViewById(R.id.range_slider4);
-        MultiSlider multiSlider5 = (MultiSlider)v.findViewById(R.id.range_slider5);
-        MultiSlider multiSlider6 = (MultiSlider)v.findViewById(R.id.range_slider6);
-        MultiSlider multiSlider7 = (MultiSlider)v.findViewById(R.id.range_slider7);
+        MultiSlider multiSlider1 = (MultiSlider) v.findViewById(R.id.range_slider1);
+        MultiSlider multiSlider2 = (MultiSlider) v.findViewById(R.id.range_slider2);
+        MultiSlider multiSlider3 = (MultiSlider) v.findViewById(R.id.range_slider3);
+        MultiSlider multiSlider4 = (MultiSlider) v.findViewById(R.id.range_slider4);
+        MultiSlider multiSlider5 = (MultiSlider) v.findViewById(R.id.range_slider5);
+        MultiSlider multiSlider6 = (MultiSlider) v.findViewById(R.id.range_slider6);
+        MultiSlider multiSlider7 = (MultiSlider) v.findViewById(R.id.range_slider7);
 
 
         min1.setText(String.valueOf(multiSlider1.getThumb(0).getValue()));
@@ -85,7 +86,8 @@ public class MultiSliderFragmentRange extends Fragment {
 
         multiSlider1.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
             @Override
-            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
+            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int
+                    thumbIndex, int value) {
                 if (thumbIndex == 0) {
                     min1.setText(String.valueOf(value));
                 } else {
@@ -96,7 +98,8 @@ public class MultiSliderFragmentRange extends Fragment {
 
         multiSlider2.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
             @Override
-            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
+            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int
+                    thumbIndex, int value) {
                 if (thumbIndex == 0) {
                     min2.setText(String.valueOf(value));
                 } else {
@@ -107,7 +110,8 @@ public class MultiSliderFragmentRange extends Fragment {
 
         multiSlider3.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
             @Override
-            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
+            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int
+                    thumbIndex, int value) {
                 if (thumbIndex == 0) {
                     min3.setText(String.valueOf(value));
                 } else {
@@ -118,7 +122,8 @@ public class MultiSliderFragmentRange extends Fragment {
 
         multiSlider4.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
             @Override
-            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
+            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int
+                    thumbIndex, int value) {
                 if (thumbIndex == 0) {
                     min4.setText(String.valueOf(value));
                 } else {
@@ -129,7 +134,8 @@ public class MultiSliderFragmentRange extends Fragment {
 
         multiSlider5.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
             @Override
-            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
+            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int
+                    thumbIndex, int value) {
                 if (thumbIndex == 0) {
                     min5.setText(String.valueOf(value));
                 } else {
@@ -141,7 +147,8 @@ public class MultiSliderFragmentRange extends Fragment {
 
         multiSlider6.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
             @Override
-            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
+            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int
+                    thumbIndex, int value) {
                 if (thumbIndex == 0) {
                     min6.setText(String.valueOf(value));
                 } else {
@@ -152,7 +159,8 @@ public class MultiSliderFragmentRange extends Fragment {
 
         multiSlider7.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
             @Override
-            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
+            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int
+                    thumbIndex, int value) {
                 if (thumbIndex == 0) {
                     min7.setText(String.valueOf(value));
                 } else {
@@ -162,6 +170,16 @@ public class MultiSliderFragmentRange extends Fragment {
         });
 
         multiSlider7.getThumb(1).setValue(50).setEnabled(false);
+
+        //Example for add/remove thumbs
+        MultiSlider.Thumb nThumb1 = multiSlider7.new Thumb();
+        MultiSlider.Thumb nThumb2 = multiSlider7.new Thumb();
+        multiSlider7.addThumb(nThumb1);
+        multiSlider7.addThumb(nThumb2);
+        nThumb2.setValue(85);
+        nThumb1.setValue(75);
+        multiSlider7.removeThumb(nThumb1);
+        nThumb2.setValue(70);
 
         return v;
     }
