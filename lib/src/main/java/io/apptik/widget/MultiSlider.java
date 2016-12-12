@@ -49,6 +49,7 @@ import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityActi
         .ACTION_SCROLL_FORWARD;
 import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction
         .ACTION_SET_PROGRESS;
+import static io.apptik.widget.Util.requireNonNull;
 
 public class MultiSlider extends View {
 
@@ -140,6 +141,12 @@ public class MultiSlider extends View {
     //thumbs that are currently being touched
     LinkedList<Thumb> exactTouched = null;
 
+
+    private Drawable defThumbDrawable;
+    private int defThumbColor = 0;
+    private Drawable defRangeDrawable;
+    private int defRangeColor = 0;
+
     private final TypedArray a;
 
     /**
@@ -151,9 +158,9 @@ public class MultiSlider extends View {
      */
     public class Thumb {
         //abs min value for this thumb
-        int min;
+        int min = Integer.MIN_VALUE;
         //abs max value for this thumb
-        int max;
+        int max = Integer.MAX_VALUE;
         //current value of this thumb
         int value;
         //thumb tag. can be used for identifying the thumb
@@ -195,8 +202,8 @@ public class MultiSlider extends View {
 
         public Thumb setEnabled(boolean enabled) {
             isEnabled = enabled;
-            if(getThumb()!=null) {
-                if(isEnabled()) {
+            if (getThumb() != null) {
+                if (isEnabled()) {
                     getThumb().setState(new int[]{android.R.attr.state_enabled});
                 } else {
                     getThumb().setState(new int[]{-android.R.attr.state_enabled});
@@ -420,38 +427,46 @@ public class MultiSlider extends View {
 
         // --> now place thumbs
 
-        Drawable thumbDrawable = a.getDrawable(io.apptik.widget.mslider.R.styleable
+        defThumbDrawable = a.getDrawable(io.apptik.widget.mslider.R.styleable
                 .MultiSlider_android_thumb);
 
-        if (thumbDrawable == null) {
+        if (defThumbDrawable == null) {
             if (Build.VERSION.SDK_INT >= 21) {
-                thumbDrawable = ContextCompat.getDrawable(getContext(), R.drawable
+                defThumbDrawable = ContextCompat.getDrawable(getContext(), R.drawable
                         .multislider_thumb_material_anim);
             } else {
-                thumbDrawable = ContextCompat.getDrawable(getContext(), R.drawable
+                defThumbDrawable = ContextCompat.getDrawable(getContext(), R.drawable
                         .multislider_thumb_material);
             }
         }
 
-        Drawable range = a.getDrawable(io.apptik.widget.mslider.R.styleable.MultiSlider_range);
-        if (range == null) {
-            range = ContextCompat.getDrawable(getContext(),
+        defRangeDrawable = a.getDrawable(io.apptik.widget.mslider.R.styleable
+                .MultiSlider_range);
+        if (defRangeDrawable == null) {
+            defRangeDrawable = ContextCompat.getDrawable(getContext(),
                     R.drawable.multislider_range_material
             );
         }
 
-        Drawable range1 = a.getDrawable(io.apptik.widget.mslider.R.styleable.MultiSlider_range1);
-        Drawable range2 = a.getDrawable(io.apptik.widget.mslider.R.styleable.MultiSlider_range2);
+        Drawable range1Drawable = a.getDrawable(io.apptik.widget.mslider.R.styleable
+                .MultiSlider_range1);
+        Drawable range2Drawable = a.getDrawable(io.apptik.widget.mslider.R.styleable
+                .MultiSlider_range2);
 
-        setThumbDrawables(thumbDrawable, range, range1, range2); // will guess thumbOffset if
+
+        defRangeColor = a.getColor(io.apptik.widget.mslider.R.styleable.MultiSlider_rangeColor, 0);
+        defThumbColor = a.getColor(io.apptik.widget.mslider.R.styleable.MultiSlider_thumbColor, 0);
+        setThumbDrawables(defThumbDrawable, defRangeDrawable, range1Drawable, range2Drawable); //
+        // will
+        // guess thumbOffset if
         // thumb != null...
         // ...but allow layout to override this
 
         int thumbOffset = a.getDimensionPixelOffset(io.apptik.widget.mslider.R.styleable
-                .MultiSlider_android_thumbOffset, thumbDrawable.getIntrinsicWidth() / 2);
+                .MultiSlider_android_thumbOffset, defThumbDrawable.getIntrinsicWidth() / 2);
         setThumbOffset(thumbOffset);
 
-        positionThumbs();
+        repositionThumbs();
 
         mScaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         mNoInvalidate = false;
@@ -494,7 +509,7 @@ public class MultiSlider extends View {
         return mScaleMax - mScaleMin;
     }
 
-    private void positionThumbs() {
+    public void repositionThumbs() {
         if (mThumbs == null || mThumbs.isEmpty()) return;
 
         if (mThumbs.size() > 0) {
@@ -559,10 +574,80 @@ public class MultiSlider extends View {
         mMaxHeight = 48;
         mThumbs = new LinkedList<Thumb>();
 
-        // AccessibilityNodeInfo info = AccessibilityNodeInfo.obtain(MultiSlider.this);
         for (int i = 0; i < numThumbs; i++) {
             mThumbs.add(new Thumb().setMin(mScaleMin).setMax(mScaleMax).setTag("thumb " + i));
         }
+    }
+
+    /**
+     * Add a thumb to the Slider
+     *
+     * @param thumb Thumb instance in the context of the Slider
+     * @return true if the thumb was added and Slider modified
+     */
+    public boolean addThumb(Thumb thumb) {
+        if (mThumbs.contains(thumb)) {
+            return false;
+        }
+        if (thumb.getMin() == Integer.MIN_VALUE) {
+            thumb.min = MultiSlider.this.getMin();
+        }
+        if (thumb.getMax() == Integer.MAX_VALUE) {
+            thumb.max = MultiSlider.this.getMax();
+
+        }
+        if (thumb.getThumb() == null) {
+            setThumbDrawable(thumb, defThumbDrawable, defThumbColor);
+        }
+        int paddingLeft = Math.max(getPaddingLeft(), thumb.getThumbOffset());
+        int paddingRight = Math.max(getPaddingRight(), thumb.getThumbOffset());
+        setPadding(paddingLeft, getPaddingTop(), paddingRight, getPaddingBottom());
+
+        if (thumb.getRange() == null) {
+            setRangeDrawable(thumb, defRangeDrawable, defRangeColor);
+        }
+        boolean res = mThumbs.add(thumb);
+        if (res) {
+            updateThumb(thumb, getWidth(), getHeight());
+            requestLayout();
+        }
+        return res;
+    }
+
+    /**
+     * Remove a thumb from the Slider
+     *
+     * @param thumb humb instance in the context of the Slider
+     * @return true if the thumb was found and removed
+     */
+    public boolean removeThumb(Thumb thumb) {
+        mDraggingThumbs.remove(thumb);
+        boolean res = mThumbs.remove(thumb);
+        invalidate();
+        return res;
+    }
+
+    /**
+     * Remove a thumb from the Slider identified by its position
+     *
+     * @param thumbIndex the thumb position starting from 0
+     * @return true if the thumb was found and removed
+     */
+    public Thumb removeThumb(int thumbIndex) {
+        mDraggingThumbs.remove(mThumbs.get(thumbIndex));
+        invalidate();
+        Thumb res = mThumbs.remove(thumbIndex);
+        invalidate();
+        return res;
+    }
+
+    /**
+     * Removes all the thumbs in the Slider
+     */
+    public void clearThumbs() {
+        mThumbs.clear();
+        mDraggingThumbs.clear();
+        invalidate();
     }
 
     /**
@@ -702,10 +787,9 @@ public class MultiSlider extends View {
      *
      * @param thumb Drawable representing the thumb
      */
-    private void setThumbDrawables(Drawable thumb, Drawable range, Drawable range1, Drawable
-            range2) {
+    private void setThumbDrawables(Drawable thumb, Drawable range,
+                                   Drawable range1, Drawable range2) {
         if (thumb == null) return;
-        boolean needUpdate;
         Drawable rangeDrawable;
 
         // This way, calling setThumbDrawables again with the same bitmap will result in
@@ -713,63 +797,62 @@ public class MultiSlider extends View {
         // drawable changed)
         int curr = 0;
         int padding = 0;
+        int rCol;
         for (Thumb mThumb : mThumbs) {
             curr++;
             if (mThumb.getThumb() != null && thumb != mThumb.getThumb()) {
                 mThumb.getThumb().setCallback(null);
-                needUpdate = true;
-            } else {
-                needUpdate = false;
             }
-
             if (curr == 1 && range1 != null) {
-                rangeDrawable = getTintedDrawable(range1, a.getColor(io.apptik.widget.mslider.R
-                        .styleable.MultiSlider_range1Color, 0));
+                rangeDrawable = range1;
+                rCol = a.getColor(io.apptik.widget.mslider.R.styleable.MultiSlider_range1Color, 0);
             } else if (curr == 2 && range2 != null) {
-                rangeDrawable = getTintedDrawable(range2, a.getColor(io.apptik.widget.mslider.R
-                        .styleable.MultiSlider_range2Color, 0));
+                rangeDrawable = range2;
+                rCol = a.getColor(io.apptik.widget.mslider.R.styleable.MultiSlider_range2Color, 0);
             } else {
-                rangeDrawable = getTintedDrawable(range.getConstantState().newDrawable(), a
-                        .getColor(io.apptik.widget.mslider.R.styleable.MultiSlider_rangeColor, 0));
+                rangeDrawable = range;
+                rCol = defRangeColor;
             }
 
-            mThumb.setRange(rangeDrawable);
-
-            int tColor;
-            tColor = a.getColor(io.apptik.widget.mslider.R.styleable.MultiSlider_thumbColor, 0);
-
-            Drawable newDrawable = getTintedDrawable(thumb.getConstantState().newDrawable(),
-                    tColor);
-            newDrawable.setCallback(this);
-
-            // Assuming the thumb drawable is symmetric, set the thumb offset
-            // such that the thumb will hang halfway off either edge of the
-            // progress bar.
-            mThumb.setThumbOffset(thumb.getIntrinsicWidth() / 2);
-
+            setRangeDrawable(mThumb, rangeDrawable, rCol);
+            setThumbDrawable(mThumb, thumb, defThumbColor);
             padding = Math.max(padding, mThumb.getThumbOffset());
-            // If we're updating get the new states
-            if (needUpdate &&
-                    (newDrawable.getIntrinsicWidth() != mThumb.getThumb().getIntrinsicWidth()
-                            || newDrawable.getIntrinsicHeight() != mThumb.getThumb()
-                            .getIntrinsicHeight())) {
-                requestLayout();
-            }
-            mThumb.setThumb(newDrawable);
-
-            if (needUpdate) {
-                invalidate();
-                if (thumb != null && thumb.isStateful()) {
-                    // Note that if the states are different this won't work.
-                    // For now, let's consider that an app bug.
-                    int[] state = getDrawableState();
-                    thumb.setState(state);
-                }
-
-            }
         }
         setPadding(padding, getPaddingTop(), padding, getPaddingBottom());
+    }
 
+    private void setThumbDrawable(Thumb thumb, Drawable thumbDrawable, int thumbColor) {
+        requireNonNull(thumbDrawable);
+        Drawable nThumbDrawable = getTintedDrawable(thumbDrawable.getConstantState().newDrawable(),
+                thumbColor);
+        nThumbDrawable.setCallback(this);
+
+        // Assuming the thumb drawable is symmetric, set the thumb offset
+        // such that the thumb will hang halfway off either edge of the
+        // progress bar.
+        thumb.setThumbOffset(thumbDrawable.getIntrinsicWidth() / 2);
+
+        // If we're updating get the new states
+        if (thumb.getThumb() != null && (nThumbDrawable.getIntrinsicWidth() != thumb.getThumb()
+                .getIntrinsicWidth()
+                || nThumbDrawable.getIntrinsicHeight() != thumb.getThumb().getIntrinsicHeight())) {
+            requestLayout();
+        }
+        thumb.setThumb(nThumbDrawable);
+
+        invalidate();
+        if (nThumbDrawable != null && nThumbDrawable.isStateful()) {
+            // Note that if the states are different this won't work.
+            // For now, let's consider that an app bug.
+            int[] state = getDrawableState();
+            nThumbDrawable.setState(state);
+        }
+    }
+
+    private void setRangeDrawable(Thumb thumb, Drawable rangeDrawable, int rangeColor) {
+        requireNonNull(rangeDrawable);
+        Drawable nRangeDrawable = getTintedDrawable(rangeDrawable, rangeColor);
+        thumb.setRange(nRangeDrawable);
     }
 
     /**
@@ -854,7 +937,7 @@ public class MultiSlider extends View {
 
             }
             if (repositionThumbs)
-                positionThumbs();
+                repositionThumbs();
 
             postInvalidate();
         }
@@ -864,6 +947,10 @@ public class MultiSlider extends View {
             // to something more reasonable
             setKeyProgressIncrement(Math.max(1, Math.round((float) mScaleMax / 20)));
         }
+    }
+
+    public int getMax() {
+        return mScaleMax;
     }
 
     /**
@@ -915,7 +1002,7 @@ public class MultiSlider extends View {
 
             }
             if (repositionThumbs)
-                positionThumbs();
+                repositionThumbs();
 
             postInvalidate();
         }
@@ -925,6 +1012,11 @@ public class MultiSlider extends View {
             // to something more reasonable
             setKeyProgressIncrement(Math.max(1, Math.round((float) mScaleMax / 20)));
         }
+    }
+
+
+    public int getMin() {
+        return mScaleMin;
     }
 
     @Override
@@ -955,7 +1047,7 @@ public class MultiSlider extends View {
             for (Thumb thumb : mThumbs) {
                 if (!mDraggingThumbs.contains(thumb) && thumb.getThumb() != null && thumb
                         .getThumb().isStateful()) {
-                    if(thumb.isEnabled()) {
+                    if (thumb.isEnabled()) {
                         thumb.getThumb().setState(new int[]{android.R.attr.state_enabled});
                     } else {
                         thumb.getThumb().setState(new int[]{-android.R.attr.state_enabled});
@@ -965,7 +1057,7 @@ public class MultiSlider extends View {
         } else {
             for (Thumb thumb : mThumbs) {
                 if (thumb.getThumb() != null && thumb.getThumb().isStateful()) {
-                    if(thumb.isEnabled()) {
+                    if (thumb.isEnabled()) {
                         thumb.getThumb().setState(new int[]{android.R.attr.state_enabled});
                     } else {
                         thumb.getThumb().setState(new int[]{-android.R.attr.state_enabled});
