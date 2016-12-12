@@ -43,12 +43,8 @@ import java.util.List;
 
 import io.apptik.widget.mslider.R;
 
-import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction
-        .ACTION_SCROLL_BACKWARD;
-import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction
-        .ACTION_SCROLL_FORWARD;
-import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction
-        .ACTION_SET_PROGRESS;
+import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_BACKWARD;
+import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_FORWARD;
 import static io.apptik.widget.Util.requireNonNull;
 
 public class MultiSlider extends View {
@@ -1738,6 +1734,16 @@ public class MultiSlider extends View {
 
     class VirtualTreeProvider extends AccessibilityNodeProvider {
         static final int ACT_SET_PROGRESS = 16908349;
+        final AccessibilityNodeInfo.AccessibilityAction ACTION_SET_PROGRESS;
+
+        public VirtualTreeProvider() {
+            if (Build.VERSION.SDK_INT >= 21) {
+                ACTION_SET_PROGRESS =
+                        new AccessibilityNodeInfo.AccessibilityAction(ACT_SET_PROGRESS, null);
+            } else {
+                ACTION_SET_PROGRESS = null;
+            }
+        }
 
         @Override
         public AccessibilityNodeInfo createAccessibilityNodeInfo(int thumbId) {
@@ -1757,15 +1763,12 @@ public class MultiSlider extends View {
                 if (mThumbs.size() == 1) {
                     info.setScrollable(true);
                     if (Build.VERSION.SDK_INT >= 21) {
+                        info.addAction(ACTION_SET_PROGRESS);
                         info.addAction(ACTION_SCROLL_BACKWARD);
                         info.addAction(ACTION_SCROLL_FORWARD);
                     } else {
                         info.addAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD);
                         info.addAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
-                    }
-
-                    if (Build.VERSION.SDK_INT >= 24) {
-                        info.addAction(ACTION_SET_PROGRESS);
                     }
 
                 }
@@ -1785,12 +1788,14 @@ public class MultiSlider extends View {
                 info.setContentDescription("Multi-Slider thumb no:" + thumbId);
 
                 if (Build.VERSION.SDK_INT >= 21) {
+                    info.addAction(ACTION_SET_PROGRESS);
                     if (thumb.getPossibleMax() > thumb.value) {
                         info.addAction(ACTION_SCROLL_BACKWARD);
                     }
                     if (thumb.getPossibleMax() > thumb.value) {
                         info.addAction(ACTION_SCROLL_FORWARD);
                     }
+
                 } else {
                     if (thumb.getPossibleMin() > thumb.value) {
                         info.addAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD);
@@ -1798,12 +1803,6 @@ public class MultiSlider extends View {
                     if (thumb.getPossibleMax() > thumb.value) {
                         info.addAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
                     }
-                }
-
-                if (Build.VERSION.SDK_INT >= 24) {
-                    info.addAction(ACTION_SET_PROGRESS);
-                } else {
-                    info.addAction(ACT_SET_PROGRESS);
                 }
 
 
