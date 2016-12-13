@@ -244,7 +244,8 @@
                 app:rangeColor="@android:color/holo_green_light"
                 app:thumbColor="@android:color/holo_blue_bright"
                 app:thumbNumber="1"
-                app:trackColor="@android:color/holo_purple"/>
+                app:trackColor="@android:color/holo_purple"
+            />
 
         </LinearLayout>
 

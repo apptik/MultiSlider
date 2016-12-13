@@ -43,8 +43,10 @@ import java.util.List;
 
 import io.apptik.widget.mslider.R;
 
-import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_BACKWARD;
-import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_FORWARD;
+import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction
+        .ACTION_SCROLL_BACKWARD;
+import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction
+        .ACTION_SCROLL_FORWARD;
 import static io.apptik.widget.Util.requireNonNull;
 
 public class MultiSlider extends View {
@@ -110,7 +112,7 @@ public class MultiSlider extends View {
     private boolean mAttached;
     private boolean mRefreshIsPosted;
 
-    boolean mMirrorForRtl = false;
+    boolean mMirrorForRtl = true;
 
     //list of all the loaded thumbs
     private LinkedList<Thumb> mThumbs;
@@ -1132,7 +1134,6 @@ public class MultiSlider extends View {
         final int available = getAvailable();
         int thumbWidth = thumb.getIntrinsicWidth();
         int thumbHeight = thumb.getIntrinsicHeight();
-        int prevLeft = thumb.getBounds().left;
 
         //todo change available before also
 
@@ -1151,24 +1152,26 @@ public class MultiSlider extends View {
             bottomBound = gap + thumbHeight;
         }
 
-        // Canvas will be translated, so 0,0 is where we start drawing
-        final int left = (isLayoutRtl() && mMirrorForRtl) ? available - thumbPos - optThumbOffset
-                : thumbPos + optThumbOffset;
+        final int thumbStart = (isLayoutRtl() && mMirrorForRtl) ?
+                available - thumbPos + optThumbOffset : thumbPos + optThumbOffset;
 
-        thumb.setBounds(left, topBound, left + thumbWidth, bottomBound);
+        thumb.setBounds(thumbStart, topBound, thumbStart + thumbWidth, bottomBound);
 
-        w -= getPaddingRight() + getPaddingLeft();
-        h -= getPaddingTop() + getPaddingBottom();
+        int bottom = h - getPaddingTop() + getPaddingBottom();
 
-        int right = w;
-        int bottom = h;
-
-        int leftRange = 0;
+        int rangeStart = 0;
+        if (isLayoutRtl() && mMirrorForRtl) {
+            rangeStart = available;
+        }
         if (prevThumb != null) {
-            leftRange = prevThumb.getBounds().left;
+            rangeStart = prevThumb.getBounds().left;
         }
         if (range != null) {
-            range.setBounds(leftRange, 0, left, bottom);
+            if (isLayoutRtl() && mMirrorForRtl) {
+                range.setBounds(thumbStart, 0, rangeStart+optThumbOffset, bottom);
+            } else {
+                range.setBounds(rangeStart, 0, thumbStart, bottom);
+            }
         }
 
         invalidate();
@@ -1177,17 +1180,16 @@ public class MultiSlider extends View {
     @Override
     protected synchronized void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        int paddingStart;
+        if (Build.VERSION.SDK_INT >= 17) {
+            paddingStart = getPaddingStart();
+        } else {
+            paddingStart = getPaddingLeft();
+        }
         // --> draw track
         if (mTrack != null) {
-            // Translate canvas so a indeterminate circular progress bar with padding
-            // rotates properly in its animation
             canvas.save();
-            if (isLayoutRtl() && mMirrorForRtl) {
-                canvas.translate(getWidth() - getPaddingRight(), getPaddingTop());
-                canvas.scale(-1.0f, 1.0f);
-            } else {
-                canvas.translate(getPaddingLeft(), getPaddingTop());
-            }
+            canvas.translate(paddingStart, getPaddingTop());
             mTrack.draw(canvas);
             canvas.restore();
         }
@@ -1197,14 +1199,8 @@ public class MultiSlider extends View {
         for (Thumb thumb : mThumbs) {
             if (thumb.getRange() != null) {
                 canvas.save();
-                if (isLayoutRtl() && mMirrorForRtl) {
-                    canvas.translate(getWidth() - getPaddingRight(), getPaddingTop());
-                    canvas.scale(-1.0f, 1.0f);
-                } else {
-                    canvas.translate(getPaddingLeft(), getPaddingTop());
-                }
+                canvas.translate(paddingStart, getPaddingTop());
                 thumb.getRange().draw(canvas);
-
                 canvas.restore();
             }
         }
@@ -1215,10 +1211,9 @@ public class MultiSlider extends View {
                 canvas.save();
                 // Translate the padding. For the x, we need to allow the thumb to
                 // draw in its extra space
-                canvas.translate(getPaddingLeft() - thumb.getThumbOffset(), getPaddingTop());
+                canvas.translate(paddingStart - thumb.getThumbOffset(), getPaddingTop());
                 // float scale = mScaleMax > 0 ? (float) thumb.getValue() / (float) mScaleMax : 0;
                 thumb.getThumb().draw(canvas);
-
                 canvas.restore();
             }
         }
@@ -1267,7 +1262,11 @@ public class MultiSlider extends View {
     private int getAvailable() {
         int available = getWidth() - getPaddingLeft() - getPaddingRight();
         if (mThumbs != null && mThumbs.size() > 0) {
-            available -= getThumbOptOffset(mThumbs.getLast());
+            if (isLayoutRtl() && mMirrorForRtl) {
+                available -= getThumbOptOffset(mThumbs.getFirst());
+            } else {
+                available -= getThumbOptOffset(mThumbs.getLast());
+            }
         }
         //TODO check for the offset
         return available;
@@ -1504,10 +1503,10 @@ public class MultiSlider extends View {
     }
 
     int getThumbOptOffset(Thumb thumb) {
-        if (!mDrawThumbsApart) return 0;
+       // if (!mDrawThumbsApart) return 0;
         if (thumb == null || thumb.getThumb() == null) return 0;
         int thumbIdx = mThumbs.indexOf(thumb);
-        if (isLayoutRtl()) {
+        if (isLayoutRtl() && mMirrorForRtl) {
             return (thumbIdx == mThumbs.size() - 1) ? 0 : (getThumbOptOffset(mThumbs.get(thumbIdx
                     + 1)) + thumb.getThumb().getIntrinsicWidth());
         } else {
@@ -1525,7 +1524,7 @@ public class MultiSlider extends View {
         int x = (int) event.getX(pointerIndex);
         float scale;
         float progress = mScaleMin;
-        if (isLayoutRtl()) {
+        if (isLayoutRtl() && mMirrorForRtl) {
             if (x > width - getPaddingRight()) {
                 scale = 0.0f;
             } else if (x < getPaddingLeft()) {
