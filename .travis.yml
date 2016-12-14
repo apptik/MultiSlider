@@ -22,6 +22,7 @@ env:
      - MODULE=lib
      - MODULE=mslider-espresso
      - MODULE=mslider-uiautomator
+     - MODULE=holo-style
 
 notifications:
   email: true

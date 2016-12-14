@@ -8,7 +8,6 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiCollection;
 import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiSelector;
 
 import org.junit.Before;
@@ -44,25 +43,19 @@ public class ExampleTest {
 
     @Test
     public void moveSingle() throws Exception {
-        UiObject slider = new UiCollection(new UiSelector()
+        UiMultiSlider slider = new UiMultiSlider(new UiCollection(new UiSelector()
                 .className(MultiSlider.class)
-                .resourceIdMatches(".*multiSlider2.*")
-                )
-                .getChild(new UiSelector().textStartsWith("thumb 0:"));
-
-        UiMultiSlider ms2 = new UiMultiSlider(slider);
+                .resourceIdMatches(".*multiSlider2.*"))
+                .getChild(new UiSelector().textStartsWith("thumb 0:")));
 
         for (int i = 0; i < 15; i++) {
-            ms2.moveThumbForward();
+            slider.moveThumbForward();
         }
-
-        ms2.setThumbValue(10);
-
+        slider.setThumbValue(10);
         for (int i = 0; i < 10; i++) {
-            ms2.moveThumbBackward();
+            slider.moveThumbBackward();
         }
-
-        ms2.moveThumbBackward();
+        slider.moveThumbBackward();
 
         for (int i = 0; i < 90; i++) {
             onView(ViewMatchers.withId(R.id.multiSlider3))

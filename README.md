@@ -20,19 +20,18 @@ Find [the latest AARs][mvn] or grab via Maven::
     <dependency>
       <groupId>io.apptik.widget</groupId>
       <artifactId>multislider</artifactId>
-      <version>1.2</version>
+      <version>1.3</version>
     </dependency>
 
 or Gradle:
 
-    compile 'io.apptik.widget:multislider:1.2'
+    compile 'io.apptik.widget:multislider:1.3'
 
 Downloads of the released versions are available in [Sonatype's `releases` repository][release].
 
 Snapshots of the development versions are available in [Sonatype's `snapshots` repository][snap].
 
 ## Customizable Features
-
 
 * View Dimensions
 * Number of thumbs, from 0 to any. Default is 2
@@ -82,6 +81,49 @@ Snapshots of the development versions are available in [Sonatype's `snapshots` r
         });
 
 
+##Testing
+MultiSlider comes with ready testing support for both Espresso and UiAutomator
+
+###Espresso
+
+in build.gradle:
+
+    androidTestCompile 'io.apptik.widget:multislider-espresso:1.3'
+
+in test code:
+
+            for (int i = 0; i < 90; i++) {
+                onView(ViewMatchers.withId(R.id.multiSlider3))
+                        .perform(moveThumbForward(0));
+            }
+            onView(ViewMatchers.withId(R.id.multiSlider3))
+                    .perform(setThumbValue(0, 50));
+            for (int i = 0; i < 15; i++) {
+                onView(ViewMatchers.withId(R.id.multiSlider3))
+                        .perform(moveThumbBackward(0));
+            }
+
+###UiAutomator
+
+in build.gradle:
+
+    androidTestCompile 'io.apptik.widget:mslider-uiautomator:1.3'
+
+in test code:
+
+        UiMultiSlider slider = new UiMultiSlider(new UiCollection(new UiSelector()
+                .className(MultiSlider.class)
+                .resourceIdMatches(".*multiSlider3.*"))
+                .getChild(new UiSelector().textStartsWith("thumb 0:")));
+
+        for (int i = 0; i < 15; i++) {
+            slider.moveThumbForward();
+        }
+        slider.setThumbValue(10);
+        for (int i = 0; i < 10; i++) {
+            slider.moveThumbBackward();
+        }
+
 
 ## Example ScreenShots
 
@@ -125,7 +167,7 @@ This is a rough outline of what a contributor's workflow looks like:
 
 *    Create a topic branch from where you want to base your work (usually master).
 *    Make commits of logical units.
-*    Make sure your commit messages are in the proper format:  <type> (<scope>) : <summary>, where type can be [fix, feat(ure), test, docs]
+*    Make sure your commit message
 *    Push your changes to a topic branch in your fork of the repository.
 *    Make sure the tests pass, and add any new tests as appropriate.
 *    Submit a pull request to the original repository.
