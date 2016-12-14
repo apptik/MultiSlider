@@ -156,9 +156,9 @@ public class MultiSlider extends View {
      */
     public class Thumb {
         //abs min value for this thumb
-        int min = Integer.MIN_VALUE;
+        int min;
         //abs max value for this thumb
-        int max = Integer.MAX_VALUE;
+        int max;
         //current value of this thumb
         int value;
         //thumb tag. can be used for identifying the thumb
@@ -175,6 +175,12 @@ public class MultiSlider extends View {
 
         //cannot be moved if not enabled
         private boolean isEnabled = true;
+
+        public Thumb() {
+            min = mScaleMin;
+            max = mScaleMax;
+            value = max;
+        }
 
         /**
          * @return the range drawable
@@ -314,7 +320,11 @@ public class MultiSlider extends View {
          * @return
          */
         public Thumb setValue(int value) {
-            setThumbValue(this, value, false);
+            if(mThumbs.contains(this)) {
+                setThumbValue(this, value, false);
+            } else {
+                this.value = value;
+            }
             return this;
         }
 
@@ -503,10 +513,13 @@ public class MultiSlider extends View {
     /**
      * @return number of scale points
      */
-    private int getScaleSize() {
+    public int getScaleSize() {
         return mScaleMax - mScaleMin;
     }
 
+    /**
+     * Re-position thumbs so they are equally distributed according to the scale
+     */
     public void repositionThumbs() {
         if (mThumbs == null || mThumbs.isEmpty()) return;
 
@@ -578,21 +591,53 @@ public class MultiSlider extends View {
     }
 
     /**
-     * Add a thumb to the Slider
+     * Re-sets the number of thumbs and reposition the thumbs
+     * @param numThumbs the new number of thumbs
+     * @return the MultiSlider
+     */
+    public MultiSlider setNumberOfThumbs(int numThumbs) {
+        return setNumberOfThumbs(numThumbs, true);
+    }
+
+    /**
+     * Re-sets the number of thumbs
+     * @param numThumbs the new number of thumbs
+     * @param repositon if true it will reposition the thumbs to be equally distributed across the
+     *                  scale, otherwise all thumbs will be positioned at 0
+     * @return the MultiSlider
+     */
+    public MultiSlider setNumberOfThumbs(int numThumbs, boolean repositon) {
+        clearThumbs();
+        for (int i = 0; i < numThumbs; i++) {
+            addThumb(0);
+        }
+
+        if(repositon) {
+            repositionThumbs();
+        }
+
+        return this;
+    }
+
+    /**
+     * Add a thumb to the Slider after the last thumb
      *
      * @param thumb Thumb instance in the context of the Slider
      * @return true if the thumb was added and Slider modified
      */
     public boolean addThumb(Thumb thumb) {
+        return addThumbOnPos(thumb, mThumbs.size());
+    }
+
+    /**
+     * Add a thumb to the Slider at a custom position
+     * @param thumb thumb instance in the context of the Slider
+     * @param pos the position at which the thumb should be added
+     * @return true if the thumb was added and Slider modified
+     */
+    public boolean addThumbOnPos(Thumb thumb, int pos) {
         if (mThumbs.contains(thumb)) {
             return false;
-        }
-        if (thumb.getMin() == Integer.MIN_VALUE) {
-            thumb.min = MultiSlider.this.getMin();
-        }
-        if (thumb.getMax() == Integer.MAX_VALUE) {
-            thumb.max = MultiSlider.this.getMax();
-
         }
         if (thumb.getThumb() == null) {
             setThumbDrawable(thumb, defThumbDrawable, defThumbColor);
@@ -604,13 +649,59 @@ public class MultiSlider extends View {
         if (thumb.getRange() == null) {
             setRangeDrawable(thumb, defRangeDrawable, defRangeColor);
         }
-        boolean res = mThumbs.add(thumb);
-        if (res) {
-            updateThumb(thumb, getWidth(), getHeight());
-            requestLayout();
-        }
-        return res;
+        mThumbs.add(pos, thumb);
+        setThumbValue(thumb, thumb.value, false);
+        return true;
     }
+
+    /**
+     * Add a thumb with predefined value to the slider after the last thumb
+     * @param value the initial thumb value
+     * @return the Thumb instance that was added
+     */
+    public Thumb addThumb(int value) {
+        Thumb thumb = new Thumb();
+        this.addThumb(thumb);
+        thumb.setValue(value);
+
+        return thumb;
+    }
+
+    /**
+     * Add a thumb to the slider after the last thumb with value to the maximum scale value
+     * @return the Thumb instance that was added
+     */
+    public Thumb addThumb() {
+        Thumb thumb = new Thumb();
+        this.addThumb(thumb);
+        return thumb;
+    }
+
+    /**
+     * Add a thumb to the Slider at a custom position
+     * @param pos the position at which the thumb should be added
+     * @param value the initial thumb value
+     * @return the Thumb instance that was added
+     */
+    public Thumb addThumbOnPos(int pos, int value) {
+        Thumb thumb = new Thumb();
+        this.addThumbOnPos(thumb, pos);
+        thumb.setValue(value);
+
+        return thumb;
+    }
+
+    /**
+     * Add a thumb to the Slider at a custom position
+     * @param pos the position at which the thumb should be added
+     * @return the Thumb instance that was added
+     */
+    public Thumb addThumbOnPos(int pos) {
+        Thumb thumb = new Thumb();
+        this.addThumbOnPos(thumb, pos);
+        return thumb;
+    }
+
 
     /**
      * Remove a thumb from the Slider
@@ -1168,7 +1259,7 @@ public class MultiSlider extends View {
         }
         if (range != null) {
             if (isLayoutRtl() && mMirrorForRtl) {
-                range.setBounds(thumbStart, 0, rangeStart+optThumbOffset, bottom);
+                range.setBounds(thumbStart, 0, rangeStart + optThumbOffset, bottom);
             } else {
                 range.setBounds(rangeStart, 0, thumbStart, bottom);
             }
@@ -1503,7 +1594,7 @@ public class MultiSlider extends View {
     }
 
     int getThumbOptOffset(Thumb thumb) {
-       // if (!mDrawThumbsApart) return 0;
+        if (!mDrawThumbsApart) return 0;
         if (thumb == null || thumb.getThumb() == null) return 0;
         int thumbIdx = mThumbs.indexOf(thumb);
         if (isLayoutRtl() && mMirrorForRtl) {
