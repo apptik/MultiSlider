@@ -1542,13 +1542,14 @@ public class MultiSlider extends View {
                 //there are other pointers left
             case MotionEvent.ACTION_POINTER_UP:
                 if (currThumb != null) {
+                    setThumbValue(currThumb, getValue(event, currThumb), true);
+                    setHotspot(xx, yy, currThumb);
                     boolean toUnPress = false;
                     if (!isPressed()) {
                         setPressed(true);
                         toUnPress = true;
                     }
-                    setThumbValue(currThumb, getValue(event, currThumb), true);
-                    setHotspot(xx, yy, currThumb);
+
                     onStopTrackingTouch(currThumb);
                     if (toUnPress) {
                         setPressed(false);
