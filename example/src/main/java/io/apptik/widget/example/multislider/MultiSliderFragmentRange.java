@@ -174,12 +174,11 @@ public class MultiSliderFragmentRange extends Fragment {
         //Example for add/remove thumbs
         MultiSlider.Thumb nThumb1 = multiSlider7.new Thumb();
         MultiSlider.Thumb nThumb2 = multiSlider7.new Thumb();
+        nThumb1.setValue(75);
+        nThumb2.setValue(85);
         multiSlider7.addThumb(nThumb1);
         multiSlider7.addThumb(nThumb2);
-        nThumb2.setValue(85);
-        nThumb1.setValue(75);
-        multiSlider7.removeThumb(nThumb1);
-        nThumb2.setValue(70);
+
 
         return v;
     }
