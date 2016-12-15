@@ -62,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            app:range1="@drawable/multislider_track_mtrl_alpha"
+            app:range1="@drawable/multislider_primary_mtrl_alpha"
 
             />
 
