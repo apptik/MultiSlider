@@ -127,6 +127,7 @@ in test code:
 
 ## Example ScreenShots
 
+![ExampleGif](https://raw.githubusercontent.com/djodjoni/MultiSlider/master/art/multislider.gif)
 
 ### Simple Slider / Seek bar
 
