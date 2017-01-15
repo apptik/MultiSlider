@@ -1005,7 +1005,7 @@ public class MultiSlider extends View {
      */
     public synchronized void setMax(int max, boolean extendMaxForThumbs, boolean repositionThumbs) {
         if (max < mScaleMin) {
-            max = mScaleMin;
+           throw new IllegalArgumentException(String.format("setMax(%d) < Min(%d)",max,mScaleMin));
         }
 
         if (max != mScaleMax) {
@@ -1071,7 +1071,7 @@ public class MultiSlider extends View {
      */
     public synchronized void setMin(int min, boolean extendMinForThumbs, boolean repositionThumbs) {
         if (min > mScaleMax) {
-            min = mScaleMax;
+            throw new IllegalArgumentException(String.format("setMin(%d) > Max(%d)",min,mScaleMax));
         }
 
         if (min != mScaleMin) {
