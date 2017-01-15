@@ -60,7 +60,7 @@ public class MultiSliderFragmentSingle extends Fragment {
         min4.setText(String.valueOf(multiSlider4.getThumb(0).getValue()));
         min5.setText(String.valueOf(multiSlider5.getThumb(0).getValue()));
         min6.setText(String.valueOf(multiSlider6.getThumb(0).getValue()));
-        min6.setText(String.valueOf(multiSlider7.getThumb(0).getValue()));
+        min7.setText(String.valueOf(multiSlider7.getThumb(0).getValue()));
 
         multiSlider1.setOnThumbValueChangeListener(new MultiSlider.SimpleChangeListener() {
             @Override
