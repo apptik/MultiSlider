@@ -1,10 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar" tools:targetApi="lollipop">
-        <item name="android:colorPrimary">@color/colorPrimary</item>
-        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:colorAccent">@color/colorAccent</item>
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
     </style>
 
     <style name="AppTheme.NoActionBar">

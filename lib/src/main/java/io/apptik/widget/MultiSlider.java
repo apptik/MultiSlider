@@ -43,10 +43,8 @@ import java.util.List;
 
 import io.apptik.widget.mslider.R;
 
-import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction
-        .ACTION_SCROLL_BACKWARD;
-import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction
-        .ACTION_SCROLL_FORWARD;
+import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_BACKWARD;
+import static android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_FORWARD;
 import static io.apptik.widget.Util.requireNonNull;
 
 public class MultiSlider extends View {
@@ -407,10 +405,9 @@ public class MultiSlider extends View {
         }
 
         setTrackDrawable(getTintedDrawable(trackDrawable, a.getColor(io.apptik.widget.mslider.R
-                .styleable
-                .MultiSlider_trackColor, 0)));
+                .styleable.MultiSlider_trackColor, 0)));
 
-        //TODO
+        //TODO?
 //        mMinWidth = a.getDimensionPixelSize(R.styleable.MultiSlider_minWidth, mMinWidth);
 //        mMaxWidth = a.getDimensionPixelSize(R.styleable.MultiSlider_maxWidth, mMaxWidth);
 //        mMinHeight = a.getDimensionPixelSize(R.styleable.MultiSlider_minHeight, mMinHeight);

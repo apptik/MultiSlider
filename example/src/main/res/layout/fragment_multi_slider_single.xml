@@ -241,10 +241,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:track="@drawable/example_scrubber_secondary_holo"
-                app:rangeColor="@android:color/holo_green_light"
-                app:thumbColor="@android:color/holo_blue_bright"
+                app:rangeColor="@color/holo_green_light"
+                app:thumbColor="@color/holo_blue_bright"
                 app:thumbNumber="1"
-                app:trackColor="@android:color/holo_purple"
+                app:trackColor="@color/holo_purple"
             />
 
         </LinearLayout>
@@ -278,7 +278,6 @@
                 android:id="@+id/multiSlider7"
                 style="@style/sliderHoloStyle"
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 app:thumbNumber="1"
             />
