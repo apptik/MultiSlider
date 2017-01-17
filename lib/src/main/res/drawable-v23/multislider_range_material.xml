@@ -16,7 +16,10 @@
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:gravity="center_vertical|fill_horizontal">
-        <nine-patch android:src="@drawable/multislider_primary_mtrl_alpha"
-            android:tint="?android:attr/colorControlActivated" />
+        <shape android:shape="rectangle"
+            android:tint="?android:attr/colorControlActivated">
+            <size android:height="@dimen/multislider_range_height_material"/>
+            <solid android:color="@color/white"/>
+        </shape>
     </item>
 </layer-list>
