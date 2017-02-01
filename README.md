@@ -59,7 +59,6 @@ Snapshots of the development versions are available in [Sonatype's `snapshots` r
             android:layout_height="wrap_content"
 
             app:thumbNumber="2"
-            app:range1="@drawable/multislider_scrubber_track_holo_light"
             app:stepsThumbsApart="5"
             app:drawThumbsApart="true"
 
@@ -79,6 +78,22 @@ Snapshots of the development versions are available in [Sonatype's `snapshots` r
                 }
             }
         });
+
+### To use the default Material theme, edit res/values/styles.xml, res/values-v21/styles.xml:
+        <style name="AppTheme" parent="...">
+            <item name="multiSliderStyle">@style/Widget.MultiSlider</item>
+        </style>
+
+        <style name="Widget.MultiSlider" parent="android:Widget">
+        </style>
+### To use the Holo theme, edit res/values/styles.xml, res/values-v21/styles.xml:
+        <style name="AppTheme" parent="...">
+            <item name="multiSliderStyle">@style/sliderHoloStyle</item>
+        </style>
+#### and add the holo theme to your project dependencies, example for gradle:
+        compile 'io.apptik.widget:multislider-holo:1.3'
+
+
 
 
 ##Testing
