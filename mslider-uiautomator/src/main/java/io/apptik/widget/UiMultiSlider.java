@@ -8,7 +8,7 @@ import android.support.test.uiautomator.UiScrollable;
 import android.support.test.uiautomator.UiSelector;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import static io.apptik.widget.MultiSlider.VirtualTreeProvider.ACT_SET_PROGRESS;
+import static io.apptik.widget.VirtualTreeProvider.ACT_SET_PROGRESS;
 
 public class UiMultiSlider extends UiScrollable {
 

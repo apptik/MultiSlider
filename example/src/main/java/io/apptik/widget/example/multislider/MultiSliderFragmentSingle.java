@@ -49,7 +49,7 @@ public class MultiSliderFragmentSingle extends Fragment {
         MultiSlider multiSlider2 = (MultiSlider) v.findViewById(R.id.multiSlider2);
         MultiSlider multiSlider3 = (MultiSlider) v.findViewById(R.id.multiSlider3);
         MultiSlider multiSlider4 = (MultiSlider) v.findViewById(R.id.multiSlider4);
-        multiSlider4.getThumb(1).setInvisibleThumb(true);
+        multiSlider4.getThumb(1).setInvisible(true);
         MultiSlider multiSlider5 = (MultiSlider) v.findViewById(R.id.multiSlider5);
         MultiSlider multiSlider6 = (MultiSlider) v.findViewById(R.id.multiSlider6);
         MultiSlider multiSlider7 = (MultiSlider) v.findViewById(R.id.multiSlider7);
