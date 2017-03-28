@@ -652,7 +652,7 @@ public class MultiSlider extends View {
         }
 
         if (hasOnThumbValueChangeListener()) {
-            mOnThumbValueChangeListener.onValueChanged(this, (Thumb)thumb, getThumbIndex(thumb), thumb
+            mOnThumbValueChangeListener.onValueChanged(this, thumb, getThumbIndex(thumb), thumb
                     .getValue());
         }
         updateThumb(thumb, getWidth(), getHeight());
@@ -769,7 +769,7 @@ public class MultiSlider extends View {
      * @return The thumb at position pos
      */
     public Thumb getThumb(int pos) {
-        return (Thumb)mThumbs.get(pos);
+        return mThumbs.get(pos);
     }
 
     /**
@@ -1482,7 +1482,7 @@ public class MultiSlider extends View {
             mDraggingThumbs.add(thumb);
             drawableStateChanged();
             if (hasOnTrackingChangeListener()) {
-                mOnTrackingChangeListener.onStartTrackingTouch(this, (Thumb)thumb, thumb.getValue());
+                mOnTrackingChangeListener.onStartTrackingTouch(this, thumb, thumb.getValue());
             }
             attemptClaimDrag();
         }
@@ -1496,7 +1496,7 @@ public class MultiSlider extends View {
         if (thumb != null) {
             mDraggingThumbs.remove(thumb);
             if (hasOnTrackingChangeListener()) {
-                mOnTrackingChangeListener.onStopTrackingTouch(this, (Thumb)thumb, thumb.getValue());
+                mOnTrackingChangeListener.onStopTrackingTouch(this, thumb, thumb.getValue());
             }
             drawableStateChanged();
         }
