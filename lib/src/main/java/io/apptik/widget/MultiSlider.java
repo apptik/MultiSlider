@@ -116,10 +116,10 @@ public class MultiSlider extends View {
     private OnThumbValueChangeListener mOnThumbValueChangeListener;
     private OnTrackingChangeListener mOnTrackingChangeListener;
 
-    int mMinWidth;
-    int mMaxWidth;
-    int mMinHeight;
-    int mMaxHeight;
+    private int mMinWidth;
+    private int mMaxWidth;
+    private int mMinHeight;
+    private int mMaxHeight;
 
     /**
      * global Min and Max
