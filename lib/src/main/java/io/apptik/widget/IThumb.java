@@ -1,6 +1,7 @@
 package io.apptik.widget;
 
 import android.graphics.drawable.Drawable;
+import android.view.View;
 
 public interface IThumb {
 
@@ -121,4 +122,25 @@ public interface IThumb {
      * @return self
      */
     IThumb setInvisible(boolean invisible);
+
+    /**
+     * @return thumb's view binder
+     */
+    View getViewBinder();
+
+    /**
+     * Sets thumb's view binder
+     *
+     * @param view for binder
+     * @return self
+     */
+    IThumb setViewBinder(final View view);
+
+    /**
+     * Update X-axis position for thumb's view binder
+     * NOTE: call this function directly, if width of view was changed programmatically
+     *
+     * @return self
+     */
+    IThumb updateViewBinderPosition();
 }

@@ -1051,6 +1051,9 @@ public class MultiSlider extends View {
                     getThumb(i).getRange(), scale, gap, getThumb(i).getOffset(),
                     getThumbOptOffset(getThumb(i)));
         }
+
+        if (thumb != null)
+            thumb.updateViewBinderPosition();
     }
 
 

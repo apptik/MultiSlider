@@ -1,6 +1,7 @@
 package io.apptik.widget;
 
 import android.graphics.drawable.Drawable;
+import android.view.View;
 
 /**
  * Thumb is the main object in MultiSlider.
@@ -29,6 +30,13 @@ class ThumbImpl implements IThumb {
     private Drawable mRange;
 
     private int mOffset;
+
+    //thumb's view binder
+    private View mViewBinder = null;
+    //save old position for before rebind
+    private float mViewBinderX = 0;
+    private boolean mViewBinderEnable = true;
+    private int mViewBinderVisibility = View.VISIBLE;
 
     //cannot be moved if invisible and it is not displayed
     private boolean mIsInvisible = false;
@@ -147,6 +155,10 @@ class ThumbImpl implements IThumb {
                 drawable.setState(new int[]{-android.R.attr.state_enabled});
             }
         }
+        final View binder = getViewBinder();
+        if (binder != null) {
+            binder.setEnabled(enabled);
+        }
         return this;
     }
 
@@ -156,6 +168,76 @@ class ThumbImpl implements IThumb {
 
     public final IThumb setInvisible(final boolean invisible) {
         mIsInvisible = invisible;
+        final View binder = getViewBinder();
+        if (binder != null) {
+            binder.setVisibility(invisible ? View.INVISIBLE : View.VISIBLE);
+        }
+        return this;
+    }
+
+    public final View getViewBinder() {
+        return mViewBinder;
+    }
+
+    public final IThumb setViewBinder(final View view) {
+        //restore properties of the previous view
+        if (mViewBinder != null) {
+            mViewBinder.setTranslationX(mViewBinderX);
+            mViewBinder.setEnabled(mViewBinderEnable);
+            mViewBinder.setVisibility(mViewBinderVisibility);
+        }
+        mViewBinder = view;
+        mViewBinderX = mViewBinder.getTranslationX();
+        mViewBinderEnable = mViewBinder.isEnabled();
+        mViewBinderVisibility = mViewBinder.getVisibility();
+        return this;
+    }
+
+    public final IThumb updateViewBinderPosition() {
+        final View binder = getViewBinder();
+        final Drawable drawable = getThumb();
+
+        if (binder == null || drawable == null)
+            return this;
+
+        final View binder_parent = (View) binder.getParent();
+
+        /*
+         * parent view required for the limit of X-axis position
+         */
+        if (binder_parent == null)
+            return this;
+
+        /*
+         * Using post method for avoid incorrect measured width of binded view.
+         */
+        binder.post(new Runnable() {
+            @Override
+            public void run() {
+
+                final float thumb_centerX = drawable.getBounds().centerX();
+                final int thumb_half_width = drawable.getIntrinsicWidth() / 2;
+
+                final int vb_width = binder.getMeasuredWidth();
+                final int vb_half_width = vb_width / 2;
+
+                final float vb_parent_minX = binder_parent.getTranslationX();
+                final float vb_parent_maxX = vb_parent_minX + binder_parent.getMeasuredWidth();
+
+                // minimum available X-axis position
+                final float vb_minX = Math.max(vb_parent_minX,
+                        thumb_centerX - thumb_half_width);
+
+                // maximum available X-axis position
+                final float vb_maxX = Math.min(vb_parent_maxX - vb_width,
+                        thumb_centerX + thumb_half_width);
+
+                final float vb_x = Math.min(vb_maxX, Math.max(vb_minX, thumb_centerX - vb_half_width));
+
+                binder.setTranslationX(vb_x);
+            }
+        });
+
         return this;
     }
 }
