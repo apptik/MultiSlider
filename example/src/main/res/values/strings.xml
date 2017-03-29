@@ -6,6 +6,7 @@
     <string name="title_section1">Single Thumb</string>
     <string name="title_section2">Range Example</string>
     <string name="title_section3">Multiple Thumbs</string>
+    <string name="title_section4">Bind view Example</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 

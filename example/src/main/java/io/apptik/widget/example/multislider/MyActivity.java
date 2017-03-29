@@ -60,6 +60,9 @@ public class MyActivity extends Activity
             case 3:
                 mTitle = getString(R.string.title_section3);
                 break;
+            case 4:
+                mTitle = getString(R.string.title_section4);
+                break;
         }
     }
 
@@ -131,6 +134,7 @@ public class MyActivity extends Activity
                 case 1:getFragmentManager().beginTransaction().add(R.id.inner_container, new MultiSliderFragmentSingle()).commit(); break;
                 case 2:getFragmentManager().beginTransaction().add(R.id.inner_container, new MultiSliderFragmentRange()).commit(); break;
                 case 3:getFragmentManager().beginTransaction().add(R.id.inner_container, new MultiSliderFragmentMany()).commit(); break;
+                case 4:getFragmentManager().beginTransaction().add(R.id.inner_container, new MultiSliderFragmentViewBinder()).commit(); break;
 
             }
         }
