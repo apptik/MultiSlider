@@ -140,7 +140,7 @@ public class MultiSlider extends View {
     private boolean mAttached;
     private boolean mRefreshIsPosted;
 
-    boolean mMirrorForRtl = true;
+    private boolean mMirrorForRtl = true;
 
     /**
      * Thumb is the main object in MultiSlider.
@@ -330,22 +330,31 @@ public class MultiSlider extends View {
      * Re-position thumbs so they are equally distributed according to the scale
      */
     public void repositionThumbs() {
-        if (mThumbs == null || mThumbs.isEmpty()) return;
+        final int count = getThumbsCount();
 
-        if (mThumbs.size() > 0) {
+        if (count == 0)
+            return;
+
+        if (count > 0) {
             mThumbs.getFirst().setValue(mScaleMin);
         }
-        if (mThumbs.size() > 1) {
+
+        if (count > 1) {
             mThumbs.getLast().setValue(mScaleMax);
         }
-        if (mThumbs.size() > 2) {
-            int even = (mScaleMax - mScaleMin) / (mThumbs.size() - 1);
+
+        if (count > 2) {
+            int even = (mScaleMax - mScaleMin) / (count - 1);
             int lastPos = mScaleMax - even;
-            for (int i = mThumbs.size() - 2; i > 0; i--) {
+            for (int i = count - 2; i > 0; i--) {
                 mThumbs.get(i).setValue(lastPos);
                 lastPos -= even;
             }
         }
+    }
+
+    public boolean isRtlEnabled() {
+        return isLayoutRtl() && mMirrorForRtl;
     }
 
     /**
@@ -379,7 +388,7 @@ public class MultiSlider extends View {
      *                        even in have the same values.
      */
     public void setDrawThumbsApart(boolean drawThumbsApart) {
-        this.mDrawThumbsApart = drawThumbsApart;
+        mDrawThumbsApart = drawThumbsApart;
     }
 
     private void initMultiSlider(int numThumbs) {
@@ -437,7 +446,7 @@ public class MultiSlider extends View {
      * @return true if the thumb was added and Slider modified
      */
     public boolean addThumb(Thumb thumb) {
-        return addThumbOnPos(thumb, mThumbs.size());
+        return addThumbOnPos(thumb, getThumbsCount());
     }
 
     /**
@@ -447,6 +456,8 @@ public class MultiSlider extends View {
      * @return true if the thumb was added and Slider modified
      */
     public boolean addThumbOnPos(Thumb thumb, int pos) {
+        if (mThumbs == null)
+            throw new NullPointerException(String.format("Thumbs list is null"));
         if (mThumbs.contains(thumb)) {
             return false;
         }
@@ -551,13 +562,23 @@ public class MultiSlider extends View {
     /**
      * set default thumb offset, which will be immediately applied to all the thumbs
      *
-     * @param thumbOffset thumb offset in pixels
+     * @param offset thumb offset in pixels
+     * @param invalidate require invalidation
      */
-    public void setThumbOffset(int thumbOffset) {
-        for (Thumb thumb : mThumbs) {
-            thumb.setOffset(thumbOffset);
-        }
-        invalidate();
+    public void setThumbOffset(int offset, boolean invalidate) {
+        for (Thumb thumb : mThumbs)
+            thumb.setOffset(offset);
+        if (invalidate)
+            invalidate();
+    }
+
+    /**
+     * set default thumb offset, which will be immediately applied to all the thumbs
+     *
+     * @param offset thumb offset in pixels
+     */
+    public void setThumbOffset(int offset) {
+        setThumbOffset(offset, true);
     }
 
     /**
@@ -596,42 +617,42 @@ public class MultiSlider extends View {
         }
     }
 
-    int getThumbIndex(IThumb thumb) {
+    int getThumbIndex(final IThumb thumb) {
+        if (mThumbs == null)
+            throw new NullPointerException(String.format("Thumbs list is null"));
         return mThumbs.indexOf(thumb);
     }
 
     int getThumbsCount() {
+        if (mThumbs == null)
+            throw new NullPointerException(String.format("Thumbs list is null"));
         return mThumbs.size();
     }
 
-    private int optThumbValue(Thumb thumb, int value) {
-        if (thumb == null || thumb.getThumb() == null) return value;
+    private int optThumbValue(final Thumb thumb, int value) {
+        if (thumb == null || thumb.getThumb() == null)
+            return value;
+
         int currIdx = getThumbIndex(thumb);
+        int offset = mStepsThumbsApart * mStep;
 
-
-        if (mThumbs.size() > currIdx + 1 && value > mThumbs.get(currIdx + 1).getValue() -
-                mStepsThumbsApart * mStep) {
-            value = mThumbs.get(currIdx + 1).getValue() - mStepsThumbsApart * mStep;
+        if (getThumbsCount() > currIdx + 1) {
+            int value_tmp = getThumb(currIdx + 1).getValue() - offset;
+            if (value > value_tmp)
+                value = value_tmp;
         }
 
-        if (currIdx > 0 && value < mThumbs.get(currIdx - 1).getValue() + mStepsThumbsApart *
-                mStep) {
-            value = mThumbs.get(currIdx - 1).getValue() + mStepsThumbsApart * mStep;
+        if (currIdx > 0) {
+            int value_tmp = getThumb(currIdx - 1).getValue() + offset;
+            if (value < value_tmp)
+                value = value_tmp;
         }
 
         if ((value - mScaleMin) % mStep != 0) {
             value += mStep - ((value - mScaleMin) % mStep);
         }
 
-        if (value < thumb.getMin()) {
-            value = thumb.getMin();
-        }
-
-        if (value > thumb.getMax()) {
-            value = thumb.getMax();
-        }
-
-        return value;
+        return Math.max(thumb.getMin(), Math.min(thumb.getMax(), value));
     }
 
 
@@ -647,9 +668,8 @@ public class MultiSlider extends View {
 
         value = optThumbValue(thumb, value);
 
-        if (value != thumb.getValue()) {
+        if (value != thumb.getValue())
             thumb.setValue(value);
-        }
 
         if (hasOnThumbValueChangeListener()) {
             mOnThumbValueChangeListener.onValueChanged(this, thumb, getThumbIndex(thumb), thumb
@@ -1023,13 +1043,13 @@ public class MultiSlider extends View {
         }
 
         //update thumbs after it
-        for (int i = currIdx + 1; i < mThumbs.size(); i++) {
+        for (int i = currIdx + 1; i < getThumbsCount(); ++i) {
             int gap = (trackHeight - thumbHeight) / 2;
-            scale = getScaleSize() > 0 ? (float) mThumbs.get(i).getValue() / (float) getScaleSize
+            scale = getScaleSize() > 0 ? (float) getThumb(i).getValue() / (float) getScaleSize
                     () : 0;
-            setThumbPos(w, h, mThumbs.get(i).getThumb(), mThumbs.get(i - 1).getThumb(), mThumbs
-                            .get(i).getRange(), scale, gap, mThumbs.get(i).getOffset(),
-                    getThumbOptOffset(mThumbs.get(i)));
+            setThumbPos(w, h, getThumb(i).getThumb(), getThumb(i - 1).getThumb(),
+                    getThumb(i).getRange(), scale, gap, getThumb(i).getOffset(),
+                    getThumbOptOffset(getThumb(i)));
         }
     }
 
@@ -1060,7 +1080,7 @@ public class MultiSlider extends View {
             bottomBound = gap + thumbHeight;
         }
 
-        final int thumbStart = (isLayoutRtl() && mMirrorForRtl) ?
+        final int thumbStart = isRtlEnabled() ?
                 available - thumbPos + optThumbOffset : thumbPos + optThumbOffset;
 
         thumb.setBounds(thumbStart, topBound, thumbStart + thumbWidth, bottomBound);
@@ -1068,14 +1088,14 @@ public class MultiSlider extends View {
         int bottom = h - getPaddingTop() + getPaddingBottom();
 
         int rangeStart = 0;
-        if (isLayoutRtl() && mMirrorForRtl) {
+        if (isRtlEnabled()) {
             rangeStart = available;
         }
         if (prevThumb != null) {
             rangeStart = prevThumb.getBounds().left;
         }
         if (range != null) {
-            if (isLayoutRtl() && mMirrorForRtl) {
+            if (isRtlEnabled()) {
                 range.setBounds(thumbStart, 0, rangeStart + optThumbOffset, bottom);
             } else {
                 range.setBounds(rangeStart, 0, thumbStart, bottom);
@@ -1169,8 +1189,8 @@ public class MultiSlider extends View {
 
     private int getAvailable() {
         int available = getWidth() - getPaddingLeft() - getPaddingRight();
-        if (mThumbs != null && mThumbs.size() > 0) {
-            if (isLayoutRtl() && mMirrorForRtl) {
+        if (getThumbsCount() > 0) {
+            if (isRtlEnabled()) {
                 available -= getThumbOptOffset(mThumbs.getFirst());
             } else {
                 available -= getThumbOptOffset(mThumbs.getLast());
@@ -1411,17 +1431,24 @@ public class MultiSlider extends View {
         }
     }
 
-    int getThumbOptOffset(Thumb thumb) {
-        if (!mDrawThumbsApart) return 0;
-        if (thumb == null || thumb.getThumb() == null) return 0;
+    private int getThumbOptOffset(Thumb thumb) {
+        if (!mDrawThumbsApart)
+            return 0;
+
+        if (thumb == null || thumb.getThumb() == null)
+            return 0;
+
         int thumbIdx = getThumbIndex(thumb);
-        if (isLayoutRtl() && mMirrorForRtl) {
-            return (thumbIdx == mThumbs.size() - 1) ? 0 : (getThumbOptOffset(mThumbs.get(thumbIdx
-                    + 1)) + thumb.getThumb().getIntrinsicWidth());
+
+        if (isRtlEnabled()) {
+            if (++thumbIdx == getThumbsCount())
+                return 0;
         } else {
-            return (thumbIdx == 0) ? 0 : (getThumbOptOffset(mThumbs.get(thumbIdx - 1)) + thumb
-                    .getThumb().getIntrinsicWidth());
+            if (thumbIdx-- == 0)
+                return 0;
         }
+
+        return getThumbOptOffset(getThumb(thumbIdx)) + thumb.getThumb().getIntrinsicWidth();
     }
 
     private int getValue(MotionEvent event, int pointerIndex, Thumb thumb) {
@@ -1433,7 +1460,7 @@ public class MultiSlider extends View {
         int x = (int) event.getX(pointerIndex);
         float scale;
         float progress = mScaleMin;
-        if (isLayoutRtl() && mMirrorForRtl) {
+        if (isRtlEnabled()) {
             if (x > width - getPaddingRight()) {
                 scale = 0.0f;
             } else if (x < getPaddingLeft()) {
