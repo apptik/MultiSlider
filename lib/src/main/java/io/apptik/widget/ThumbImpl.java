@@ -70,12 +70,7 @@ class ThumbImpl implements IThumb {
     }
 
     public final IThumb setMin(int min) {
-        if (min > mMax) {
-            min = mMax;
-        }
-        if (min < mMultiSlider.getMin()) {
-            min = mMultiSlider.getMin();
-        }
+        min = Math.max(mMultiSlider.getMin(), Math.min(mMax, min));
         if (mMin != min) {
             mMin = min;
             if (mValue < mMin) {
@@ -91,12 +86,7 @@ class ThumbImpl implements IThumb {
     }
 
     public final IThumb setMax(int max) {
-        if (max < mMin) {
-            max = mMin;
-        }
-        if (max > mMultiSlider.getMax()) {
-            max = mMultiSlider.getMax();
-        }
+        max = Math.min(mMultiSlider.getMax(), Math.max(mMin, max));
         if (mMax != max) {
             mMax = max;
             if (mValue > mMax) {
