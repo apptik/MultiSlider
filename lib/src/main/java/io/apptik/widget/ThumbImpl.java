@@ -43,7 +43,7 @@ class ThumbImpl implements IThumb {
         mValue = mMax;
     }
 
-    public Drawable getRange() {
+    public final Drawable getRange() {
         return mRange;
     }
 
@@ -115,7 +115,7 @@ class ThumbImpl implements IThumb {
         return this;
     }
 
-    public Drawable getThumb() {
+    public final Drawable getThumb() {
         return mThumb;
     }
 
@@ -139,11 +139,12 @@ class ThumbImpl implements IThumb {
 
     public final IThumb setEnabled(final boolean enabled) {
         mIsEnabled = enabled;
-        if (getThumb() != null) {
+        final Drawable drawable = getThumb();
+        if (drawable != null) {
             if (isEnabled()) {
-                getThumb().setState(new int[]{android.R.attr.state_enabled});
+                drawable.setState(new int[]{android.R.attr.state_enabled});
             } else {
-                getThumb().setState(new int[]{-android.R.attr.state_enabled});
+                drawable.setState(new int[]{-android.R.attr.state_enabled});
             }
         }
         return this;
@@ -153,8 +154,8 @@ class ThumbImpl implements IThumb {
         return mIsInvisible;
     }
 
-    public final IThumb setInvisible(final boolean invisibleThumb) {
-        mIsInvisible = invisibleThumb;
+    public final IThumb setInvisible(final boolean invisible) {
+        mIsInvisible = invisible;
         return this;
     }
 }

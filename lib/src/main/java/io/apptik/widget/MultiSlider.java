@@ -947,9 +947,9 @@ public class MultiSlider extends View {
 
     @Override
     protected boolean verifyDrawable(Drawable who) {
-        for (Thumb thumb : mThumbs) {
-            if (thumb.getThumb() != null && who == thumb.getThumb()) return true;
-        }
+        for (Thumb thumb : mThumbs)
+            if (who == thumb.getThumb())
+                return true;
         return who == mTrack || super.verifyDrawable(who);
     }
 
@@ -1351,15 +1351,15 @@ public class MultiSlider extends View {
             case MotionEvent.ACTION_MOVE:
                 if (mDraggingThumbs.contains(currThumb)) {
                     //need the index
-                    for (int i = 0; i < mDraggingThumbs.size(); i++) {
-                        if (mDraggingThumbs.get(i) != null && mDraggingThumbs.get(i).getThumb()
-                                != null) {
-                            invalidate(mDraggingThumbs.get(i).getThumb().getBounds());
+                    int idx = 0;
+                    for (Thumb thumb: mDraggingThumbs) {
+                        if (thumb != null) {
+                            if (thumb.getThumb() != null)
+                                invalidate(thumb.getThumb().getBounds());
+
+                            setThumbValue(thumb, getValue(event, idx, thumb), true);
                         }
-                        setThumbValue(mDraggingThumbs.get(i), getValue(event, i, mDraggingThumbs
-                                .get(i)), true);
-
-
+                        ++idx;
                     }
                     setHotspot(xx, yy, currThumb);
                 } else {
