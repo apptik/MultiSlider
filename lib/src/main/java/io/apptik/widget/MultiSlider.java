@@ -318,7 +318,7 @@ public class MultiSlider extends View {
          * @return
          */
         public Thumb setValue(int value) {
-            if(mThumbs.contains(this)) {
+            if (mThumbs.contains(this)) {
                 setThumbValue(this, value, false);
             } else {
                 this.value = value;
@@ -610,7 +610,7 @@ public class MultiSlider extends View {
             addThumb(0);
         }
 
-        if(repositon) {
+        if (repositon) {
             repositionThumbs();
         }
 
@@ -1008,7 +1008,7 @@ public class MultiSlider extends View {
      */
     public synchronized void setMax(int max, boolean extendMaxForThumbs, boolean repositionThumbs) {
         if (max < mScaleMin) {
-           throw new IllegalArgumentException(String.format("setMax(%d) < Min(%d)",max,mScaleMin));
+            throw new IllegalArgumentException(String.format("setMax(%d) < Min(%d)", max, mScaleMin));
         }
 
         if (max != mScaleMax) {
@@ -1074,7 +1074,7 @@ public class MultiSlider extends View {
      */
     public synchronized void setMin(int min, boolean extendMinForThumbs, boolean repositionThumbs) {
         if (min > mScaleMax) {
-            throw new IllegalArgumentException(String.format("setMin(%d) > Max(%d)",min,mScaleMax));
+            throw new IllegalArgumentException(String.format("setMin(%d) > Max(%d)", min, mScaleMax));
         }
 
         if (min != mScaleMin) {
