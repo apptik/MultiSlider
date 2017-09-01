@@ -17,6 +17,7 @@
 
 package io.apptik.widget;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -1830,6 +1831,7 @@ public class MultiSlider extends View {
 
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     class VirtualTreeProvider extends AccessibilityNodeProvider {
         static final int ACT_SET_PROGRESS = 16908349;
         final AccessibilityNodeInfo.AccessibilityAction ACTION_SET_PROGRESS;
