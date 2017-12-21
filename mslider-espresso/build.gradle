@@ -26,8 +26,8 @@ android {
 }
 
 dependencies {
-    compile project(':lib')
-    compile rootProject.ext.supportTestEspresso
+    implementation project(':lib')
+    implementation rootProject.ext.supportTestEspresso
 }
 
 apply from: 'https://raw.githubusercontent.com/djodjoni/gradle-mvn-push/master/gradle-mvn-push-android.gradle'
