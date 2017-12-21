@@ -26,15 +26,15 @@ android {
 }
 
 dependencies {
-    compile project(':lib')
-    compile project(':holo-style')
-    compile project(':mslider-espresso')
-    compile project(':mslider-uiautomator')
-    androidTestCompile rootProject.ext.junit
-    androidTestCompile rootProject.ext.supportTestUiautomator
-    androidTestCompile rootProject.ext.supportAnnotations
-    androidTestCompile rootProject.ext.supportTestRunner
-    androidTestCompile rootProject.ext.supportTestRules
-    androidTestCompile rootProject.ext.supportTestEspresso
-
+    implementation rootProject.ext.supportCoreUi
+    implementation project(':lib')
+    implementation project(':holo-style')
+    implementation project(':mslider-espresso')
+    implementation project(':mslider-uiautomator')
+    androidTestImplementation rootProject.ext.junit
+    androidTestImplementation rootProject.ext.supportTestUiautomator
+    androidTestImplementation rootProject.ext.supportAnnotations
+    androidTestImplementation rootProject.ext.supportTestRunner
+    androidTestImplementation rootProject.ext.supportTestRules
+    androidTestImplementation rootProject.ext.supportTestEspresso
 }
