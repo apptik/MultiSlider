@@ -7,7 +7,7 @@ android:
   components:
     - tools
     - build-tools-27.0.2
-    - android-25
+    - android-27
     - extra-android-m2repository
     - sys-img-armeabi-v7a-android-23
 
@@ -26,6 +26,10 @@ env:
 
 notifications:
   email: true
+
+before_install:
+  - chmod +x gradlew
+  - yes | sdkmanager "platforms;android-27"
 
 sudo: false
 
