@@ -411,6 +411,7 @@ public class MultiSlider extends View {
 
     /**
      * Re-sets the number of thumbs and reposition the thumbs
+     *
      * @param numThumbs the new number of thumbs
      * @return the MultiSlider
      */
@@ -420,6 +421,7 @@ public class MultiSlider extends View {
 
     /**
      * Re-sets the number of thumbs
+     *
      * @param numThumbs the new number of thumbs
      * @param repositon if true it will reposition the thumbs to be equally distributed across the
      *                  scale, otherwise all thumbs will be positioned at 0
@@ -450,8 +452,9 @@ public class MultiSlider extends View {
 
     /**
      * Add a thumb to the Slider at a custom position
+     *
      * @param thumb thumb instance in the context of the Slider
-     * @param pos the position at which the thumb should be added
+     * @param pos   the position at which the thumb should be added
      * @return true if the thumb was added and Slider modified
      */
     public boolean addThumbOnPos(Thumb thumb, int pos) {
@@ -477,6 +480,7 @@ public class MultiSlider extends View {
 
     /**
      * Add a thumb with predefined value to the slider after the last thumb
+     *
      * @param value the initial thumb value
      * @return the Thumb instance that was added
      */
@@ -489,6 +493,7 @@ public class MultiSlider extends View {
 
     /**
      * Add a thumb to the slider after the last thumb with value to the maximum scale value
+     *
      * @return the Thumb instance that was added
      */
     public Thumb addThumb() {
@@ -499,6 +504,7 @@ public class MultiSlider extends View {
 
     /**
      * Add a thumb to the Slider at a custom position
+     *
      * @param pos the position at which the thumb should be added
      * @param value the initial thumb value
      * @return the Thumb instance that was added
@@ -512,6 +518,7 @@ public class MultiSlider extends View {
 
     /**
      * Add a thumb to the Slider at a custom position
+     *
      * @param pos the position at which the thumb should be added
      * @return the Thumb instance that was added
      */
@@ -660,7 +667,7 @@ public class MultiSlider extends View {
      *
      * @param thumb    the thumb which value is going to be changed
      * @param value    the new value
-     * @param fromUser if the request is coming form the user or the client
+     * @param fromUser if the request is coming from the user or the client
      */
     private synchronized void setThumbValue(Thumb thumb, int value, boolean fromUser) {
         if (thumb == null || thumb.getThumb() == null) return;
