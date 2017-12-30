@@ -150,7 +150,7 @@ public class MultiSlider extends View {
      * the track.
      */
     //list of all the loaded thumbs
-    private LinkedList<Thumb> mThumbs;
+    private final LinkedList<Thumb> mThumbs = new LinkedList<>();
 
 
     /**
@@ -170,7 +170,7 @@ public class MultiSlider extends View {
     private int mScaledTouchSlop;
     private float mTouchDownX;
     //thumbs that are currently being dragged
-    private List<Thumb> mDraggingThumbs = new LinkedList<Thumb>();
+    private final List<Thumb> mDraggingThumbs = new LinkedList<>();
     //thumbs that are currently being touched
     LinkedList<Thumb> exactTouched = null;
 
@@ -401,7 +401,6 @@ public class MultiSlider extends View {
         mMaxWidth = 48;
         mMinHeight = 24;
         mMaxHeight = 48;
-        mThumbs = new LinkedList<Thumb>();
 
         for (int i = 0; i < numThumbs; i++) {
             Thumb thumb = new Thumb();
@@ -963,36 +962,40 @@ public class MultiSlider extends View {
 
     @Override
     protected void drawableStateChanged() {
-        super.drawableStateChanged();
-        if (mDraggingThumbs != null && !mDraggingThumbs.isEmpty()) {
-            int[] state = getDrawableState();
-            for (Thumb thumb : mDraggingThumbs) {
-                if (thumb.getThumb() != null)
-                    thumb.getThumb().setState(state);
-            }
-            for (Thumb thumb : mThumbs) {
-                if (!mDraggingThumbs.contains(thumb) && thumb.getThumb() != null && thumb
-                        .getThumb().isStateful()) {
-                    if (thumb.isEnabled()) {
-                        thumb.getThumb().setState(new int[]{android.R.attr.state_enabled});
-                    } else {
-                        thumb.getThumb().setState(new int[]{-android.R.attr.state_enabled});
+        synchronized (mDraggingThumbs) {
+            if (!mDraggingThumbs.isEmpty()) {
+                int[] state = getDrawableState();
+                for (Thumb thumb : mDraggingThumbs) {
+                    if (thumb.getThumb() != null) {
+                        thumb.getThumb().setState(state);
                     }
                 }
-            }
-        } else {
-            for (Thumb thumb : mThumbs) {
-                if (thumb.getThumb() != null && thumb.getThumb().isStateful()) {
-                    if (thumb.isEnabled()) {
-                        thumb.getThumb().setState(new int[]{android.R.attr.state_enabled});
-                    } else {
-                        thumb.getThumb().setState(new int[]{-android.R.attr.state_enabled});
+                for (Thumb thumb : mThumbs) {
+                    if (!mDraggingThumbs.contains(thumb) && thumb.getThumb() != null && thumb
+                            .getThumb().isStateful()) {
+                        if (thumb.isEnabled()) {
+                            thumb.getThumb().setState(new int[]{android.R.attr.state_enabled,
+                                    -android.R.attr.state_pressed});
+                        } else {
+                            thumb.getThumb().setState(new int[]{-android.R.attr.state_enabled});
+                        }
+                    }
+                }
+            } else {
+                for (Thumb thumb : mThumbs) {
+                    if (thumb.getThumb() != null && thumb.getThumb().isStateful()) {
+                        if (thumb.isEnabled()) {
+                            thumb.getThumb().setState(new int[]{android.R.attr.state_enabled,
+                                    -android.R.attr.state_pressed});
+                        } else {
+                            thumb.getThumb().setState(new int[]{-android.R.attr.state_enabled});
+                        }
                     }
                 }
             }
         }
+        super.drawableStateChanged();
     }
-
 
     /**
      * Updates Thumb drawable position according to the new w,h
@@ -1378,29 +1381,16 @@ public class MultiSlider extends View {
                 break;
 
             case MotionEvent.ACTION_UP:
-                setPressed(false);
                 //there are other pointers left
             case MotionEvent.ACTION_POINTER_UP:
                 if (currThumb != null) {
                     setThumbValue(currThumb, getValue(event, currThumb), true);
                     setHotspot(xx, yy, currThumb);
-                    boolean toUnPress = false;
                     if (!isPressed()) {
                         setPressed(true);
-                        toUnPress = true;
                     }
 
                     onStopTrackingTouch(currThumb);
-                    if (toUnPress) {
-                        setPressed(false);
-                    }
-                } else {
-//                    currThumb = getClosestThumb(newValue);
-//                    // Touch up when we never crossed the touch slop threshold should
-//                    // be interpreted as a tap-seek to that location.
-//                    onStartTrackingTouch(currThumb);
-//                    setThumbValue(currThumb, newValue, true);
-//                    onStopTrackingTouch(currThumb);
                 }
                 // ProgressBar doesn't know to repaint the thumb drawable
                 // in its inactive state when the touch stops (because the
@@ -1408,10 +1398,7 @@ public class MultiSlider extends View {
                 invalidate();
                 break;
             case MotionEvent.ACTION_CANCEL:
-                if (mDraggingThumbs != null) {
-                    onStopTrackingTouch();
-                    setPressed(false);
-                }
+                onStopTrackingTouch();
                 invalidate(); // see above explanation
                 break;
         }
@@ -1504,13 +1491,17 @@ public class MultiSlider extends View {
      */
     void onStartTrackingTouch(Thumb thumb) {
         if (thumb != null) {
-            setPressed(true);
+            mDraggingThumbs.add(thumb);
+            if (isPressed()) {
+                drawableStateChanged();
+            } else {
+                setPressed(true);
+            }
+
             if (thumb.getThumb() != null) {
                 // This may be within the padding region.
                 invalidate(thumb.getThumb().getBounds());
             }
-            mDraggingThumbs.add(thumb);
-            drawableStateChanged();
             if (hasOnTrackingChangeListener()) {
                 mOnTrackingChangeListener.onStartTrackingTouch(this, thumb, thumb.getValue());
             }
@@ -1528,12 +1519,22 @@ public class MultiSlider extends View {
             if (hasOnTrackingChangeListener()) {
                 mOnTrackingChangeListener.onStopTrackingTouch(this, thumb, thumb.getValue());
             }
-            drawableStateChanged();
+            if (mDraggingThumbs.size() == 0) {
+                setPressed(false);
+            } else {
+                drawableStateChanged();
+            }
         }
     }
 
     void onStopTrackingTouch() {
-        mDraggingThumbs.clear();
+        for (Thumb thumb : mDraggingThumbs) {
+            mDraggingThumbs.remove(thumb);
+            if (hasOnTrackingChangeListener()) {
+                mOnTrackingChangeListener.onStopTrackingTouch(this, thumb, thumb.getValue());
+            }
+        }
+        setPressed(false);
     }
 
     private boolean hasOnThumbValueChangeListener() {
