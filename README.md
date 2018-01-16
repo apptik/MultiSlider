@@ -15,7 +15,7 @@ Developer can customize many features from XML layout or programmatically.
 
 ## Download
 
-Find [the latest AARs][mvn] or grab via Maven::
+Find [the latest AARs][mvn] or grab via Maven:
 
     <dependency>
       <groupId>io.apptik.widget</groupId>
