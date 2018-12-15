@@ -26,7 +26,7 @@ android {
 }
 
 dependencies {
-    implementation rootProject.ext.supportCoreUi
+    implementation rootProject.ext.supportAppCompat
     implementation project(':lib')
     implementation project(':holo-style')
     implementation project(':mslider-espresso')

@@ -32,7 +32,6 @@ ext {
     supportAppCompat = "androidx.appcompat:appcompat:1.0.0"
     supportCardView = "androidx.cardview:cardview:1.0.0"
     supportCompat = "androidx.core:core:1.0.0"
-    supportCoreUi = "androidx.legacy:legacy-support-core-ui:1.0.0"
     supportDesign = "com.google.android.material:material:1.0.0-rc01"
     supportRecyclerView = "androidx.recyclerview:recyclerview:1.0.0"
 
