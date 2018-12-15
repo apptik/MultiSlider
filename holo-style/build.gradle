@@ -22,7 +22,7 @@ android {
 }
 
 dependencies {
-    compile project(':lib')
+    implementation project(':lib')
 }
 
 

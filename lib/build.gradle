@@ -29,7 +29,8 @@ android {
 }
 
 dependencies {
-    compile rootProject.ext.supportDesign
+    implementation rootProject.ext.supportCompat
+    implementation rootProject.ext.supportDesign
 }
 
 apply from: 'https://raw.githubusercontent.com/djodjoni/gradle-mvn-push/master/gradle-mvn-push-android.gradle'
