@@ -2,6 +2,6 @@
 <manifest package="io.apptik.widget.example.multislider"
           xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-sdk tools:overrideLibrary="io.apptik.widget.mslider.uiautomator, android.support.test.uiautomator.v18"/>
+    <uses-sdk tools:overrideLibrary="io.apptik.widget.mslider.uiautomator, android_libs.ub_uiautomator"/>
 
 </manifest>

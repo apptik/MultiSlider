@@ -1,25 +1,23 @@
 package io.apptik.widget.example.multislider;
 
-
-import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.matcher.ViewMatchers;
-import android.support.test.filters.SdkSuppress;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-import android.support.test.uiautomator.UiCollection;
-import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiSelector;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.SdkSuppress;
+import androidx.test.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.uiautomator.UiCollection;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiSelector;
 import io.apptik.widget.MultiSlider;
 import io.apptik.widget.UiMultiSlider;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static io.apptik.widget.MultiSliderActions.moveThumbBackward;
 import static io.apptik.widget.MultiSliderActions.moveThumbForward;
 import static io.apptik.widget.MultiSliderActions.setThumbValue;
@@ -27,7 +25,6 @@ import static io.apptik.widget.MultiSliderActions.setThumbValue;
 @RunWith(AndroidJUnit4.class)
 @SdkSuppress(minSdkVersion = 18)
 public class ExampleTest {
-
 
     @Rule
     public ActivityTestRule<MyActivity> mActivityRule = new ActivityTestRule<>(
@@ -38,7 +35,6 @@ public class ExampleTest {
     @Before
     public void setUp() {
         mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-
     }
 
     @Test
