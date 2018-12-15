@@ -19,6 +19,7 @@ allprojects {
     version = VERSION_NAME
     repositories {
         google()
+        jcenter()
         mavenCentral()
     }
 }
