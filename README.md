@@ -13,9 +13,9 @@ MultiSlider is extremely easy to use while still very flexible and customizable.
 
 Developer can customize many features from XML layout or programmatically.
 
-##Download
+## Download
 
-Find [the latest AARs][mvn] or grab via Maven::
+Find [the latest AARs][mvn] or grab via Maven:
 
     <dependency>
       <groupId>io.apptik.widget</groupId>
@@ -25,9 +25,33 @@ Find [the latest AARs][mvn] or grab via Maven::
 
 or Gradle:
 
-    compile 'io.apptik.widget:multislider:1.3'
+```gradle
+    implementation 'io.apptik.widget:multislider:1.3'
+```
 
 Downloads of the released versions are available in [Sonatype's `releases` repository][release].
+
+### Using snapshots
+
+in **build.gradle**:
+
+```gradle
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    }
+
+    repositories {
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    }
+```
+
+in **app.gradle**:
+
+```gradle
+    dependencies {
+        api ('io.apptik.widget:multislider:1.3.1-SNAPSHOT') { changing = true }
+    }
+```
 
 Snapshots of the development versions are available in [Sonatype's `snapshots` repository][snap].
 
@@ -49,96 +73,121 @@ Snapshots of the development versions are available in [Sonatype's `snapshots` r
 * Option to keep thumbs apart a specific number of steps in order not to allow thumbs to have same or similar values
 
 
-##Usage
+## Usage
 
-###in layout xml file add
+### in layout xml file add
 
-        <io.apptik.widget.MultiSlider
-            android:id="@+id/range_slider5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+```xml
+    <io.apptik.widget.MultiSlider
+        android:id="@+id/range_slider5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
-            app:thumbNumber="2"
-            app:stepsThumbsApart="5"
-            app:drawThumbsApart="true"
+        app:thumbNumber="2"
+        app:stepsThumbsApart="5"
+        app:drawThumbsApart="true"
 
-            />
+        />
+```
 
-###in the activity/fragment code add
+### in the activity/fragment code add
 
-        MultiSlider multiSlider5 = (MultiSlider)v.findViewById(R.id.range_slider5);
+```java
+    MultiSlider multiSlider5 = (MultiSlider)v.findViewById(R.id.range_slider5);
 
-        multiSlider5.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
-            @Override
-            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
-                if (thumbIndex == 0) {
-                    doSmth(String.valueOf(value));
-                } else {
-                    doSmthElse(String.valueOf(value));
-                }
+    multiSlider5.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
+        @Override
+        public void onValueChanged(MultiSlider multiSlider,
+                                   MultiSlider.Thumb thumb,
+                                   int thumbIndex,
+                                   int value)
+        {
+            if (thumbIndex == 0) {
+                doSmth(String.valueOf(value));
+            } else {
+                doSmthElse(String.valueOf(value));
             }
-        });
+        }
+    });
+```
 
 ### To use the default Material theme, edit res/values/styles.xml, res/values-v21/styles.xml:
-        <style name="AppTheme" parent="...">
-            <item name="multiSliderStyle">@style/Widget.MultiSlider</item>
-        </style>
 
-        <style name="Widget.MultiSlider" parent="android:Widget">
-        </style>
+```xml
+    <style name="AppTheme" parent="...">
+        <item name="multiSliderStyle">@style/Widget.MultiSlider</item>
+    </style>
+
+    <style name="Widget.MultiSlider" parent="android:Widget">
+    </style>
+```
+
 ### To use the Holo theme, edit res/values/styles.xml, res/values-v21/styles.xml:
-        <style name="AppTheme" parent="...">
-            <item name="multiSliderStyle">@style/sliderHoloStyle</item>
-        </style>
+
+```xml
+    <style name="AppTheme" parent="...">
+        <item name="multiSliderStyle">@style/sliderHoloStyle</item>
+    </style>
+```
+
 #### and add the holo theme to your project dependencies, example for gradle:
-        compile 'io.apptik.widget:multislider-holo:1.3'
+
+```gradle
+    implementation 'io.apptik.widget:multislider-holo:1.3'
+```
 
 
 
-
-##Testing
+## Testing
 MultiSlider comes with ready testing support for both Espresso and UiAutomator
 
-###Espresso
+### Espresso
 
 in build.gradle:
 
-    androidTestCompile 'io.apptik.widget:multislider-espresso:1.3'
+```gradle
+    androidTestImplementation 'io.apptik.widget:multislider-espresso:1.3'
+```
 
 in test code:
 
-            for (int i = 0; i < 90; i++) {
-                onView(ViewMatchers.withId(R.id.multiSlider3))
-                        .perform(moveThumbForward(0));
-            }
-            onView(ViewMatchers.withId(R.id.multiSlider3))
-                    .perform(setThumbValue(0, 50));
-            for (int i = 0; i < 15; i++) {
-                onView(ViewMatchers.withId(R.id.multiSlider3))
-                        .perform(moveThumbBackward(0));
-            }
+```java
+    for (int i = 0; i < 90; i++) {
+        onView(ViewMatchers.withId(R.id.multiSlider3))
+                .perform(moveThumbForward(0));
+    }
+    onView(ViewMatchers.withId(R.id.multiSlider3))
+            .perform(setThumbValue(0, 50));
+    for (int i = 0; i < 15; i++) {
+        onView(ViewMatchers.withId(R.id.multiSlider3))
+                .perform(moveThumbBackward(0));
+    }
+```
 
-###UiAutomator
+### UiAutomator
 
 in build.gradle:
 
-    androidTestCompile 'io.apptik.widget:mslider-uiautomator:1.3'
+```gradle
+    androidTestImplementation 'io.apptik.widget:mslider-uiautomator:1.3'
+```
 
 in test code:
 
-        UiMultiSlider slider = new UiMultiSlider(new UiCollection(new UiSelector()
-                .className(MultiSlider.class)
-                .resourceIdMatches(".*multiSlider3.*"))
-                .getChild(new UiSelector().textStartsWith("thumb 0:")));
+```java
+    UiMultiSlider slider = new UiMultiSlider(new UiCollection(new UiSelector()
+            .className(MultiSlider.class)
+            .resourceIdMatches(".*multiSlider3.*"))
+            .getChild(new UiSelector().textStartsWith("thumb 0:")));
 
-        for (int i = 0; i < 15; i++) {
-            slider.moveThumbForward();
-        }
-        slider.setThumbValue(10);
-        for (int i = 0; i < 10; i++) {
-            slider.moveThumbBackward();
-        }
-
+    for (int i = 0; i < 15; i++) {
+        slider.moveThumbForward();
+    }
+    slider.setThumbValue(10);
+    for (int i = 0; i < 10; i++) {
+        slider.moveThumbBackward();
+    }
+```
 
 ## Example ScreenShots
 

@@ -1,12 +1,13 @@
 package io.apptik.widget;
 
 import android.os.Bundle;
-import android.support.test.uiautomator.Configurator;
-import android.support.test.uiautomator.UiObject;
-import android.support.test.uiautomator.UiObjectNotFoundException;
-import android.support.test.uiautomator.UiScrollable;
-import android.support.test.uiautomator.UiSelector;
 import android.view.accessibility.AccessibilityNodeInfo;
+
+import androidx.test.uiautomator.Configurator;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiScrollable;
+import androidx.test.uiautomator.UiSelector;
 
 import static io.apptik.widget.VirtualTreeProvider.ACT_SET_PROGRESS;
 

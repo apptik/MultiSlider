@@ -23,8 +23,6 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,6 +35,8 @@ import android.view.accessibility.AccessibilityNodeProvider;
 import java.util.LinkedList;
 import java.util.List;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import io.apptik.widget.mslider.R;
 
 import static io.apptik.widget.Util.requireNonNull;

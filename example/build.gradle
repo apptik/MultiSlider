@@ -10,7 +10,7 @@ android {
         targetSdkVersion rootProject.ext.compileSdkVersion
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -26,7 +26,7 @@ android {
 }
 
 dependencies {
-    implementation rootProject.ext.supportCoreUi
+    implementation rootProject.ext.supportAppCompat
     implementation project(':lib')
     implementation project(':holo-style')
     implementation project(':mslider-espresso')
