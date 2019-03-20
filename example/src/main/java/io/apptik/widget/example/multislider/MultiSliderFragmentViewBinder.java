@@ -38,15 +38,15 @@ public class MultiSliderFragmentViewBinder extends Fragment {
             savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_multi_slider_viewbinder, container, false);
 
-        final TextView bindSlider1_view = (TextView) v.findViewById(R.id.bindSlider1_view);
-        final TextView bindSlider2_viewMin = (TextView) v.findViewById(R.id.bindSlider2_viewMin);
-        final TextView bindSlider2_viewMax = (TextView) v.findViewById(R.id.bindSlider2_viewMax);
-        final TextView bindSlider3_viewMin = (TextView) v.findViewById(R.id.bindSlider3_viewMin);
-        final TextView bindSlider3_viewMax = (TextView) v.findViewById(R.id.bindSlider3_viewMax);
+        final TextView bindSlider1_view = v.findViewById(R.id.bindSlider1_view);
+        final TextView bindSlider2_viewMin = v.findViewById(R.id.bindSlider2_viewMin);
+        final TextView bindSlider2_viewMax = v.findViewById(R.id.bindSlider2_viewMax);
+        final TextView bindSlider3_viewMin = v.findViewById(R.id.bindSlider3_viewMin);
+        final TextView bindSlider3_viewMax = v.findViewById(R.id.bindSlider3_viewMax);
 
-        MultiSlider bindSlider1 = (MultiSlider) v.findViewById(R.id.bindSlider1);
-        MultiSlider bindSlider2 = (MultiSlider) v.findViewById(R.id.bindSlider2);
-        MultiSlider bindSlider3 = (MultiSlider) v.findViewById(R.id.bindSlider3);
+        MultiSlider bindSlider1 = v.findViewById(R.id.bindSlider1);
+        MultiSlider bindSlider2 = v.findViewById(R.id.bindSlider2);
+        MultiSlider bindSlider3 = v.findViewById(R.id.bindSlider3);
 
         // bind view
         bindSlider1.getThumb(0).setViewBinder(bindSlider1_view);

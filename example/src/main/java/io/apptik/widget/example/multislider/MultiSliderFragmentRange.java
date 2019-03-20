@@ -37,29 +37,29 @@ public class MultiSliderFragmentRange extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_multi_slider_range, container, false);
-        final TextView min1 = (TextView) v.findViewById(R.id.minValue1);
-        final TextView max1 = (TextView) v.findViewById(R.id.maxValue1);
-        final TextView min2 = (TextView) v.findViewById(R.id.minValue2);
-        final TextView max2 = (TextView) v.findViewById(R.id.maxValue2);
-        final TextView min3 = (TextView) v.findViewById(R.id.minValue3);
-        final TextView max3 = (TextView) v.findViewById(R.id.maxValue3);
-        final TextView min4 = (TextView) v.findViewById(R.id.minValue4);
-        final TextView max4 = (TextView) v.findViewById(R.id.maxValue4);
-        final TextView min5 = (TextView) v.findViewById(R.id.minValue5);
-        final TextView max5 = (TextView) v.findViewById(R.id.maxValue5);
-        final TextView min6 = (TextView) v.findViewById(R.id.minValue6);
-        final TextView max6 = (TextView) v.findViewById(R.id.maxValue6);
-        final TextView min7 = (TextView) v.findViewById(R.id.minValue7);
-        final TextView max7 = (TextView) v.findViewById(R.id.maxValue7);
+        final TextView min1 = v.findViewById(R.id.minValue1);
+        final TextView max1 = v.findViewById(R.id.maxValue1);
+        final TextView min2 = v.findViewById(R.id.minValue2);
+        final TextView max2 = v.findViewById(R.id.maxValue2);
+        final TextView min3 = v.findViewById(R.id.minValue3);
+        final TextView max3 = v.findViewById(R.id.maxValue3);
+        final TextView min4 = v.findViewById(R.id.minValue4);
+        final TextView max4 = v.findViewById(R.id.maxValue4);
+        final TextView min5 = v.findViewById(R.id.minValue5);
+        final TextView max5 = v.findViewById(R.id.maxValue5);
+        final TextView min6 = v.findViewById(R.id.minValue6);
+        final TextView max6 = v.findViewById(R.id.maxValue6);
+        final TextView min7 = v.findViewById(R.id.minValue7);
+        final TextView max7 = v.findViewById(R.id.maxValue7);
 
 
-        MultiSlider multiSlider1 = (MultiSlider) v.findViewById(R.id.range_slider1);
-        MultiSlider multiSlider2 = (MultiSlider) v.findViewById(R.id.range_slider2);
-        MultiSlider multiSlider3 = (MultiSlider) v.findViewById(R.id.range_slider3);
-        MultiSlider multiSlider4 = (MultiSlider) v.findViewById(R.id.range_slider4);
-        MultiSlider multiSlider5 = (MultiSlider) v.findViewById(R.id.range_slider5);
-        MultiSlider multiSlider6 = (MultiSlider) v.findViewById(R.id.range_slider6);
-        MultiSlider multiSlider7 = (MultiSlider) v.findViewById(R.id.range_slider7);
+        MultiSlider multiSlider1 = v.findViewById(R.id.range_slider1);
+        MultiSlider multiSlider2 = v.findViewById(R.id.range_slider2);
+        MultiSlider multiSlider3 = v.findViewById(R.id.range_slider3);
+        MultiSlider multiSlider4 = v.findViewById(R.id.range_slider4);
+        MultiSlider multiSlider5 = v.findViewById(R.id.range_slider5);
+        MultiSlider multiSlider6 = v.findViewById(R.id.range_slider6);
+        MultiSlider multiSlider7 = v.findViewById(R.id.range_slider7);
 
 
         min1.setText(String.valueOf(multiSlider1.getThumb(0).getValue()));

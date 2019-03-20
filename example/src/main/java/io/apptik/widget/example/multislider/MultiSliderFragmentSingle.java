@@ -37,22 +37,22 @@ public class MultiSliderFragmentSingle extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_multi_slider_single, container, false);
-        final TextView min1 = (TextView) v.findViewById(R.id.minValue1);
-        final TextView min2 = (TextView) v.findViewById(R.id.minValue2);
-        final TextView min3 = (TextView) v.findViewById(R.id.minValue3);
-        final TextView min4 = (TextView) v.findViewById(R.id.minValue4);
-        final TextView min5 = (TextView) v.findViewById(R.id.minValue5);
-        final TextView min6 = (TextView) v.findViewById(R.id.minValue6);
-        final TextView min7 = (TextView) v.findViewById(R.id.minValue7);
+        final TextView min1 = v.findViewById(R.id.minValue1);
+        final TextView min2 = v.findViewById(R.id.minValue2);
+        final TextView min3 = v.findViewById(R.id.minValue3);
+        final TextView min4 = v.findViewById(R.id.minValue4);
+        final TextView min5 = v.findViewById(R.id.minValue5);
+        final TextView min6 = v.findViewById(R.id.minValue6);
+        final TextView min7 = v.findViewById(R.id.minValue7);
 
-        MultiSlider multiSlider1 = (MultiSlider) v.findViewById(R.id.multiSlider1);
-        MultiSlider multiSlider2 = (MultiSlider) v.findViewById(R.id.multiSlider2);
-        MultiSlider multiSlider3 = (MultiSlider) v.findViewById(R.id.multiSlider3);
-        MultiSlider multiSlider4 = (MultiSlider) v.findViewById(R.id.multiSlider4);
+        MultiSlider multiSlider1 = v.findViewById(R.id.multiSlider1);
+        MultiSlider multiSlider2 = v.findViewById(R.id.multiSlider2);
+        MultiSlider multiSlider3 = v.findViewById(R.id.multiSlider3);
+        MultiSlider multiSlider4 = v.findViewById(R.id.multiSlider4);
         multiSlider4.getThumb(1).setInvisible(true);
-        MultiSlider multiSlider5 = (MultiSlider) v.findViewById(R.id.multiSlider5);
-        MultiSlider multiSlider6 = (MultiSlider) v.findViewById(R.id.multiSlider6);
-        MultiSlider multiSlider7 = (MultiSlider) v.findViewById(R.id.multiSlider7);
+        MultiSlider multiSlider5 = v.findViewById(R.id.multiSlider5);
+        MultiSlider multiSlider6 = v.findViewById(R.id.multiSlider6);
+        MultiSlider multiSlider7 = v.findViewById(R.id.multiSlider7);
 
         min1.setText(String.valueOf(multiSlider1.getThumb(0).getValue()));
         min2.setText(String.valueOf(multiSlider2.getThumb(0).getValue()));

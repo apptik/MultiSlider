@@ -49,7 +49,7 @@ public class MultiSliderFragmentMany extends Fragment {
         vals.add((TextView) v.findViewById(R.id.value6));
         vals.add((TextView) v.findViewById(R.id.value7));
 
-        MultiSlider multiSlider = (MultiSlider)v.findViewById(R.id.multiSlider);
+        MultiSlider multiSlider = v.findViewById(R.id.multiSlider);
 
         for(int i=0;i<7;i++) {
             vals.get(i).setText(String.valueOf(multiSlider.getThumb(i).getValue()));
