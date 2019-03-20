@@ -52,7 +52,7 @@ public class MultiSlider extends View {
         }
     }
 
-    private interface OnThumbValueChangeListener {
+    public interface OnThumbValueChangeListener {
         /**
          * called when thumb value has changed
          *
@@ -65,7 +65,7 @@ public class MultiSlider extends View {
                 value);
     }
 
-    private interface OnTrackingChangeListener {
+    public interface OnTrackingChangeListener {
         /**
          * This is called when the user has started touching this widget.
          *
