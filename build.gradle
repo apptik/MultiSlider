@@ -29,23 +29,23 @@ ext {
     compileSdkVersion = 28
     buildToolsVersion = '28.0.3'
 
-    supportAnnotations = "androidx.annotation:annotation:1.0.0"
-    supportAppCompat = "androidx.appcompat:appcompat:1.0.0"
+    supportAnnotations = "androidx.annotation:annotation:1.1.0-alpha02"
+    supportAppCompat = "androidx.appcompat:appcompat:1.1.0-alpha03"
     supportCardView = "androidx.cardview:cardview:1.0.0"
-    supportCompat = "androidx.core:core:1.0.0"
-    supportDesign = "com.google.android.material:material:1.0.0-rc01"
-    supportRecyclerView = "androidx.recyclerview:recyclerview:1.0.0"
+    supportCompat = "androidx.core:core:1.1.0-alpha05"
+    supportDesign = "com.google.android.material:material:1.1.0-alpha04"
+    supportRecyclerView = "androidx.recyclerview:recyclerview:1.1.0-alpha03"
 
-    supportTestRunner = "androidx.test:runner:1.1.0"
-    supportTestRules = "androidx.test:rules:1.1.0"
-    supportTestEspresso = "androidx.test.espresso:espresso-core:3.1.0"
-    supportTestEspressoContrib = "androidx.test.espresso:espresso-contrib:3.1.0"
+    supportTestRunner = "androidx.test:runner:1.1.2-alpha02"
+    supportTestRules = "androidx.test:rules:1.1.2-alpha02"
+    supportTestEspresso = "androidx.test.espresso:espresso-core:3.2.0-alpha02"
+    supportTestEspressoContrib = "androidx.test.espresso:espresso-contrib:3.2.0-alpha02"
     supportTestUiautomator = "androidx.test.uiautomator:uiautomator:2.2.0"
 
-    junit = "androidx.test.ext:junit:1.0.0"
+    junit = "androidx.test.ext:junit:1.1.1-alpha02"
 
     assertjCore1 = 'org.assertj:assertj-core:1.7.1'
-    assertjCore2 = 'org.assertj:assertj-core:2.5.0'
-    assertjCore3 = 'org.assertj:assertj-core:3.5.2'
-    mockitoCore = 'org.mockito:mockito-core:2.23.4'
+    assertjCore2 = 'org.assertj:assertj-core:2.9.1'
+    assertjCore3 = 'org.assertj:assertj-core:3.12.2'
+    mockitoCore = 'org.mockito:mockito-core:2.25.1'
 }
