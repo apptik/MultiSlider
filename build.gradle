@@ -26,8 +26,8 @@ allprojects {
 
 ext {
     minSdkVersion = 14
-    compileSdkVersion = 28
-    buildToolsVersion = '28.0.3'
+    compileSdkVersion = 29
+    buildToolsVersion = '29.0.2'
 
     supportAnnotations = "androidx.annotation:annotation:1.1.0"
     supportAppCompat = "androidx.appcompat:appcompat:1.1.0"
